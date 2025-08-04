@@ -16,9 +16,7 @@ namespace HexagonalGrids
         public readonly int q;
         public readonly int r;
         public readonly int s;
-
-        public readonly Vector3 worldPosition;
-
+        
 
         /// <summary>
         /// 六边形网格的六个方向，角向上
@@ -48,11 +46,7 @@ namespace HexagonalGrids
             //左
             new Coord(-1, 0, 1)
         };
-
-        private Vector3 ToWorldPosition()
-        {
-            return new Vector3(q * Mathf.Sqrt(3) / 2, 0, -(float)r - ((float)q / 2)) * 2 * Grid.cellSize + Grid.origin;
-        }
+        
 
         public Coord(int q, int r, int s)
         {
@@ -64,7 +58,7 @@ namespace HexagonalGrids
             this.q = q;
             this.r = r;
             this.s = s;
-            worldPosition = ToWorldPosition();
+         
         }
 
         public Coord(int q, int r)
@@ -72,9 +66,12 @@ namespace HexagonalGrids
             this.q = q;
             this.r = r;
             this.s = -q - r;
-            worldPosition = ToWorldPosition();
+          
         }
-
+        public Vector3 ToWorldPosition(float cellSize, Vector3 origin)
+        {
+            return new Vector3(q * Mathf.Sqrt(3) / 2, 0, -(float)r - ((float)q / 2)) * 2 * cellSize + origin;
+        }
 
         /// <summary>
         /// 获取指定方向的邻居
