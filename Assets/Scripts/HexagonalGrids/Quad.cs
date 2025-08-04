@@ -13,21 +13,21 @@ namespace HexagonalGrids
 
         public readonly Edge[] edges;
 
-        public Quad(HexVertex a, HexVertex b, HexVertex c, HexVertex d, List<Edge> edges)
+        public Quad(HexVertex a, HexVertex b, HexVertex c, HexVertex d, List<Edge> edges,List<MidVertex> midVertices)
         {
             this.a = a;
             this.b = b;
             this.c = c;
             this.d = d;
-            ab = Edge.GenerateEdge(a, b, edges);
-            bc = Edge.GenerateEdge(b, c, edges);
-            cd = Edge.GenerateEdge(c, d, edges);
-            da = Edge.GenerateEdge(d, a, edges);
+            ab = Edge.GenerateEdge(a, b, edges,midVertices);
+            bc = Edge.GenerateEdge(b, c, edges,midVertices);
+            cd = Edge.GenerateEdge(c, d, edges,midVertices);
+            da = Edge.GenerateEdge(d, a, edges,midVertices);
             this.edges = new[] { ab, bc, cd, da };
             vertices = new HexVertex[] { a, b, c, d };
         }
 
-        public static Quad MergeTriangles(Triangle triangle1, Triangle triangle2, List<Edge> edges)
+        public static Quad MergeTriangles(Triangle triangle1, Triangle triangle2, List<Edge> edges,List<MidVertex> midVertices)
         {
             Edge sharedEdge = triangle1.GetSharedEdge(triangle2);
           
@@ -44,7 +44,9 @@ namespace HexagonalGrids
             HexVertex d = triangle2.vertices[(t2OtherIndexIndex + 4) % 3];
 
             edges.Remove(sharedEdge);
-            return new Quad(a, b, c, d, edges);
+            midVertices.Remove(sharedEdge.midVertex);
+            
+            return new Quad(a, b, c, d, edges,midVertices);
         }
     }
 }

@@ -4,37 +4,40 @@ using UnityEngine;
 
 namespace HexagonalGrids
 {
-    public class Vertex
+    public interface Vertex
     {
-        public readonly Vector3 position;
-
-        public Vertex(Vector3 position)
-        {
-            this.position = position;
-        }
+        public Vector3 position { get; }
     }
 
     public class HexVertex : Vertex
     {
         public readonly Coord coord;
+        public Vector3 position { get;protected set; }
 
 
-        public HexVertex(Coord coord, Vector3 position) : base(position)
+        public HexVertex(Coord coord, Vector3 position) 
         {
             this.coord = coord;
+            this.position = position;
         }
     }
 
     public class MidVertex : Vertex
     {
-        public MidVertex(Vector3 position) : base(position)
+        public Vector3 position { get;protected set; }
+        public MidVertex(Vertex a, Vertex b) 
         {
+            Vector3 midPos = (a.position + b.position) / 2;
+            this.position = midPos;
         }
+
+        
     }
 
     public class CenterVertex : Vertex
     {
-        public CenterVertex(Vector3 position) : base(position)
+        public Vector3 position { get;protected set; }
+        public CenterVertex(Vector3 position) 
         {
         }
     }

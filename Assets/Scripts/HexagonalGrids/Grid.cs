@@ -10,6 +10,9 @@ namespace HexagonalGrids
         public float cellSize;
 
         public readonly List<HexVertex> vertices = new List<HexVertex>();
+        public List<MidVertex> midVertices = new List<MidVertex>();
+
+
         public readonly List<Triangle> triangles = new List<Triangle>();
         public readonly List<Quad> quads = new List<Quad>();
         public readonly List<Edge> edges = new List<Edge>();
@@ -73,7 +76,7 @@ namespace HexagonalGrids
                 outRingVertices = RingVertices(i + 1);
 
 
-                triangles.AddRange(RingTriangles(i, inRingVertices, outRingVertices, edges));
+                triangles.AddRange(RingTriangles(i, inRingVertices, outRingVertices, edges, midVertices));
             }
         }
 
@@ -101,7 +104,7 @@ namespace HexagonalGrids
                 if (t2.Count == 0) continue;
                 Triangle t3 = t2[Random.Range(0, t2.Count)];
 
-                var quad = Quad.MergeTriangles(t1, t3, edges);
+                var quad = Quad.MergeTriangles(t1, t3, edges, midVertices);
 
                 triangles.Remove(t1);
                 triangles.Remove(t3);
@@ -109,7 +112,7 @@ namespace HexagonalGrids
             }
         }
 
-        public static List<Triangle> RingTriangles(int inRadius, List<HexVertex> inRingVertices, List<HexVertex> outRingVertices, List<Edge> outEdges)
+        public static List<Triangle> RingTriangles(int inRadius, List<HexVertex> inRingVertices, List<HexVertex> outRingVertices, List<Edge> outEdges, List<MidVertex> midVertices)
         {
             List<Triangle> result = new List<Triangle>();
 
@@ -135,7 +138,7 @@ namespace HexagonalGrids
                         c = 0;
                     }
 
-                    result.Add(new Triangle(inRingVertices[a], outRingVertices[b], outRingVertices[c], outEdges));
+                    result.Add(new Triangle(inRingVertices[a], outRingVertices[b], outRingVertices[c], outEdges, midVertices));
 
                     if (inRadius != 0)
                     {
@@ -147,7 +150,7 @@ namespace HexagonalGrids
                             c = 0;
                         }
 
-                        result.Add(new Triangle(inRingVertices[a], outRingVertices[b], inRingVertices[c], outEdges));
+                        result.Add(new Triangle(inRingVertices[a], outRingVertices[b], inRingVertices[c], outEdges, midVertices));
                     }
                 }
             }
@@ -161,11 +164,10 @@ namespace HexagonalGrids
         {
             quads = new List<Quad>();
 
-            HexVertex abCenter;
-            HexVertex bcCenter;
-            HexVertex caCenter;
-            HexVertex triangleCenter;
-            
+            Vertex abMid;
+            Vertex bcMid;
+            Vertex caMid;
+            Vertex triangleCenter;
         }
     }
 }

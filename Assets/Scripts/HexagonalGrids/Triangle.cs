@@ -14,15 +14,15 @@ namespace HexagonalGrids
 
         public readonly Edge[] edges;
 
-        public Triangle(HexVertex a, HexVertex b, HexVertex c, List<Edge> edges)
+        public Triangle(HexVertex a, HexVertex b, HexVertex c, List<Edge> edges, List<MidVertex> midVertices)
         {
             this.a = a;
             this.b = b;
             this.c = c;
             vertices = new HexVertex[] { a, b, c };
-            ab = Edge.GenerateEdge(a, b, edges);
-            bc = Edge.GenerateEdge(b, c, edges);
-            ca = Edge.GenerateEdge(c, a, edges);
+            ab = Edge.GenerateEdge(a, b, edges,midVertices);
+            bc = Edge.GenerateEdge(b, c, edges,midVertices);
+            ca = Edge.GenerateEdge(c, a, edges,midVertices);
             this.edges = new Edge[] { ab, bc, ca };
         }
 
