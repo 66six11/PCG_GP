@@ -19,6 +19,10 @@ namespace HexagonalGrids
         public readonly List<Edge> edges = new List<Edge>();
 
         public List<SubQuad> subQuads = new List<SubQuad>();
+        public List<SubEdge> subEdges = new List<SubEdge>();
+        public List<Vertex> subVertices = new List<Vertex>();
+        public List<SubEdge> boundaryEdges = new List<SubEdge>();
+        public List<Vertex> boundaryVertices = new List<Vertex>();
 
         public HexGrid(int radius, float cellSize, Vector3 origin)
         {
@@ -167,10 +171,8 @@ namespace HexagonalGrids
         }
 
         //细分三角形
-        public static void SubdivideTriangle(Triangle triangle, out List<SubQuad> quads)
+        public void SubdivideTriangle(Triangle triangle)
         {
-            quads = new List<SubQuad>();
-
             Vertex a = triangle.a;
             Vertex b = triangle.b;
             Vertex c = triangle.c;
@@ -181,16 +183,14 @@ namespace HexagonalGrids
             Vertex triangleCenter = triangle.center;
 
 
-            quads.Add(new SubQuad(caMid, a, abMid, triangleCenter));
-            quads.Add(new SubQuad(abMid, b, bcMid, triangleCenter));
-            quads.Add(new SubQuad(bcMid, c, caMid, triangleCenter));
+            subQuads.Add(new SubQuad(caMid, a, abMid, triangleCenter, subEdges));
+            subQuads.Add(new SubQuad(abMid, b, bcMid, triangleCenter, subEdges));
+            subQuads.Add(new SubQuad(bcMid, c, caMid, triangleCenter, subEdges));
         }
 
         //细分四边形
-        public static void SubdivideQuad(Quad quad, out List<SubQuad> quads)
+        public void SubdivideQuad(Quad quad)
         {
-            quads = new List<SubQuad>();
-
             Vertex a = quad.a;
             Vertex b = quad.b;
             Vertex c = quad.c;
@@ -203,10 +203,10 @@ namespace HexagonalGrids
 
             Vertex center = quad.centerVertex;
 
-            quads.Add(new SubQuad(daMid, a, abMid, center));
-            quads.Add(new SubQuad(abMid, b, bcMid, center));
-            quads.Add(new SubQuad(bcMid, c, cdMid, center));
-            quads.Add(new SubQuad(cdMid, d, daMid, center));
+            subQuads.Add(new SubQuad(daMid, a, abMid, center, subEdges));
+            subQuads.Add(new SubQuad(abMid, b, bcMid, center, subEdges));
+            subQuads.Add(new SubQuad(bcMid, c, cdMid, center, subEdges));
+            subQuads.Add(new SubQuad(cdMid, d, daMid, center, subEdges));
         }
 
         //细分网格
@@ -214,14 +214,108 @@ namespace HexagonalGrids
         {
             foreach (var triangle in triangles)
             {
-                SubdivideTriangle(triangle, out var subTriangleQuads);
-                subQuads.AddRange(subTriangleQuads);
+                SubdivideTriangle(triangle);
             }
 
             foreach (var quad in quads)
             {
-                SubdivideQuad(quad, out var subQuadQuads);
-                subQuads.AddRange(subQuadQuads);
+                SubdivideQuad(quad);
+            }
+
+            foreach (var subQuad in subQuads)
+            {
+                foreach (var subVertex in subQuad.vertices)
+                {
+                    if (!subVertices.Contains(subVertex))
+                    {
+                        subVertices.Add(subVertex);
+                    }
+                }
+            }
+
+            foreach (var subEdge in subEdges)
+            {
+                int count = 0;
+                foreach (var subQuad in subQuads)
+                {
+                    foreach (var edge in subQuad.edges)
+                    {
+                        if (edge == subEdge)
+                        {
+                            count++;
+                        }
+                    }
+                }
+
+                if (count == 1)
+                {
+                    List<Vertex> vertices = new List<Vertex>(subEdge.endpoints);
+                    boundaryVertices.AddRange(vertices);
+                    boundaryEdges.Add(subEdge);
+                }
+            }
+        }
+
+        public void RelaxGrid(int times)
+        {
+            for (int i = 0; i < times; i++)
+            {
+                foreach (var subQuad in subQuads)
+                {
+                    RelaxSubQuad(subQuad);
+                }
+            }
+        }
+
+        //优化网格
+        public void RelaxSubQuad(SubQuad subQuad)
+        {
+            Vector3 center2a = subQuad.a.position - subQuad.center;
+            Vector3 center2b = subQuad.b.position - subQuad.center;
+            Vector3 center2c = subQuad.c.position - subQuad.center;
+            Vector3 center2d = subQuad.d.position - subQuad.center;
+
+            Vector3 aDesired = DesiredPosition(center2a, center2b, center2c, center2d);
+            Vector3 bDesired = DesiredPosition(center2b, center2c, center2d, center2a);
+            Vector3 cDesired = DesiredPosition(center2c, center2d, center2a, center2b);
+            Vector3 dDesired = DesiredPosition(center2d, center2a, center2b, center2c);
+
+            subQuad.a.position += (aDesired - subQuad.a.position) * 0.1f;
+            subQuad.b.position += (bDesired - subQuad.b.position) * 0.1f;
+            subQuad.c.position += (cDesired - subQuad.c.position) * 0.1f;
+            subQuad.d.position += (dDesired - subQuad.d.position) * 0.1f;
+
+            //计算a的期望位置
+            Vector3 DesiredPosition(Vector3 v1, Vector3 v2, Vector3 v3, Vector3 v4)
+            {
+                Vector3 sum = Vector3.zero;
+                //v2旋转270度
+                Vector3 v2_ = YRotationVector(v2, 270);
+                //v3旋转180度
+                Vector3 v3_ = YRotationVector(v3, 180);
+                //v4旋转90度
+                Vector3 v4_ = YRotationVector(v4, 90);
+                //计算四个顶点的加权平均值
+                sum += v1;
+                sum += v2_;
+                sum += v3_;
+                sum += v4_;
+                sum /= 4;
+                //向量长度设置为根号2/2的cellSize
+                sum.Normalize();
+
+                sum *= cellSize * 0.707f;
+
+
+                return subQuad.center + sum;
+            }
+
+            //旋转向量
+            Vector3 YRotationVector(Vector3 v, float angle)
+            {
+                //绕Y轴旋转
+                Quaternion q = Quaternion.AngleAxis(angle, Vector3.up);
+                return q * v;
             }
         }
     }

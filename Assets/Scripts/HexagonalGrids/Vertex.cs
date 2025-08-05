@@ -6,13 +6,13 @@ namespace HexagonalGrids
 {
     public interface Vertex
     {
-        public Vector3 position { get; }
+        public Vector3 position { get; set; }
     }
 
     public class HexVertex : Vertex
     {
         public readonly Coord coord;
-        public Vector3 position { get; protected set; }
+        public Vector3 position { get; set; }
 
 
         public HexVertex(Coord coord, Vector3 position)
@@ -24,7 +24,7 @@ namespace HexagonalGrids
 
     public class MidVertex : Vertex
     {
-        public Vector3 position { get; protected set; }
+        public Vector3 position { get; set; }
 
         public MidVertex(Vertex a, Vertex b)
         {
@@ -35,7 +35,7 @@ namespace HexagonalGrids
 
     public class CenterVertex : Vertex
     {
-        public Vector3 position { get; protected set; }
+        public Vector3 position { get; set; }
 
         public CenterVertex(Vertex[] vertices)
         {

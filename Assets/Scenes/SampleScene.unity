@@ -285,8 +285,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fb76a59953544e38dd3dee1d5cc3104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 4
+  radius: 7
   cellSize: 1
+  relaxTimes: 1000
   debug: 1
 --- !u!4 &331579478
 Transform:

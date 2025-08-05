@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 namespace HexagonalGrids
 {
+    
     public class Edge
     {
         public readonly HashSet<HexVertex> endpoints;
@@ -28,5 +29,28 @@ namespace HexagonalGrids
 
            
         }
+    }
+
+    public class SubEdge
+    {
+        public readonly HashSet<Vertex> endpoints;
+        
+        SubEdge(Vertex a, Vertex b)
+        {
+            endpoints = new HashSet<Vertex>() { a, b };
+        }
+        public static SubEdge GenerateSubEdge(Vertex a, Vertex b, List<SubEdge> subEdges)
+        {
+            foreach (var subEdge in subEdges)
+            {
+                if (subEdge.endpoints.Contains(a) && subEdge.endpoints.Contains(b))
+                {
+                    return subEdge;
+                }
+            }
+            var newSubEdge = new SubEdge(a, b);
+            subEdges.Add(newSubEdge);
+            return newSubEdge;
+        } 
     }
 }
