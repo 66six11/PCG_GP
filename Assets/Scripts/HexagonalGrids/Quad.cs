@@ -9,28 +9,33 @@ namespace HexagonalGrids
 
         public readonly HexVertex[] vertices;
 
+        public readonly CenterVertex centerVertex;
+
         public readonly Edge ab, bc, cd, da;
 
         public readonly Edge[] edges;
 
-        public Quad(HexVertex a, HexVertex b, HexVertex c, HexVertex d, List<Edge> edges,List<MidVertex> midVertices)
+        public Quad(HexVertex a, HexVertex b, HexVertex c, HexVertex d, List<Edge> edges, List<MidVertex> midVertices, List<CenterVertex> centerVertices)
         {
             this.a = a;
             this.b = b;
             this.c = c;
             this.d = d;
-            ab = Edge.GenerateEdge(a, b, edges,midVertices);
-            bc = Edge.GenerateEdge(b, c, edges,midVertices);
-            cd = Edge.GenerateEdge(c, d, edges,midVertices);
-            da = Edge.GenerateEdge(d, a, edges,midVertices);
+            ab = Edge.GenerateEdge(a, b, edges, midVertices);
+            bc = Edge.GenerateEdge(b, c, edges, midVertices);
+            cd = Edge.GenerateEdge(c, d, edges, midVertices);
+            da = Edge.GenerateEdge(d, a, edges, midVertices);
             this.edges = new[] { ab, bc, cd, da };
             vertices = new HexVertex[] { a, b, c, d };
+
+            centerVertex = new CenterVertex(vertices);
+            centerVertices.Add(centerVertex);
         }
 
-        public static Quad MergeTriangles(Triangle triangle1, Triangle triangle2, List<Edge> edges,List<MidVertex> midVertices)
+        public static Quad MergeTriangles(Triangle triangle1, Triangle triangle2, List<Edge> edges, List<MidVertex> midVertices, List<CenterVertex> centerVertices)
         {
             Edge sharedEdge = triangle1.GetSharedEdge(triangle2);
-          
+
 
             int t1EdgeIndex = Array.IndexOf(triangle1.edges, sharedEdge);
             int t2EdgeIndex = Array.IndexOf(triangle2.edges, sharedEdge);
@@ -45,8 +50,8 @@ namespace HexagonalGrids
 
             edges.Remove(sharedEdge);
             midVertices.Remove(sharedEdge.midVertex);
-            
-            return new Quad(a, b, c, d, edges,midVertices);
+
+            return new Quad(a, b, c, d, edges, midVertices, centerVertices);
         }
     }
 }

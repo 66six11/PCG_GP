@@ -11,11 +11,14 @@ namespace HexagonalGrids
 
         public readonly List<HexVertex> vertices = new List<HexVertex>();
         public List<MidVertex> midVertices = new List<MidVertex>();
+        public List<CenterVertex> centerVertices = new List<CenterVertex>();
 
 
         public readonly List<Triangle> triangles = new List<Triangle>();
         public readonly List<Quad> quads = new List<Quad>();
         public readonly List<Edge> edges = new List<Edge>();
+
+        public List<SubQuad> subQuads = new List<SubQuad>();
 
         public HexGrid(int radius, float cellSize, Vector3 origin)
         {
@@ -76,7 +79,7 @@ namespace HexagonalGrids
                 outRingVertices = RingVertices(i + 1);
 
 
-                triangles.AddRange(RingTriangles(i, inRingVertices, outRingVertices, edges, midVertices));
+                triangles.AddRange(RingTriangles(i, inRingVertices, outRingVertices, edges, midVertices, centerVertices));
             }
         }
 
@@ -104,15 +107,19 @@ namespace HexagonalGrids
                 if (t2.Count == 0) continue;
                 Triangle t3 = t2[Random.Range(0, t2.Count)];
 
-                var quad = Quad.MergeTriangles(t1, t3, edges, midVertices);
+                var quad = Quad.MergeTriangles(t1, t3, edges, midVertices, centerVertices);
 
                 triangles.Remove(t1);
                 triangles.Remove(t3);
+
+                centerVertices.Remove(t1.center);
+                centerVertices.Remove(t3.center);
+
                 quads.Add(quad);
             }
         }
 
-        public static List<Triangle> RingTriangles(int inRadius, List<HexVertex> inRingVertices, List<HexVertex> outRingVertices, List<Edge> outEdges, List<MidVertex> midVertices)
+        public static List<Triangle> RingTriangles(int inRadius, List<HexVertex> inRingVertices, List<HexVertex> outRingVertices, List<Edge> outEdges, List<MidVertex> midVertices, List<CenterVertex> centerVertices)
         {
             List<Triangle> result = new List<Triangle>();
 
@@ -138,7 +145,7 @@ namespace HexagonalGrids
                         c = 0;
                     }
 
-                    result.Add(new Triangle(inRingVertices[a], outRingVertices[b], outRingVertices[c], outEdges, midVertices));
+                    result.Add(new Triangle(inRingVertices[a], outRingVertices[b], outRingVertices[c], outEdges, midVertices, centerVertices));
 
                     if (inRadius != 0)
                     {
@@ -150,7 +157,7 @@ namespace HexagonalGrids
                             c = 0;
                         }
 
-                        result.Add(new Triangle(inRingVertices[a], outRingVertices[b], inRingVertices[c], outEdges, midVertices));
+                        result.Add(new Triangle(inRingVertices[a], outRingVertices[b], inRingVertices[c], outEdges, midVertices, centerVertices));
                     }
                 }
             }
@@ -159,15 +166,63 @@ namespace HexagonalGrids
             return result;
         }
 
-        //细分网格
-        public void SubdivideTriangle(Triangle triangle, out List<Quad> quads)
+        //细分三角形
+        public static void SubdivideTriangle(Triangle triangle, out List<SubQuad> quads)
         {
-            quads = new List<Quad>();
+            quads = new List<SubQuad>();
 
-            Vertex abMid;
-            Vertex bcMid;
-            Vertex caMid;
-            Vertex triangleCenter;
+            Vertex a = triangle.a;
+            Vertex b = triangle.b;
+            Vertex c = triangle.c;
+
+            Vertex abMid = triangle.ab.midVertex;
+            Vertex bcMid = triangle.bc.midVertex;
+            Vertex caMid = triangle.ca.midVertex;
+            Vertex triangleCenter = triangle.center;
+
+
+            quads.Add(new SubQuad(caMid, a, abMid, triangleCenter));
+            quads.Add(new SubQuad(abMid, b, bcMid, triangleCenter));
+            quads.Add(new SubQuad(bcMid, c, caMid, triangleCenter));
+        }
+
+        //细分四边形
+        public static void SubdivideQuad(Quad quad, out List<SubQuad> quads)
+        {
+            quads = new List<SubQuad>();
+
+            Vertex a = quad.a;
+            Vertex b = quad.b;
+            Vertex c = quad.c;
+            Vertex d = quad.d;
+
+            Vertex abMid = quad.ab.midVertex;
+            Vertex bcMid = quad.bc.midVertex;
+            Vertex cdMid = quad.cd.midVertex;
+            Vertex daMid = quad.da.midVertex;
+
+            Vertex center = quad.centerVertex;
+
+            quads.Add(new SubQuad(daMid, a, abMid, center));
+            quads.Add(new SubQuad(abMid, b, bcMid, center));
+            quads.Add(new SubQuad(bcMid, c, cdMid, center));
+            quads.Add(new SubQuad(cdMid, d, daMid, center));
+        }
+
+        //细分网格
+        public void SubdivideGrid()
+        {
+            foreach (var triangle in triangles)
+            {
+                SubdivideTriangle(triangle, out var subTriangleQuads);
+                subQuads.AddRange(subTriangleQuads);
+            }
+
+            foreach (var quad in quads)
+            {
+                SubdivideQuad(quad, out var subQuadQuads);
+                subQuads.AddRange(subQuadQuads);
+            }
         }
     }
 }

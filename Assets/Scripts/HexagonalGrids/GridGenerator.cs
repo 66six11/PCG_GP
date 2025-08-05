@@ -30,6 +30,14 @@ namespace HexagonalGrids
             _hexGrid.RandomMergeTriangles();
         }
 
+
+        [ContextMenu("细分网格")]
+        public void SubdivideGrid()
+        {
+            if (_hexGrid == null) return;
+            _hexGrid.SubdivideGrid();
+        }
+        
         [ContextMenu("Debug")]
         public void Debug()
         {
@@ -47,7 +55,7 @@ namespace HexagonalGrids
             {
                 s += vertex.coord.ToString() + " " + vertex.position.ToString() + "\n";
             }
-
+           
             UnityEngine.Debug.Log(s);
         }
 
@@ -56,13 +64,12 @@ namespace HexagonalGrids
             if (_hexGrid == null) return;
 
             if (!debug) return;
-            for (int i = 0; i < _hexGrid.triangles.Count; i++)
+            for (int i = 0; i < _hexGrid.midVertices.Count; i++)
             {
-                var triangle = _hexGrid.triangles[i];
-                var center = triangle.a.position + triangle.b.position + triangle.c.position;
-                center /= 3;
-                // Gizmos.DrawSphere(center, 0.1f);
-                Handles.Label(center, $"{i}");
+                Gizmos.color = Color.green;
+                var midVertex = _hexGrid.midVertices[i];
+                // Gizmos.DrawSphere(center, 0.1f);\
+                Gizmos.DrawSphere(midVertex.position, 0.1f);
             }
 
             for (int i = 0; i < _hexGrid.edges.Count; i++)
@@ -74,6 +81,27 @@ namespace HexagonalGrids
                 Gizmos.DrawLine(endpointsAsList[0].position, endpointsAsList[1].position);
             }
 
+            foreach (var center in _hexGrid.centerVertices)
+            {
+                Gizmos.color = Color.aquamarine;
+                Gizmos.DrawSphere(center.position, 0.1f);
+            }
+
+            if (_hexGrid.subQuads.Count > 0)
+            {
+                foreach (var subQuad in _hexGrid.subQuads)
+                {
+                    Gizmos.color = Color.coral;
+
+                    Gizmos.DrawLine(subQuad.a.position, subQuad.b.position);
+                    Gizmos.DrawLine(subQuad.b.position, subQuad.c.position);
+                    Gizmos.DrawLine(subQuad.c.position, subQuad.d.position);
+                    Gizmos.DrawLine(subQuad.d.position, subQuad.a.position);
+                    
+                    Gizmos.color = Color.cornsilk;
+                    Gizmos.DrawSphere(subQuad.center, 0.05f);
+                }
+            }
             Gizmos.color = Color.blue;
             foreach (var vertex in _hexGrid.vertices)
             {
