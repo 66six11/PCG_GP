@@ -24,6 +24,10 @@ namespace HexagonalGrids
         public List<SubEdge> boundaryEdges = new List<SubEdge>();
         public List<Vertex> boundaryVertices = new List<Vertex>();
 
+
+        public VertexKdTree vertexKDTre;
+
+
         public HexGrid(int radius, float cellSize, Vector3 origin)
         {
             this.radius = radius;
@@ -42,6 +46,12 @@ namespace HexagonalGrids
             }
 
             GenerateHexTriangles();
+        }
+
+        public void BuildKdTree()
+        {
+            Axis[] axes = { Axis.X,  Axis.Z };
+            vertexKDTre = new VertexKdTree(subVertices);
         }
 
         public List<HexVertex> RingVertices(int radius)

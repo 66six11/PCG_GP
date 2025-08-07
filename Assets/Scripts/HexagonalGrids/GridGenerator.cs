@@ -12,7 +12,7 @@ namespace HexagonalGrids
         [SerializeField] private float cellSize;
         [SerializeField] private int relaxTimes;
         [SerializeField] private bool debug;
-        private HexGrid _hexGrid;
+        public HexGrid _hexGrid;
 
         private void Awake()
         {
@@ -26,6 +26,7 @@ namespace HexagonalGrids
             RandomMergeTriangles();
             SubdivideGrid();
             Relax();
+            BuildKdTree();
         }
 
         [ContextMenu("生成六边形网格")]
@@ -55,11 +56,15 @@ namespace HexagonalGrids
             if (_hexGrid == null) return;
 
             _hexGrid.RelaxGrid(relaxTimes);
-
-           
         }
 
-       
+        [ContextMenu("构建KD树")]
+        public void BuildKdTree()
+        {
+            if (_hexGrid == null) return;
+            if (_hexGrid.subVertices.Count <= 0) return;
+            _hexGrid.BuildKdTree();
+        }
 
         [ContextMenu("Debug")]
         public void Debug()
