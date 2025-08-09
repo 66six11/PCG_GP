@@ -1,13 +1,27 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
+using Utility.RefCopy;
 
 namespace HexagonalGrids
 {
+    public class GridLayer
+    {
+        public List<SubQuad> subQuads = new List<SubQuad>();
+        public List<SubEdge> subEdges = new List<SubEdge>();
+        public List<Vertex> subVertices = new List<Vertex>();
+        public List<SubEdge> boundaryEdges = new List<SubEdge>();
+        public List<Vertex> boundaryVertices = new List<Vertex>();
+        public VertexKdTree vertexKDTre;
+    }
+
     public class HexGrid
     {
         public int radius;
         public Vector3 origin;
         public float cellSize;
+        public float cellHeight;
+        public int layerCount;
 
         public readonly List<HexVertex> vertices = new List<HexVertex>();
         public List<MidVertex> midVertices = new List<MidVertex>();
@@ -18,24 +32,29 @@ namespace HexagonalGrids
         public readonly List<Quad> quads = new List<Quad>();
         public readonly List<Edge> edges = new List<Edge>();
 
-        public List<SubQuad> subQuads = new List<SubQuad>();
-        public List<SubEdge> subEdges = new List<SubEdge>();
-        public List<Vertex> subVertices = new List<Vertex>();
-        public List<SubEdge> boundaryEdges = new List<SubEdge>();
-        public List<Vertex> boundaryVertices = new List<Vertex>();
+
+        // 网格层
+        public List<SubQuad> allSubQuads = new List<SubQuad>();
+        public List<SubEdge> allSubEdges = new List<SubEdge>();
+        public List<Vertex> allSubVertices = new List<Vertex>();
+
+        public GridLayer baseLayer;
+        public List<GridLayer> layers = new List<GridLayer>(); // <--- 多层网格 --->
 
 
-        public VertexKdTree vertexKDTre;
+        public List<Cell> cells = new List<Cell>(); // <--- 网格单元 --->
 
-
-        public HexGrid(int radius, float cellSize, Vector3 origin)
+        public HexGrid(int radius, float cellSize, Vector3 origin, float cellHeight, int layerCount)
         {
             this.radius = radius;
             this.cellSize = cellSize;
             this.origin = origin;
-
+            this.cellHeight = cellHeight;
+            this.layerCount = layerCount;
+            baseLayer = new GridLayer();
             Init();
         }
+
 
         private void Init()
         {
@@ -50,8 +69,7 @@ namespace HexagonalGrids
 
         public void BuildKdTree()
         {
-            Axis[] axes = { Axis.X,  Axis.Z };
-            vertexKDTre = new VertexKdTree(subVertices);
+            baseLayer.vertexKDTre = new VertexKdTree(baseLayer.subVertices);
         }
 
         public List<HexVertex> RingVertices(int radius)
@@ -193,9 +211,9 @@ namespace HexagonalGrids
             Vertex triangleCenter = triangle.center;
 
 
-            subQuads.Add(new SubQuad(caMid, a, abMid, triangleCenter, subEdges));
-            subQuads.Add(new SubQuad(abMid, b, bcMid, triangleCenter, subEdges));
-            subQuads.Add(new SubQuad(bcMid, c, caMid, triangleCenter, subEdges));
+            baseLayer.subQuads.Add(new SubQuad(caMid, a, abMid, triangleCenter, baseLayer.subEdges));
+            baseLayer.subQuads.Add(new SubQuad(abMid, b, bcMid, triangleCenter, baseLayer.subEdges));
+            baseLayer.subQuads.Add(new SubQuad(bcMid, c, caMid, triangleCenter, baseLayer.subEdges));
         }
 
         //细分四边形
@@ -213,10 +231,10 @@ namespace HexagonalGrids
 
             Vertex center = quad.centerVertex;
 
-            subQuads.Add(new SubQuad(daMid, a, abMid, center, subEdges));
-            subQuads.Add(new SubQuad(abMid, b, bcMid, center, subEdges));
-            subQuads.Add(new SubQuad(bcMid, c, cdMid, center, subEdges));
-            subQuads.Add(new SubQuad(cdMid, d, daMid, center, subEdges));
+            baseLayer.subQuads.Add(new SubQuad(daMid, a, abMid, center, baseLayer.subEdges));
+            baseLayer.subQuads.Add(new SubQuad(abMid, b, bcMid, center, baseLayer.subEdges));
+            baseLayer.subQuads.Add(new SubQuad(bcMid, c, cdMid, center, baseLayer.subEdges));
+            baseLayer.subQuads.Add(new SubQuad(cdMid, d, daMid, center, baseLayer.subEdges));
         }
 
         //细分网格
@@ -232,21 +250,21 @@ namespace HexagonalGrids
                 SubdivideQuad(quad);
             }
 
-            foreach (var subQuad in subQuads)
+            foreach (var subQuad in baseLayer.subQuads)
             {
                 foreach (var subVertex in subQuad.vertices)
                 {
-                    if (!subVertices.Contains(subVertex))
+                    if (!baseLayer.subVertices.Contains(subVertex))
                     {
-                        subVertices.Add(subVertex);
+                        baseLayer.subVertices.Add(subVertex);
                     }
                 }
             }
 
-            foreach (var subEdge in subEdges)
+            foreach (var subEdge in baseLayer.subEdges)
             {
                 int count = 0;
-                foreach (var subQuad in subQuads)
+                foreach (var subQuad in baseLayer.subQuads)
                 {
                     foreach (var edge in subQuad.edges)
                     {
@@ -260,17 +278,22 @@ namespace HexagonalGrids
                 if (count == 1)
                 {
                     List<Vertex> vertices = new List<Vertex>(subEdge.endpoints);
-                    boundaryVertices.AddRange(vertices);
-                    boundaryEdges.Add(subEdge);
+                    baseLayer.boundaryVertices.AddRange(vertices);
+                    baseLayer.boundaryEdges.Add(subEdge);
                 }
             }
+
+            layers.Add(baseLayer);
+            allSubEdges.AddRange(baseLayer.subEdges);
+            allSubVertices.AddRange(baseLayer.subVertices);
+            allSubQuads.AddRange(baseLayer.subQuads);
         }
 
         public void RelaxGrid(int times)
         {
             for (int i = 0; i < times; i++)
             {
-                foreach (var subQuad in subQuads)
+                foreach (var subQuad in baseLayer.subQuads)
                 {
                     RelaxSubQuad(subQuad);
                 }
@@ -326,6 +349,63 @@ namespace HexagonalGrids
                 //绕Y轴旋转
                 Quaternion q = Quaternion.AngleAxis(angle, Vector3.up);
                 return q * v;
+            }
+        }
+
+
+        //复制出其他层的网格
+        private GridLayer CopySubGrid(GridLayer gridLayer)
+        {
+            GridLayer result = new GridLayer();
+            RefCopyHelper<Vertex> copyHelper = new RefCopyHelper<Vertex>(gridLayer.subVertices, out var copyList);
+            result.subVertices = copyList;
+            result.subQuads = copyHelper.ListCopy(gridLayer.subQuads);
+            result.subEdges = copyHelper.ListCopy<SubEdge>(gridLayer.subEdges);
+            result.boundaryVertices = copyHelper.ListCopy(gridLayer.boundaryVertices);
+            result.boundaryEdges = copyHelper.ListCopy<SubEdge>(gridLayer.boundaryEdges);
+
+            foreach (var subQuad in result.subQuads)
+            {
+                subQuad.SetEdges(result.subEdges);
+            }
+
+            //调整顶点位置
+            foreach (var vertex in result.subVertices)
+            {
+                vertex.position += Vector3.up * cellHeight;
+            }
+
+            //复制kd树
+            result.vertexKDTre = new VertexKdTree(result.subVertices);
+            return result;
+        }
+
+        public void BuildLayers()
+        {
+            if (layerCount <= 1) return;
+            for (int i = 0; i < layerCount; i++)
+            {
+                GridLayer layer = CopySubGrid(layers[i]);
+                allSubEdges.AddRange(layer.subEdges);
+                allSubVertices.AddRange(layer.subVertices);
+                allSubQuads.AddRange(layer.subQuads);
+                layers.Add(layer);
+            }
+        }
+
+        public void BuildCells()
+        {
+            if (layers.Count <= 1) return;
+            for (int i = 1; i < layers.Count; i++)
+            {
+                for (int j = 0; j < baseLayer.subQuads.Count; j++)
+                {
+                    SubQuad upQuad = layers[i].subQuads[j];
+                    SubQuad downQuad = layers[i - 1].subQuads[j];
+
+                    Cell cell = new Cell(upQuad, downQuad, allSubEdges);
+                    cells.Add(cell);
+                }
             }
         }
     }

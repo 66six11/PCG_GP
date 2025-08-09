@@ -10,6 +10,8 @@ namespace HexagonalGrids
     {
         [SerializeField] private int radius;
         [SerializeField] private float cellSize;
+        [SerializeField] private float cellHeight;
+        [SerializeField] [Min(1)] private int layerCount;
         [SerializeField] private int relaxTimes;
         [SerializeField] private bool debug;
         public HexGrid _hexGrid;
@@ -27,12 +29,14 @@ namespace HexagonalGrids
             SubdivideGrid();
             Relax();
             BuildKdTree();
+            GenerateMultiLayerGrid();
+            BuildCell();
         }
 
         [ContextMenu("生成六边形网格")]
         public void GenerateHexGrid()
         {
-            _hexGrid = new HexGrid(radius, cellSize, this.transform.position);
+            _hexGrid = new HexGrid(radius, cellSize, this.transform.position, cellHeight, layerCount);
         }
 
         [ContextMenu("随机合并三角")]
@@ -62,8 +66,27 @@ namespace HexagonalGrids
         public void BuildKdTree()
         {
             if (_hexGrid == null) return;
-            if (_hexGrid.subVertices.Count <= 0) return;
+            if (_hexGrid.baseLayer.subVertices.Count <= 0) return;
             _hexGrid.BuildKdTree();
+        }
+
+        [ContextMenu("生成多层网格")]
+        public void GenerateMultiLayerGrid()
+        {
+            if (_hexGrid == null) return;
+            _hexGrid.BuildLayers();
+        }
+        [ContextMenu("构建单元格子")]
+        public void BuildCell()
+        {
+            if (_hexGrid == null) return;
+            _hexGrid.BuildCells();
+        }
+
+        [ContextMenu("Clear")]
+        public void Clear()
+        {
+            _hexGrid = null;
         }
 
         [ContextMenu("Debug")]
@@ -85,6 +108,14 @@ namespace HexagonalGrids
             }
 
             UnityEngine.Debug.Log(s);
+
+            //打印细分后的数据
+            UnityEngine.Debug.Log($"细分后\n" +
+                                  $"层数: {_hexGrid.layers.Count}" +
+                                  $"顶点数:  {_hexGrid.allSubEdges.Count}" +
+                                  $" 边数: {_hexGrid.allSubQuads.Count}" +
+                                  $" 四边形数: {_hexGrid.allSubQuads.Count}"
+            );
         }
 
         private void OnDrawGizmos()
@@ -100,7 +131,7 @@ namespace HexagonalGrids
                 Gizmos.DrawSphere(midVertex.position, 0.1f);
             }
 
-            if (_hexGrid.subQuads.Count <= 0)
+            if (_hexGrid.allSubQuads.Count <= 0)
             {
                 for (int i = 0; i < _hexGrid.edges.Count; i++)
                 {
@@ -118,12 +149,12 @@ namespace HexagonalGrids
                 Gizmos.DrawSphere(center.position, 0.1f);
             }
 
-            if (_hexGrid.subQuads.Count > 0)
+            if (_hexGrid.allSubQuads.Count > 0)
             {
-                foreach (var subQuad in _hexGrid.subQuads)
+                foreach (var subQuad in _hexGrid.allSubQuads)
                 {
                     Gizmos.color = Color.cornsilk;
-                    Gizmos.DrawSphere(subQuad.center, 0.05f);
+                    Gizmos.DrawSphere(subQuad.center, 0.01f);
 
                     // for (int i = 0; i < subQuad.vertices.Length; i++)
                     // {
@@ -133,18 +164,18 @@ namespace HexagonalGrids
                     // }
                 }
 
-                foreach (var subQuad in _hexGrid.subEdges)
+                foreach (var subQuad in _hexGrid.allSubEdges)
                 {
-                    Gizmos.color = Color.chocolate;
+                    Gizmos.color = new Color(Color.chocolate.r, Color.chocolate.g, Color.chocolate.b, Color.chocolate.a * 0.2f);
                     var endpointsAsList = new List<Vertex>(subQuad.endpoints);
                     Gizmos.DrawLine(endpointsAsList[0].position, endpointsAsList[1].position);
                 }
             }
 
-            if (_hexGrid.boundaryEdges.Count > 0)
+            if (_hexGrid.baseLayer.boundaryEdges.Count > 0)
             {
                 Gizmos.color = Color.red;
-                foreach (var edge in _hexGrid.boundaryEdges)
+                foreach (var edge in _hexGrid.baseLayer.boundaryEdges)
                 {
                     var endpointsAsList = new List<Vertex>(edge.endpoints);
                     Gizmos.DrawLine(endpointsAsList[0].position, endpointsAsList[1].position);

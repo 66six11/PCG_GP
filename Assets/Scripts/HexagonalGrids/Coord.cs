@@ -16,7 +16,7 @@ namespace HexagonalGrids
         public readonly int q;
         public readonly int r;
         public readonly int s;
-        
+
 
         /// <summary>
         /// 六边形网格的六个方向，角向上
@@ -46,7 +46,7 @@ namespace HexagonalGrids
             //左
             new Coord(-1, 0, 1)
         };
-        
+
 
         public Coord(int q, int r, int s)
         {
@@ -58,7 +58,6 @@ namespace HexagonalGrids
             this.q = q;
             this.r = r;
             this.s = s;
-         
         }
 
         public Coord(int q, int r)
@@ -66,8 +65,8 @@ namespace HexagonalGrids
             this.q = q;
             this.r = r;
             this.s = -q - r;
-          
         }
+
         public Vector3 ToWorldPosition(float cellSize, Vector3 origin)
         {
             return new Vector3(q * Mathf.Sqrt(3) / 2, 0, -(float)r - ((float)q / 2)) * 2 * cellSize + origin;
@@ -159,6 +158,22 @@ namespace HexagonalGrids
         public static Coord operator *(Coord coord, int scale)
         {
             return new Coord(coord.q * scale, coord.r * scale, coord.s * scale);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            Coord other = (Coord)obj;
+            return q == other.q && r == other.r && s == other.s;
+        }
+
+        public override int GetHashCode()
+        {
+            return q.GetHashCode() ^ r.GetHashCode() ^ s.GetHashCode();
         }
 
         #endregion

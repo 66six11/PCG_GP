@@ -286,8 +286,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fb76a59953544e38dd3dee1d5cc3104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 7
+  radius: 4
   cellSize: 1
+  cellHeight: 1
+  layerCount: 5
   relaxTimes: 500
   debug: 1
 --- !u!4 &331579478
@@ -596,7 +598,7 @@ Transform:
   m_GameObject: {fileID: 1402663973}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.49, y: 0.104, z: 2.55}
+  m_LocalPosition: {x: -2.39, y: 0.104, z: -7.26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []

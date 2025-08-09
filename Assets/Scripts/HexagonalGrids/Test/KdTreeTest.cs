@@ -20,11 +20,11 @@ namespace HexagonalGrids.Test
         [ContextMenu("多次测试查询")]
         public void QueryKdTree()
         {
-            Debug.Log("KDTree Total Nodes: " + grid._hexGrid.vertexKDTre.totalNodes);
+            Debug.Log("KDTree Total Nodes: " + grid._hexGrid.baseLayer.vertexKDTre.totalNodes);
             var timestamp = System.DateTime.Now.Ticks;
             for (int i = 0; i < queryCount; i++)
             {
-                grid._hexGrid.vertexKDTre.QueryNearest(queryGameObject.transform.position);
+                grid._hexGrid.baseLayer.vertexKDTre.QueryNearest(queryGameObject.transform.position);
             }
 
             var elapsed = System.DateTime.Now.Ticks - timestamp;
@@ -35,14 +35,14 @@ namespace HexagonalGrids.Test
         public void QueryKdTreeNearest()
         {
             queryVertices.Clear();
-            queryVertices.Add(grid._hexGrid.vertexKDTre.QueryNearest(queryGameObject.transform.position));
+            queryVertices.Add(grid._hexGrid.baseLayer.vertexKDTre.QueryNearest(queryGameObject.transform.position));
         }
 
         [ContextMenu("球范围查询")]
         public void QueryKdTreeSphere()
         {
             queryVertices.Clear();
-            queryVertices.AddRange(grid._hexGrid.vertexKDTre.RangeQuery(queryCollider.transform.position, queryCollider.radius));
+            queryVertices.AddRange(grid._hexGrid.baseLayer.vertexKDTre.RangeQuery(queryCollider.transform.position, queryCollider.radius));
         }
 
         [ContextMenu("矩形范围查询")]
@@ -56,7 +56,7 @@ namespace HexagonalGrids.Test
             Vector3 minBound = worldBounds.min;
             Vector3 maxBound = worldBounds.max;
           
-            queryVertices.AddRange(grid._hexGrid.vertexKDTre.RangeQuery(minBound, maxBound));
+            queryVertices.AddRange(grid._hexGrid.baseLayer.vertexKDTre.RangeQuery(minBound, maxBound));
         }
 
         private void OnDrawGizmos()
@@ -66,7 +66,7 @@ namespace HexagonalGrids.Test
                 return;
             }
 
-            if (grid._hexGrid.vertexKDTre == null)
+            if (grid._hexGrid.baseLayer.vertexKDTre == null)
             {
                 return;
             }
@@ -74,9 +74,9 @@ namespace HexagonalGrids.Test
 
             if (showKDTree)
             {
-                DrawNodes(grid._hexGrid.vertexKDTre.root);
+                DrawNodes(grid._hexGrid.baseLayer.vertexKDTre.root);
                 Gizmos.color = Color.white;
-                Gizmos.DrawSphere(grid._hexGrid.vertexKDTre.root.vertex.position, 0.2f);
+                Gizmos.DrawSphere(grid._hexGrid.baseLayer.vertexKDTre.root.vertex.position, 0.2f);
             }
 
 

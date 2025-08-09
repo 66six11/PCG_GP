@@ -41,7 +41,7 @@ namespace HexagonalGrids
             maxDepth = 0;
         }
 
-        public Node BuildTree(List<Vertex> vertices, int depth, Node parent = null)
+        private Node BuildTree(List<Vertex> vertices, int depth, Node parent = null)
         {
             if (vertices == null || vertices.Count == 0)
             {
