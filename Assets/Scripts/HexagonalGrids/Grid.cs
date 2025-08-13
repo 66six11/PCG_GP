@@ -12,7 +12,7 @@ namespace HexagonalGrids
         public List<Vertex> subVertices = new List<Vertex>();
         public List<SubEdge> boundaryEdges = new List<SubEdge>();
         public List<Vertex> boundaryVertices = new List<Vertex>();
-        public VertexKdTree vertexKDTre;
+        public VertexKdTree vertexKDTree;
     }
 
     public class HexGrid
@@ -43,7 +43,13 @@ namespace HexagonalGrids
 
 
         public List<Cell> cells = new List<Cell>(); // <--- 网格单元 --->
-
+        
+        public VertexKdTree vertexKDTree;
+        
+        
+        public Dictionary<Vertex,List<Cell>> vextex2cellsMap = new Dictionary<Vertex,List<Cell>>();//点到网格单元的映射
+        
+        
         public HexGrid(int radius, float cellSize, Vector3 origin, float cellHeight, int layerCount)
         {
             this.radius = radius;
@@ -69,7 +75,7 @@ namespace HexagonalGrids
 
         public void BuildKdTree()
         {
-            baseLayer.vertexKDTre = new VertexKdTree(baseLayer.subVertices);
+            baseLayer.vertexKDTree = new VertexKdTree(baseLayer.subVertices);
         }
 
         public List<HexVertex> RingVertices(int radius)
@@ -199,7 +205,7 @@ namespace HexagonalGrids
         }
 
         //细分三角形
-        public void SubdivideTriangle(Triangle triangle)
+        private void SubdivideTriangle(Triangle triangle)
         {
             Vertex a = triangle.a;
             Vertex b = triangle.b;
@@ -217,7 +223,7 @@ namespace HexagonalGrids
         }
 
         //细分四边形
-        public void SubdivideQuad(Quad quad)
+        private void SubdivideQuad(Quad quad)
         {
             Vertex a = quad.a;
             Vertex b = quad.b;
@@ -301,7 +307,7 @@ namespace HexagonalGrids
         }
 
         //优化网格
-        public void RelaxSubQuad(SubQuad subQuad)
+        private void RelaxSubQuad(SubQuad subQuad)
         {
             Vector3 center2a = subQuad.a.position - subQuad.center;
             Vector3 center2b = subQuad.b.position - subQuad.center;
@@ -352,7 +358,6 @@ namespace HexagonalGrids
             }
         }
 
-
         //复制出其他层的网格
         private GridLayer CopySubGrid(GridLayer gridLayer)
         {
@@ -376,13 +381,12 @@ namespace HexagonalGrids
             }
 
             //复制kd树
-            result.vertexKDTre = new VertexKdTree(result.subVertices);
+            result.vertexKDTree = new VertexKdTree(result.subVertices);
             return result;
         }
 
         public void BuildLayers()
         {
-            if (layerCount <= 1) return;
             for (int i = 0; i < layerCount; i++)
             {
                 GridLayer layer = CopySubGrid(layers[i]);
@@ -391,6 +395,8 @@ namespace HexagonalGrids
                 allSubQuads.AddRange(layer.subQuads);
                 layers.Add(layer);
             }
+            
+            vertexKDTree = new VertexKdTree(allSubVertices);
         }
 
         public void BuildCells()
@@ -407,6 +413,27 @@ namespace HexagonalGrids
                     cells.Add(cell);
                 }
             }
+            BuildVertex2CellsMap();
+        }
+
+        private void BuildVertex2CellsMap()
+        {
+            foreach (var vertex in allSubVertices)
+            {
+                vextex2cellsMap.Add(vertex,new List<Cell>());
+                foreach (var cell in cells)
+                {
+                    if (cell.Contains(vertex))
+                    {
+                         vextex2cellsMap[vertex].Add(cell);
+                    }
+                }
+            }
+        }
+
+        public List<Cell> Vertex2Cells(Vertex vertex)
+        {
+            return vextex2cellsMap[vertex];
         }
     }
 }

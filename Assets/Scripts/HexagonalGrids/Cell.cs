@@ -78,5 +78,10 @@ namespace HexagonalGrids
 
             Center = (V1.position + V2.position + V3.position + V4.position + V5.position + V6.position + V7.position + V8.position) / 8;
         }
+
+        public bool Contains(Vertex vertex)
+        {
+            return (vertex == V1 || vertex == V2 || vertex == V3 || vertex == V4 || vertex == V5 || vertex == V6 || vertex == V7 || vertex == V8);
+        }
     }
 }

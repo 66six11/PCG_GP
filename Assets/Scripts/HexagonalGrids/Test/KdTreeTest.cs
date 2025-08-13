@@ -7,7 +7,7 @@ namespace HexagonalGrids.Test
     public class KdTreeTest : MonoBehaviour
     {
         public GirdGenerator grid;
-
+        public VertexKdTree kdTree => grid._hexGrid.vertexKDTree;
         public GameObject queryGameObject;
         public SphereCollider queryCollider;
         public BoxCollider queryBound;
@@ -16,15 +16,16 @@ namespace HexagonalGrids.Test
         public bool showKDTree = true;
 
         List<Vertex> queryVertices = new List<Vertex>();
+        List<Cell> queryCells = new List<Cell>();
 
         [ContextMenu("多次测试查询")]
         public void QueryKdTree()
         {
-            Debug.Log("KDTree Total Nodes: " + grid._hexGrid.baseLayer.vertexKDTre.totalNodes);
+            Debug.Log("KDTree Total Nodes: " + kdTree.totalNodes);
             var timestamp = System.DateTime.Now.Ticks;
             for (int i = 0; i < queryCount; i++)
             {
-                grid._hexGrid.baseLayer.vertexKDTre.QueryNearest(queryGameObject.transform.position);
+                kdTree.QueryNearest(queryGameObject.transform.position);
             }
 
             var elapsed = System.DateTime.Now.Ticks - timestamp;
@@ -35,14 +36,16 @@ namespace HexagonalGrids.Test
         public void QueryKdTreeNearest()
         {
             queryVertices.Clear();
-            queryVertices.Add(grid._hexGrid.baseLayer.vertexKDTre.QueryNearest(queryGameObject.transform.position));
+            queryCells.Clear();
+            queryVertices.Add(kdTree.QueryNearest(queryGameObject.transform.position));
+            queryCells = grid._hexGrid.Vertex2Cells(queryVertices[0]);
         }
 
         [ContextMenu("球范围查询")]
         public void QueryKdTreeSphere()
         {
             queryVertices.Clear();
-            queryVertices.AddRange(grid._hexGrid.baseLayer.vertexKDTre.RangeQuery(queryCollider.transform.position, queryCollider.radius));
+            queryVertices.AddRange(kdTree.RangeQuery(queryCollider.transform.position, queryCollider.radius));
         }
 
         [ContextMenu("矩形范围查询")]
@@ -51,12 +54,12 @@ namespace HexagonalGrids.Test
             queryVertices.Clear();
             // 获取世界坐标系下的包围盒
             Bounds worldBounds = queryBound.bounds;
-    
+
             // 直接使用世界坐标的 min/max
             Vector3 minBound = worldBounds.min;
             Vector3 maxBound = worldBounds.max;
-          
-            queryVertices.AddRange(grid._hexGrid.baseLayer.vertexKDTre.RangeQuery(minBound, maxBound));
+
+            queryVertices.AddRange(kdTree.RangeQuery(minBound, maxBound));
         }
 
         private void OnDrawGizmos()
@@ -66,7 +69,7 @@ namespace HexagonalGrids.Test
                 return;
             }
 
-            if (grid._hexGrid.baseLayer.vertexKDTre == null)
+            if (kdTree == null)
             {
                 return;
             }
@@ -74,9 +77,9 @@ namespace HexagonalGrids.Test
 
             if (showKDTree)
             {
-                DrawNodes(grid._hexGrid.baseLayer.vertexKDTre.root);
+                DrawNodes(kdTree.root);
                 Gizmos.color = Color.white;
-                Gizmos.DrawSphere(grid._hexGrid.baseLayer.vertexKDTre.root.vertex.position, 0.2f);
+                Gizmos.DrawSphere(kdTree.root.vertex.position, 0.2f);
             }
 
 
@@ -99,6 +102,19 @@ namespace HexagonalGrids.Test
                 foreach (var vertex in queryVertices)
                 {
                     Gizmos.DrawSphere(vertex.position, 0.2f);
+                }
+            }
+
+            if (queryCells.Count > 0)
+            {
+                Gizmos.color = Color.blueViolet;
+                foreach (var cell in queryCells)
+                {
+                    foreach (var edge in cell.edges)
+                    {
+                        List<Vertex> vertices = new List<Vertex>(edge.endpoints);
+                        Gizmos.DrawLine(vertices[0].position, vertices[1].position);
+                    }
                 }
             }
         }

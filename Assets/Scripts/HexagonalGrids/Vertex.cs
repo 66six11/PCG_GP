@@ -8,6 +8,7 @@ namespace HexagonalGrids
 {
     public class Vertex : ICopyable<Vertex>
     {
+        private int _mate;
         public int id { get; set; } = RefIDGenerator.ID;
         public Vector3 position { get; set; }
         public float x => this.position.x;
@@ -18,6 +19,8 @@ namespace HexagonalGrids
         {
             return new Vertex() { position = this.position };
         }
+
+        public bool IsEnabled = false;
     }
 
     public class HexVertex : Vertex
