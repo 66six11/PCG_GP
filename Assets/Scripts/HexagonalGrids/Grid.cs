@@ -43,13 +43,13 @@ namespace HexagonalGrids
 
 
         public List<Cell> cells = new List<Cell>(); // <--- 网格单元 --->
-        
+
         public VertexKdTree vertexKDTree;
-        
-        
-        public Dictionary<Vertex,List<Cell>> vextex2cellsMap = new Dictionary<Vertex,List<Cell>>();//点到网格单元的映射
-        
-        
+
+
+        public Dictionary<Vertex, List<Cell>> vextex2cellsMap = new Dictionary<Vertex, List<Cell>>(); //点到网格单元的映射
+
+
         public HexGrid(int radius, float cellSize, Vector3 origin, float cellHeight, int layerCount)
         {
             this.radius = radius;
@@ -395,7 +395,7 @@ namespace HexagonalGrids
                 allSubQuads.AddRange(layer.subQuads);
                 layers.Add(layer);
             }
-            
+
             vertexKDTree = new VertexKdTree(allSubVertices);
         }
 
@@ -413,19 +413,23 @@ namespace HexagonalGrids
                     cells.Add(cell);
                 }
             }
+
+            //构建点到cell的映射
             BuildVertex2CellsMap();
+            //构建cell的邻居映射
+            BuildCellNeighborsMap();
         }
 
         private void BuildVertex2CellsMap()
         {
             foreach (var vertex in allSubVertices)
             {
-                vextex2cellsMap.Add(vertex,new List<Cell>());
+                vextex2cellsMap.Add(vertex, new List<Cell>());
                 foreach (var cell in cells)
                 {
                     if (cell.Contains(vertex))
                     {
-                         vextex2cellsMap[vertex].Add(cell);
+                        vextex2cellsMap[vertex].Add(cell);
                     }
                 }
             }
@@ -434,6 +438,30 @@ namespace HexagonalGrids
         public List<Cell> Vertex2Cells(Vertex vertex)
         {
             return vextex2cellsMap[vertex];
+        }
+
+        public void BuildCellNeighborsMap()
+        {
+            foreach (var cell in cells)
+            {
+                var cellVertices = new HashSet<Vertex>(cell.vertices);
+                foreach (var neighbor in cells)
+                {
+                    if (neighbor == cell)
+                    {
+                        continue;
+                    }
+
+                    var intersection = new HashSet<Vertex>(cellVertices);
+                    intersection.IntersectWith(neighbor.vertices);
+                    if (intersection.Count == 4)
+                    {
+                        cell.neighbours.Add(neighbor);
+                        
+                    }
+                }
+                Debug.Log(cell.neighbours.Count);
+            }
         }
     }
 }

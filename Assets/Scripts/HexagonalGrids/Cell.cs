@@ -33,10 +33,14 @@ namespace HexagonalGrids
 
         public SubEdge[] edges;
 
+        public List<Cell> neighbours = new List<Cell>();
+        
+        
+        
         public SubQuad Q1;
         public SubQuad Q2;
 
-
+        
         //中心点
         public Vector3 Center;
 

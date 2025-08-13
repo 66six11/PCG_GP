@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace HexagonalGrids.Test
@@ -107,14 +108,36 @@ namespace HexagonalGrids.Test
 
             if (queryCells.Count > 0)
             {
-                Gizmos.color = Color.blueViolet;
+                var edges = new List<SubEdge>();
+                var neighbours = new List<SubEdge>();
                 foreach (var cell in queryCells)
                 {
-                    foreach (var edge in cell.edges)
+                    
+                   
+                    edges.AddRange( cell.edges);
+
+                    foreach (var neighbour in cell.neighbours)
                     {
-                        List<Vertex> vertices = new List<Vertex>(edge.endpoints);
-                        Gizmos.DrawLine(vertices[0].position, vertices[1].position);
+                      
+                          neighbours.AddRange(neighbour.edges);  
                     }
+                }
+                
+                Gizmos.color = Color.blueViolet;
+                foreach (var edge in edges)
+                {
+                    List<Vertex> vertices = new List<Vertex>(edge.endpoints);
+                    Gizmos.DrawLine(vertices[0].position, vertices[1].position);
+                }
+                Gizmos.color = Color.chartreuse;
+                foreach (var edge in neighbours)
+                {
+                    if (edges.Contains(edge))
+                    {
+                        continue;
+                    }
+                    List<Vertex> vertices = new List<Vertex>(edge.endpoints);
+                    Gizmos.DrawLine(vertices[0].position, vertices[1].position);
                 }
             }
         }
