@@ -35,10 +35,11 @@ namespace HexagonalGrids
     public class SubEdge : IRefCopy<Vertex, SubEdge>
     {
         public readonly HashSet<Vertex> endpoints;
-
+       
         SubEdge(Vertex a, Vertex b)
         {
             endpoints = new HashSet<Vertex>() { a, b };
+            
         }
 
         public static SubEdge GenerateSubEdge(Vertex a, Vertex b, List<SubEdge> subEdges)

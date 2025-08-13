@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using HexagonalGrids.Render;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.VirtualTexturing;
@@ -14,6 +15,7 @@ namespace HexagonalGrids
         [SerializeField] [Min(1)] private int layerCount;
         [SerializeField] private int relaxTimes;
         [SerializeField] private bool debug;
+        [SerializeField] private GridRender gridRender;
         public HexGrid _hexGrid;
 
         private void Awake()
@@ -31,6 +33,8 @@ namespace HexagonalGrids
             BuildKdTree();
             GenerateMultiLayerGrid();
             BuildCell();
+            
+            // gridRender.Init();
         }
 
         [ContextMenu("生成六边形网格")]

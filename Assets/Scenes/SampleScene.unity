@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 331579478}
   - component: {fileID: 331579477}
   - component: {fileID: 331579479}
+  - component: {fileID: 331579481}
   m_Layer: 0
   m_Name: HexGrid
   m_TagString: Untagged
@@ -286,12 +287,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fb76a59953544e38dd3dee1d5cc3104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 4
+  radius: 7
   cellSize: 1
   cellHeight: 1
   layerCount: 5
-  relaxTimes: 500
-  debug: 1
+  relaxTimes: 120
+  debug: 0
+  gridRender: {fileID: 331579481}
 --- !u!4 &331579478
 Transform:
   m_ObjectHideFlags: 0
@@ -325,6 +327,22 @@ MonoBehaviour:
   queryBound: {fileID: 1402663978}
   queryCount: 100
   showKDTree: 0
+--- !u!114 &331579481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331579476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b6048289bfb4b07815582f5f0e8fbfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  girdColor: {r: 1, g: 1, b: 1, a: 1}
+  girdWidth: 0.01
+  _generator: {fileID: 331579477}
+  material: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
