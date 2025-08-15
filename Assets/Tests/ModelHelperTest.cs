@@ -16,7 +16,7 @@ namespace Tests
         
         
         [Test]
-        public void Rotate90_ShouldRotateCorrectly()
+        public void Rotate_ShouldRotateCorrectly()
         {
             byte test = 0b10011001;
             //测试y轴旋转90度
