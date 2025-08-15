@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -94,6 +95,23 @@ namespace HexagonalGrids
             return (edge == E1 || edge == E2 || edge == E3 || edge == E4 || edge == E5 || edge == E6 || edge == E7 || edge == E8 || edge == E9 || edge == E10 || edge == E11 || edge == E12);
         }
 
+        public byte GetCellByte()
+        {
+            if (vertices == null || vertices.Length != 8)
+                throw new InvalidOperationException("顶点数组必须包含8个元素");
+            byte state = 0; // 00000000
+            
+            for (var i = 0; i < 8; i++)
+            {
+                if (vertices[i].IsEnabled)
+                {
+                    state |= (byte)(1 << i); // 反转位位置
+                }
+            }
+
+            return state;
+        }
+
         public void BuildTransformMatrix()
         {
             // 计算基向量
@@ -105,7 +123,7 @@ namespace HexagonalGrids
             Vector3 topCenter = Q1.center;
             Vector3 bottomCenter = Q2.center;
             Vector3 up = (topCenter - bottomCenter).normalized;
-     
+
             // 计算右方向（确保正交性）
             Vector3 right = Vector3.Cross(up, forward).normalized;
 

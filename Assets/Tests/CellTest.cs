@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using HexagonalGrids;
 namespace Tests
 {
     [TestFixture]
+    [TestOf(typeof(Cell))]
     public class CellTransformMatrixTests
     {
         // 共享边集合
@@ -188,7 +190,30 @@ namespace Tests
             Assert.AreEqual(expectedWorldPoint.z, worldPoint.z, 1e-5f, "Z坐标转换错误");
         }
 
+        [Test]
+        public void TestGetCellByte()
+        {
+            Cell cell = CreateCellWithVertices(asymmetricVertices);
 
+            //随机设置任意几个顶点为启用状态
+            cell.V1.IsEnabled = true;
+            cell.V2.IsEnabled = true;
+            cell.V5.IsEnabled = true;
+            cell.V6.IsEnabled = true;
+
+
+            //字节顺序是从右到左
+            byte expectByte = 0b00110011;
+            byte cellByte = cell.GetCellByte();
+            
+            Assert.AreEqual(expectByte, cellByte, 1e-5f, $"顶点状态错误,期望值{ByteToBinaryString1(expectByte)},实际值{ByteToBinaryString1(cellByte)}");
+           
+        }
+        // 辅助方法：字节转二进制字符串
+        public static string ByteToBinaryString1(byte value)
+        {
+            return Convert.ToString(value, 2).PadLeft(8, '0');
+        }
         // 辅助方法：测试变换一致性
         private void TestTransformConsistency(Cell cell, Vector3 worldPoint)
         {
@@ -220,6 +245,7 @@ namespace Tests
 
             return new Cell(upQuad, downQuad, sharedEdges);
         }
+
 
         // 辅助方法：计算预期中心点
         private Vector3 CalculateExpectedCenter(Vector3[] verts)
