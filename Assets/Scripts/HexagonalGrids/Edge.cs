@@ -44,6 +44,12 @@ namespace HexagonalGrids
 
         public static SubEdge GenerateSubEdge(Vertex a, Vertex b, List<SubEdge> subEdges)
         {
+            if (subEdges.Count == 0)
+            {
+                var oneSubEdge = new SubEdge(a, b);
+                subEdges.Add(oneSubEdge);
+                return oneSubEdge;
+            }
             foreach (var subEdge in subEdges)
             {
                 if (subEdge.endpoints.Contains(a) && subEdge.endpoints.Contains(b))

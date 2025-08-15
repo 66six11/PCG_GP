@@ -24,6 +24,7 @@ namespace HexagonalGrids
 
         public SubQuad(Vertex a, Vertex b, Vertex c, Vertex d)
         {
+            
             this.a = a;
             this.b = b;
             this.c = c;

@@ -34,15 +34,16 @@ namespace HexagonalGrids
         public SubEdge[] edges;
 
         public List<Cell> neighbours = new List<Cell>();
-        
-        
-        
+
+
         public SubQuad Q1;
         public SubQuad Q2;
 
-        
+
         //中心点
         public Vector3 Center;
+
+        public Matrix4x4 transformMatrix;
 
         public Cell(SubQuad upQuad, SubQuad downQuad, List<SubEdge> edges)
         {
@@ -86,6 +87,44 @@ namespace HexagonalGrids
         public bool Contains(Vertex vertex)
         {
             return (vertex == V1 || vertex == V2 || vertex == V3 || vertex == V4 || vertex == V5 || vertex == V6 || vertex == V7 || vertex == V8);
+        }
+
+        public bool Contains(SubEdge edge)
+        {
+            return (edge == E1 || edge == E2 || edge == E3 || edge == E4 || edge == E5 || edge == E6 || edge == E7 || edge == E8 || edge == E9 || edge == E10 || edge == E11 || edge == E12);
+        }
+
+        public void BuildTransformMatrix()
+        {
+            // 计算基向量
+            // 前方向：前面四个点的中心减去整个Cell的中心
+            Vector3 frontCenter = (V1.position + V2.position + V5.position + V6.position) / 4f;
+            Vector3 forward = (frontCenter - Center).normalized;
+
+            // 上方向：上下表面中心点差值
+            Vector3 topCenter = Q1.center;
+            Vector3 bottomCenter = Q2.center;
+            Vector3 up = (topCenter - bottomCenter).normalized;
+     
+            // 计算右方向（确保正交性）
+            Vector3 right = Vector3.Cross(up, forward).normalized;
+
+            // 重新正交化上方向（确保三个轴互相垂直）
+            up = Vector3.Cross(forward, right).normalized;
+
+            // 构建4x4变换矩阵
+            Matrix4x4 matrix = new Matrix4x4();
+
+            // 设置旋转部分（局部坐标轴在世界空间中的方向）
+            matrix.SetColumn(0, new Vector4(right.x, right.y, right.z, 0));       // X轴
+            matrix.SetColumn(1, new Vector4(up.x, up.y, up.z, 0));                // Y轴
+            matrix.SetColumn(2, new Vector4(forward.x, forward.y, forward.z, 0)); // Z轴
+
+            // 设置平移部分（原点位置）
+            matrix.SetColumn(3, new Vector4(Center.x, Center.y, Center.z, 1));
+
+            // 返回世界空间->局部空间的变换矩阵
+            transformMatrix = matrix;
         }
     }
 }
