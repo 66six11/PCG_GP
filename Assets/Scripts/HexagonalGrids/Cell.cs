@@ -45,6 +45,9 @@ namespace HexagonalGrids
         public Vector3 Center;
 
         public Matrix4x4 transformMatrix;
+        public Vector3 translation;
+        public Quaternion rotation;
+        public Vector3 scale;
 
         public Cell(SubQuad upQuad, SubQuad downQuad, List<SubEdge> edges)
         {
@@ -100,7 +103,7 @@ namespace HexagonalGrids
             if (vertices == null || vertices.Length != 8)
                 throw new InvalidOperationException("顶点数组必须包含8个元素");
             byte state = 0; // 00000000
-            
+
             for (var i = 0; i < 8; i++)
             {
                 if (vertices[i].IsEnabled)
@@ -142,7 +145,44 @@ namespace HexagonalGrids
             matrix.SetColumn(3, new Vector4(Center.x, Center.y, Center.z, 1));
 
             // 返回世界空间->局部空间的变换矩阵
-            transformMatrix = matrix;
+            transformMatrix = matrix.inverse;
+            
+            SplitTransformMatrix();
+        }
+
+        //拆分 旋转 缩放 平移
+        private void SplitTransformMatrix()
+        {
+            // 1. 提取平移分量（直接取最后一列）
+             translation = transformMatrix.GetColumn(3);
+
+            // 2. 提取缩放分量（计算各轴向量长度）
+            
+            scale.x = transformMatrix.GetColumn(0).magnitude; // X轴缩放
+            scale.y = transformMatrix.GetColumn(1).magnitude; // Y轴缩放
+            scale.z = transformMatrix.GetColumn(2).magnitude; // Z轴缩放
+
+            // 3. 提取旋转分量（创建归一化的旋转矩阵）
+            Matrix4x4 rotationMatrix = new Matrix4x4();
+
+            // 归一化各轴向量
+            Vector3 xAxis = transformMatrix.GetColumn(0) / scale.x;
+            Vector3 yAxis = transformMatrix.GetColumn(1) / scale.y;
+            Vector3 zAxis = transformMatrix.GetColumn(2) / scale.z;
+
+            // 设置旋转矩阵
+            rotationMatrix.SetColumn(0, new Vector4(xAxis.x, xAxis.y, xAxis.z, 0));
+            rotationMatrix.SetColumn(1, new Vector4(yAxis.x, yAxis.y, yAxis.z, 0));
+            rotationMatrix.SetColumn(2, new Vector4(zAxis.x, zAxis.y, zAxis.z, 0));
+            rotationMatrix.SetColumn(3, new Vector4(0, 0, 0, 1));
+
+            // 将旋转矩阵转换为四元数
+             rotation = rotationMatrix.rotation;
+
+            
+            // translation：位置偏移（Vector3）
+            // rotation：旋转（Quaternion）
+            // scale：缩放（Vector3）
         }
     }
 }

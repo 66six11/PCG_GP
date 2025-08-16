@@ -123,7 +123,7 @@ namespace Tests
             Cell cell = CreateCellWithVertices(asymmetricVertices);
             cell.BuildTransformMatrix();
 
-            Vector3 matrixCenter = cell.transformMatrix.GetColumn(3);
+            Vector3 matrixCenter = cell.transformMatrix.inverse.GetColumn(3);
             Vector3 expectedCenter = CalculateExpectedCenter(asymmetricVertices);
 
             // 验证中心点精度
@@ -181,7 +181,7 @@ namespace Tests
 
             Vector3 localPoint = new Vector3(0, 0, 0);
             Vector3 worldPoint = cell.Center;
-            Vector3 expectedWorldPoint = cell.transformMatrix.MultiplyPoint(localPoint);
+            Vector3 expectedWorldPoint = cell.transformMatrix.inverse.MultiplyPoint(localPoint);
 
 
             // 验证转换精度
@@ -205,15 +205,73 @@ namespace Tests
             //字节顺序是从右到左
             byte expectByte = 0b00110011;
             byte cellByte = cell.GetCellByte();
-            
+
             Assert.AreEqual(expectByte, cellByte, 1e-5f, $"顶点状态错误,期望值{ByteToBinaryString1(expectByte)},实际值{ByteToBinaryString1(cellByte)}");
-           
         }
+
+        //验证旋转 缩放 平移
+        [Test]
+        public void TestTransform()
+        {
+            Cell cell = CreateCellWithVertices(asymmetricVertices);
+            cell.BuildTransformMatrix();
+
+            // 获取局部到世界的变换矩阵（逆矩阵）
+            Matrix4x4 localToWorld = cell.transformMatrix.inverse;
+
+            // 测试X轴方向向量
+            Vector3 localX = new Vector3(1, 0, 0);
+
+            // 1. 先缩放
+            Vector3 scaledX = new Vector3(
+                localX.x * cell.scale.x,
+                localX.y * cell.scale.y,
+                localX.z * cell.scale.z
+            );
+
+            // 2. 再旋转
+            Vector3 rotatedScaledX = cell.rotation * scaledX;
+
+            // 3. 对于方向向量，不应该应用平移！
+            // 获取矩阵的X轴列（方向向量）
+            Vector4 matrixX = localToWorld.GetColumn(0);
+            Vector3 matrixXVec = new Vector3(matrixX.x, matrixX.y, matrixX.z);
+
+            // 比较结果（使用容差比较）
+            Assert.IsTrue(Vector3.Distance(rotatedScaledX, matrixXVec) < 0.001f,
+                "X轴方向不匹配");
+
+            // 测试原点位置
+            Vector3 localOrigin = Vector3.zero;
+
+            // 1. 先缩放
+            Vector3 scaledOrigin = new Vector3(
+                localOrigin.x * cell.scale.x,
+                localOrigin.y * cell.scale.y,
+                localOrigin.z * cell.scale.z
+            );
+
+            // 2. 再旋转
+            Vector3 rotatedScaledOrigin = cell.rotation * scaledOrigin;
+
+            // 3. 最后平移
+            Vector3 worldOrigin = rotatedScaledOrigin + cell.translation;
+
+            // 获取矩阵的平移部分（最后一列）
+            Vector4 matrixTranslation = localToWorld.GetColumn(3);
+            Vector3 matrixTranslationVec = new Vector3(-matrixTranslation.x, -matrixTranslation.y, -matrixTranslation.z);
+
+            // 比较结果
+            Assert.IsTrue(Vector3.Distance(worldOrigin, matrixTranslationVec) < 0.001f,
+                $"原点位置不匹配 {worldOrigin} vs {matrixTranslationVec}");
+        }
+
         // 辅助方法：字节转二进制字符串
-        public static string ByteToBinaryString1(byte value)
+        private static string ByteToBinaryString1(byte value)
         {
             return Convert.ToString(value, 2).PadLeft(8, '0');
         }
+
         // 辅助方法：测试变换一致性
         private void TestTransformConsistency(Cell cell, Vector3 worldPoint)
         {
