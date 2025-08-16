@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace HexagonalGrids
 {
+    [Serializable]
     public class Cell
     {
         //从上到下顺时针的八个个顶点
@@ -15,9 +16,23 @@ namespace HexagonalGrids
         public Vertex V6;
         public Vertex V7;
         public Vertex V8;
+        
+        public Vector3 localV1;
+        public Vector3 localV2;
+        public Vector3 localV3;
+        public Vector3 localV4;
+        public Vector3 localV5;
+        public Vector3 localV6;
+        public Vector3 localV7;
+        public Vector3 localV8;
 
+        //8个顶点
         public Vertex[] vertices;
+        //8个本地顶点
+        public Vector3[] localVertices;
 
+        
+        
         //12个边
         public SubEdge E1;
         public SubEdge E2;
@@ -33,7 +48,8 @@ namespace HexagonalGrids
         public SubEdge E12;
 
         public SubEdge[] edges;
-
+        
+        [System.NonSerialized]
         public List<Cell> neighbours = new List<Cell>();
 
 
@@ -86,6 +102,8 @@ namespace HexagonalGrids
 
 
             Center = (V1.position + V2.position + V3.position + V4.position + V5.position + V6.position + V7.position + V8.position) / 8;
+            
+            BuildTransformMatrix();
         }
 
         public bool Contains(Vertex vertex)
@@ -148,6 +166,8 @@ namespace HexagonalGrids
             transformMatrix = matrix.inverse;
             
             SplitTransformMatrix();
+            
+            SetLocalVertices();
         }
 
         //拆分 旋转 缩放 平移
@@ -161,28 +181,29 @@ namespace HexagonalGrids
             scale.x = transformMatrix.GetColumn(0).magnitude; // X轴缩放
             scale.y = transformMatrix.GetColumn(1).magnitude; // Y轴缩放
             scale.z = transformMatrix.GetColumn(2).magnitude; // Z轴缩放
-
-            // 3. 提取旋转分量（创建归一化的旋转矩阵）
-            Matrix4x4 rotationMatrix = new Matrix4x4();
-
-            // 归一化各轴向量
-            Vector3 xAxis = transformMatrix.GetColumn(0) / scale.x;
-            Vector3 yAxis = transformMatrix.GetColumn(1) / scale.y;
-            Vector3 zAxis = transformMatrix.GetColumn(2) / scale.z;
-
-            // 设置旋转矩阵
-            rotationMatrix.SetColumn(0, new Vector4(xAxis.x, xAxis.y, xAxis.z, 0));
-            rotationMatrix.SetColumn(1, new Vector4(yAxis.x, yAxis.y, yAxis.z, 0));
-            rotationMatrix.SetColumn(2, new Vector4(zAxis.x, zAxis.y, zAxis.z, 0));
-            rotationMatrix.SetColumn(3, new Vector4(0, 0, 0, 1));
-
+            
             // 将旋转矩阵转换为四元数
-             rotation = rotationMatrix.rotation;
+             rotation = transformMatrix.rotation;
+             //这里是从世界坐标系到本地坐标系的变换，所以需要取它的反向
+             rotation = Quaternion.Inverse(rotation);
 
             
             // translation：位置偏移（Vector3）
             // rotation：旋转（Quaternion）
             // scale：缩放（Vector3）
+        }
+
+        private void SetLocalVertices()
+        {
+            localV1 = transformMatrix.MultiplyPoint3x4(V1.position);
+            localV2 = transformMatrix.MultiplyPoint3x4(V2.position);
+            localV3 = transformMatrix.MultiplyPoint3x4(V3.position);
+            localV4 = transformMatrix.MultiplyPoint3x4(V4.position);
+            localV5 = transformMatrix.MultiplyPoint3x4(V5.position);
+            localV6 = transformMatrix.MultiplyPoint3x4(V6.position);
+            localV7 = transformMatrix.MultiplyPoint3x4(V7.position);
+            localV8 = transformMatrix.MultiplyPoint3x4(V8.position);
+            localVertices = new Vector3[] { localV1, localV2, localV3, localV4, localV5, localV6, localV7, localV8 };
         }
     }
 }

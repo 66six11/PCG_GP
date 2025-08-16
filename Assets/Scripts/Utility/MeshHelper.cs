@@ -1,17 +1,15 @@
-
 using UnityEngine;
 using Job;
 
 namespace Utility
 {
-    
     public static class MeshHelper
     {
+        public static Mesh FlipXMesh(Mesh mesh) => MeshModifyJob.FlipMeshWithJob(mesh, FlipAxis.X);
+        public static Mesh FlipYMesh(Mesh mesh) => MeshModifyJob.FlipMeshWithJob(mesh, FlipAxis.Y);
+        public static Mesh FlipZMesh(Mesh mesh) => MeshModifyJob.FlipMeshWithJob(mesh, FlipAxis.Z);
 
-
-        public static Mesh FlipXMesh(Mesh mesh) => MeshModifyJob.FlipMeshWithNativeArray(mesh, FlipAxis.X);
-        public static Mesh FlipYMesh(Mesh mesh) => MeshModifyJob.FlipMeshWithNativeArray(mesh, FlipAxis.Y);
-        public static Mesh FlipZMesh(Mesh mesh) => MeshModifyJob.FlipMeshWithNativeArray(mesh, FlipAxis.Z);
+        public static Mesh TransformMesh(this Mesh mesh, Vector3 a, Vector3 b, Vector3 c, Vector3 d, float height) => MeshModifyJob.TransformMeshJob(mesh, a, b, c, d, height);
 
         //反转三角面
         // 反转三角面顺序（改变法线方向）

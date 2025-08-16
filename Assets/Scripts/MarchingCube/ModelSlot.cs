@@ -86,15 +86,15 @@ namespace MarchingCube
 
         private void OnValidate()
         {
-            meshFilter.mesh = mesh;
-            if (meshFilter != null && meshFilter.sharedMesh != null)
-            {
-                ExtractVertexStateFromMeshName();
-            }
-            else
-            {
-                Debug.LogWarning("MeshFilter或Mesh未设置");
-            }
+            // meshFilter.mesh = mesh;
+            // if (meshFilter != null && meshFilter.sharedMesh != null)
+            // {
+            //     ExtractVertexStateFromMeshName();
+            // }
+            // else
+            // {
+            //     Debug.LogWarning("MeshFilter或Mesh未设置");
+            // }
         }
     }
 }

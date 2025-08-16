@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Utility;
@@ -6,10 +7,11 @@ using Utility.RefCopy;
 
 namespace HexagonalGrids
 {
+    [Serializable]
     public class Vertex : ICopyable<Vertex>
     {
         public int id { get; set; } = RefIDGenerator.ID;
-        public Vector3 position { get; set; }
+        public Vector3 position;
         public float x => this.position.x;
         public float y => this.position.y;
         public float z => this.position.z;
