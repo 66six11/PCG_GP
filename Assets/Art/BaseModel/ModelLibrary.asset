@@ -1,0 +1,1256 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d34bf2e0013445f49c6fd5da4883e72b, type: 3}
+  m_Name: ModelLibrary
+  m_EditorClassIdentifier: 
+  originalMesh:
+  - stateCode: 0
+    stateCodeString: 00000000
+    mesh: {fileID: -2587831608436556187, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 1
+    stateCodeString: 10000000
+    mesh: {fileID: -5182802447311940107, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 3
+    stateCodeString: 11000000
+    mesh: {fileID: 3433290138864715535, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 5
+    stateCodeString: 10100000
+    mesh: {fileID: 3652623443175046507, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 7
+    stateCodeString: 11100000
+    mesh: {fileID: 5125390958579250829, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 15
+    stateCodeString: 11110000
+    mesh: {fileID: -3099438441081546888, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 16
+    stateCodeString: 00001000
+    mesh: {fileID: -5865321704980564169, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 17
+    stateCodeString: 10001000
+    mesh: {fileID: 5021636554262039782, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 19
+    stateCodeString: 11001000
+    mesh: {fileID: 5389888826193938311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 20
+    stateCodeString: 00101000
+    mesh: {fileID: -2956015680772016743, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 21
+    stateCodeString: 10101000
+    mesh: {fileID: 7324887958991206566, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 23
+    stateCodeString: 11101000
+    mesh: {fileID: 2651123403864268671, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 24
+    stateCodeString: 00011000
+    mesh: {fileID: 3432221453214876106, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 26
+    stateCodeString: 01011000
+    mesh: {fileID: 6288988034736678571, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 27
+    stateCodeString: 11011000
+    mesh: {fileID: -805820894927463255, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 28
+    stateCodeString: 00111000
+    mesh: {fileID: 148801094712772190, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 30
+    stateCodeString: 01111000
+    mesh: {fileID: 3525503355038343427, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 31
+    stateCodeString: 11111000
+    mesh: {fileID: -7595433415678935818, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 48
+    stateCodeString: 00001100
+    mesh: {fileID: 2838859743954639239, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 49
+    stateCodeString: 10001100
+    mesh: {fileID: -8224317636774715836, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 51
+    stateCodeString: 11001100
+    mesh: {fileID: 1739748751404590433, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 52
+    stateCodeString: 00101100
+    mesh: {fileID: -750784533608047474, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 53
+    stateCodeString: 10101100
+    mesh: {fileID: -2298255370342943198, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 57
+    stateCodeString: 10011100
+    mesh: {fileID: 2329043801315643738, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 59
+    stateCodeString: 11011100
+    mesh: {fileID: -6272518776398594371, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 60
+    stateCodeString: 00111100
+    mesh: {fileID: -5022634681706668862, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 61
+    stateCodeString: 10111100
+    mesh: {fileID: 7778103759495924311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 63
+    stateCodeString: 11111100
+    mesh: {fileID: -5518652005605173724, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 80
+    stateCodeString: 00001010
+    mesh: {fileID: -5496818553703928214, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 82
+    stateCodeString: 01001010
+    mesh: {fileID: -4054890549546195738, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 83
+    stateCodeString: 11001010
+    mesh: {fileID: -8933200006708400938, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 84
+    stateCodeString: 00101010
+    mesh: {fileID: -6597365693060370978, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 85
+    stateCodeString: 10101010
+    mesh: {fileID: 1529614466672346501, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 87
+    stateCodeString: 11101010
+    mesh: {fileID: 8186645624575777235, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 90
+    stateCodeString: 01011010
+    mesh: {fileID: 2552429305956064539, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 91
+    stateCodeString: 11011010
+    mesh: {fileID: -9079855389193814735, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 95
+    stateCodeString: 11111010
+    mesh: {fileID: -2948041348449068844, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 112
+    stateCodeString: 00001110
+    mesh: {fileID: -5587543822447280497, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 114
+    stateCodeString: 01001110
+    mesh: {fileID: 6613841328121922568, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 115
+    stateCodeString: 11001110
+    mesh: {fileID: -8506245608932427025, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 116
+    stateCodeString: 00101110
+    mesh: {fileID: -3353077781810829477, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 117
+    stateCodeString: 10101110
+    mesh: {fileID: -9156201046165195311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 119
+    stateCodeString: 11101110
+    mesh: {fileID: -8666248557287699311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 120
+    stateCodeString: 00011110
+    mesh: {fileID: -9106124462558791055, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 121
+    stateCodeString: 10011110
+    mesh: {fileID: -8537694162224511645, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 122
+    stateCodeString: 01011110
+    mesh: {fileID: 4289144570431121727, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 123
+    stateCodeString: 11011110
+    mesh: {fileID: -1989898380659856398, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 125
+    stateCodeString: 10111110
+    mesh: {fileID: 7242887069059940260, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 127
+    stateCodeString: 11111110
+    mesh: {fileID: 4086800171925434214, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 240
+    stateCodeString: 00001111
+    mesh: {fileID: 6829263949468404645, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 241
+    stateCodeString: 10001111
+    mesh: {fileID: -7904273787356389956, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 243
+    stateCodeString: 11001111
+    mesh: {fileID: 7494786333334029195, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 245
+    stateCodeString: 10101111
+    mesh: {fileID: -6969162859538102332, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 247
+    stateCodeString: 11101111
+    mesh: {fileID: -8176144856010062885, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  mesh:
+  - stateCode: 0
+    stateCodeString: 00000000
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 1
+    stateCodeString: 10000000
+    mesh: {fileID: -5182802447311940107, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 2
+    stateCodeString: 01000000
+    mesh: {fileID: -5182802447311940107, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 3
+    stateCodeString: 11000000
+    mesh: {fileID: 3433290138864715535, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 4
+    stateCodeString: 00100000
+    mesh: {fileID: -5182802447311940107, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 5
+    stateCodeString: 10100000
+    mesh: {fileID: 3652623443175046507, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 6
+    stateCodeString: 01100000
+    mesh: {fileID: 3433290138864715535, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 7
+    stateCodeString: 11100000
+    mesh: {fileID: 5125390958579250829, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 8
+    stateCodeString: 00010000
+    mesh: {fileID: -5182802447311940107, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 9
+    stateCodeString: 10010000
+    mesh: {fileID: 3433290138864715535, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 10
+    stateCodeString: 01010000
+    mesh: {fileID: 3652623443175046507, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 11
+    stateCodeString: 11010000
+    mesh: {fileID: 5125390958579250829, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 12
+    stateCodeString: 00110000
+    mesh: {fileID: 3433290138864715535, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 13
+    stateCodeString: 10110000
+    mesh: {fileID: 5125390958579250829, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 14
+    stateCodeString: 01110000
+    mesh: {fileID: 5125390958579250829, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 15
+    stateCodeString: 11110000
+    mesh: {fileID: -3099438441081546888, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 16
+    stateCodeString: 00001000
+    mesh: {fileID: -5865321704980564169, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 17
+    stateCodeString: 10001000
+    mesh: {fileID: 5021636554262039782, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 18
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0.70710677, z: -0, w: 0.70710677}
+  - stateCode: 19
+    stateCodeString: 11001000
+    mesh: {fileID: 5389888826193938311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 20
+    stateCodeString: 00101000
+    mesh: {fileID: -2956015680772016743, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 21
+    stateCodeString: 10101000
+    mesh: {fileID: 7324887958991206566, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 22
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0.70710677, z: -0, w: 0.70710677}
+  - stateCode: 23
+    stateCodeString: 11101000
+    mesh: {fileID: 2651123403864268671, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 24
+    stateCodeString: 00011000
+    mesh: {fileID: 3432221453214876106, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 25
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0.70710677, z: -0, w: 0.70710677}
+  - stateCode: 26
+    stateCodeString: 01011000
+    mesh: {fileID: 6288988034736678571, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 27
+    stateCodeString: 11011000
+    mesh: {fileID: -805820894927463255, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 28
+    stateCodeString: 00111000
+    mesh: {fileID: 148801094712772190, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 29
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0.70710677, z: -0, w: 0.70710677}
+  - stateCode: 30
+    stateCodeString: 01111000
+    mesh: {fileID: 3525503355038343427, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 31
+    stateCodeString: 11111000
+    mesh: {fileID: -7595433415678935818, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 32
+    stateCodeString: 00000100
+    mesh: {fileID: -5865321704980564169, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 33
+    stateCodeString: 10000100
+    mesh: {fileID: 3432221453214876106, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 34
+    stateCodeString: 01000100
+    mesh: {fileID: 5021636554262039782, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 35
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - stateCode: 36
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - stateCode: 37
+    stateCodeString: 10100100
+    mesh: {fileID: 6288988034736678571, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 38
+    stateCodeString: 01100100
+    mesh: {fileID: 5389888826193938311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 39
+    stateCodeString: 11100100
+    mesh: {fileID: -805820894927463255, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 40
+    stateCodeString: 00010100
+    mesh: {fileID: -2956015680772016743, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 41
+    stateCodeString: 10010100
+    mesh: {fileID: 148801094712772190, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 42
+    stateCodeString: 01010100
+    mesh: {fileID: 7324887958991206566, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 43
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - stateCode: 44
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - stateCode: 45
+    stateCodeString: 10110100
+    mesh: {fileID: 3525503355038343427, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 46
+    stateCodeString: 01110100
+    mesh: {fileID: 2651123403864268671, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 47
+    stateCodeString: 11110100
+    mesh: {fileID: -7595433415678935818, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 48
+    stateCodeString: 00001100
+    mesh: {fileID: 2838859743954639239, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 49
+    stateCodeString: 10001100
+    mesh: {fileID: -8224317636774715836, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 50
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - stateCode: 51
+    stateCodeString: 11001100
+    mesh: {fileID: 1739748751404590433, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 52
+    stateCodeString: 00101100
+    mesh: {fileID: -750784533608047474, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 53
+    stateCodeString: 10101100
+    mesh: {fileID: -2298255370342943198, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 54
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - stateCode: 55
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - stateCode: 56
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - stateCode: 57
+    stateCodeString: 10011100
+    mesh: {fileID: 2329043801315643738, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 58
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - stateCode: 59
+    stateCodeString: 11011100
+    mesh: {fileID: -6272518776398594371, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 60
+    stateCodeString: 00111100
+    mesh: {fileID: -5022634681706668862, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 61
+    stateCodeString: 10111100
+    mesh: {fileID: 7778103759495924311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 62
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - stateCode: 63
+    stateCodeString: 11111100
+    mesh: {fileID: -5518652005605173724, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 64
+    stateCodeString: 00000010
+    mesh: {fileID: -5865321704980564169, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 65
+    stateCodeString: 10000010
+    mesh: {fileID: -2956015680772016743, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 66
+    stateCodeString: 01000010
+    mesh: {fileID: 3432221453214876106, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 67
+    stateCodeString: 11000010
+    mesh: {fileID: 148801094712772190, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 68
+    stateCodeString: 00100010
+    mesh: {fileID: 5021636554262039782, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 69
+    stateCodeString: 10100010
+    mesh: {fileID: 7324887958991206566, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 70
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 71
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 72
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 73
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 74
+    stateCodeString: 01010010
+    mesh: {fileID: 6288988034736678571, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 75
+    stateCodeString: 11010010
+    mesh: {fileID: 3525503355038343427, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 76
+    stateCodeString: 00110010
+    mesh: {fileID: 5389888826193938311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 77
+    stateCodeString: 10110010
+    mesh: {fileID: 2651123403864268671, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 78
+    stateCodeString: 01110010
+    mesh: {fileID: -805820894927463255, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 79
+    stateCodeString: 11110010
+    mesh: {fileID: -7595433415678935818, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 80
+    stateCodeString: 00001010
+    mesh: {fileID: -5496818553703928214, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 81
+    stateCodeString: 10001010
+    mesh: {fileID: -6597365693060370978, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 82
+    stateCodeString: 01001010
+    mesh: {fileID: -4054890549546195738, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 83
+    stateCodeString: 11001010
+    mesh: {fileID: -8933200006708400938, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 84
+    stateCodeString: 00101010
+    mesh: {fileID: -6597365693060370978, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 85
+    stateCodeString: 10101010
+    mesh: {fileID: 1529614466672346501, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 86
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0.70710677, z: -0, w: -0.70710677}
+  - stateCode: 87
+    stateCodeString: 11101010
+    mesh: {fileID: 8186645624575777235, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 88
+    stateCodeString: 00011010
+    mesh: {fileID: -4054890549546195738, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 89
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 90
+    stateCodeString: 01011010
+    mesh: {fileID: 2552429305956064539, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 91
+    stateCodeString: 11011010
+    mesh: {fileID: -9079855389193814735, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 92
+    stateCodeString: 00111010
+    mesh: {fileID: -8933200006708400938, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 93
+    stateCodeString: 10111010
+    mesh: {fileID: 8186645624575777235, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 94
+    stateCodeString: 01111010
+    mesh: {fileID: -9079855389193814735, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 95
+    stateCodeString: 11111010
+    mesh: {fileID: -2948041348449068844, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 96
+    stateCodeString: 00000110
+    mesh: {fileID: 2838859743954639239, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 97
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0.70710677, z: -0, w: -0.70710677}
+  - stateCode: 98
+    stateCodeString: 01000110
+    mesh: {fileID: -8224317636774715836, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 99
+    stateCodeString: 11000110
+    mesh: {fileID: 2329043801315643738, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 100
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0.70710677, z: -0, w: -0.70710677}
+  - stateCode: 101
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0.70710677, z: -0, w: -0.70710677}
+  - stateCode: 102
+    stateCodeString: 01100110
+    mesh: {fileID: 1739748751404590433, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 103
+    stateCodeString: 11100110
+    mesh: {fileID: -6272518776398594371, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 104
+    stateCodeString: 00010110
+    mesh: {fileID: -750784533608047474, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 105
+    stateCodeString: 10010110
+    mesh: {fileID: -5022634681706668862, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 106
+    stateCodeString: 01010110
+    mesh: {fileID: -2298255370342943198, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 107
+    stateCodeString: 11010110
+    mesh: {fileID: 7778103759495924311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 108
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0.70710677, z: -0, w: -0.70710677}
+  - stateCode: 109
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0.70710677, z: -0, w: -0.70710677}
+  - stateCode: 110
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0.70710677, z: -0, w: -0.70710677}
+  - stateCode: 111
+    stateCodeString: 11110110
+    mesh: {fileID: -5518652005605173724, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 112
+    stateCodeString: 00001110
+    mesh: {fileID: -5587543822447280497, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 113
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0.70710677, z: -0, w: -0.70710677}
+  - stateCode: 114
+    stateCodeString: 01001110
+    mesh: {fileID: 6613841328121922568, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 115
+    stateCodeString: 11001110
+    mesh: {fileID: -8506245608932427025, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 116
+    stateCodeString: 00101110
+    mesh: {fileID: -3353077781810829477, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 117
+    stateCodeString: 10101110
+    mesh: {fileID: -9156201046165195311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 118
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0.70710677, z: -0, w: -0.70710677}
+  - stateCode: 119
+    stateCodeString: 11101110
+    mesh: {fileID: -8666248557287699311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 120
+    stateCodeString: 00011110
+    mesh: {fileID: -9106124462558791055, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 121
+    stateCodeString: 10011110
+    mesh: {fileID: -8537694162224511645, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 122
+    stateCodeString: 01011110
+    mesh: {fileID: 4289144570431121727, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 123
+    stateCodeString: 11011110
+    mesh: {fileID: -1989898380659856398, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 124
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0.70710677, z: -0, w: -0.70710677}
+  - stateCode: 125
+    stateCodeString: 10111110
+    mesh: {fileID: 7242887069059940260, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 126
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0.70710677, z: -0, w: -0.70710677}
+  - stateCode: 127
+    stateCodeString: 11111110
+    mesh: {fileID: 4086800171925434214, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 128
+    stateCodeString: 00000001
+    mesh: {fileID: -5865321704980564169, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 129
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 130
+    stateCodeString: 01000001
+    mesh: {fileID: -2956015680772016743, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 131
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 132
+    stateCodeString: 00100001
+    mesh: {fileID: 3432221453214876106, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 133
+    stateCodeString: 10100001
+    mesh: {fileID: 6288988034736678571, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 134
+    stateCodeString: 01100001
+    mesh: {fileID: 148801094712772190, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 135
+    stateCodeString: 11100001
+    mesh: {fileID: 3525503355038343427, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 136
+    stateCodeString: 00010001
+    mesh: {fileID: 5021636554262039782, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 137
+    stateCodeString: 10010001
+    mesh: {fileID: 5389888826193938311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 138
+    stateCodeString: 01010001
+    mesh: {fileID: 7324887958991206566, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 139
+    stateCodeString: 11010001
+    mesh: {fileID: 2651123403864268671, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 140
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 141
+    stateCodeString: 10110001
+    mesh: {fileID: -805820894927463255, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 142
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 143
+    stateCodeString: 11110001
+    mesh: {fileID: -7595433415678935818, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 144
+    stateCodeString: 00001001
+    mesh: {fileID: 2838859743954639239, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 145
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 146
+    stateCodeString: 01001001
+    mesh: {fileID: -750784533608047474, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 147
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 148
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 149
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 150
+    stateCodeString: 01101001
+    mesh: {fileID: -5022634681706668862, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 151
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 152
+    stateCodeString: 00011001
+    mesh: {fileID: -8224317636774715836, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 153
+    stateCodeString: 10011001
+    mesh: {fileID: 1739748751404590433, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 154
+    stateCodeString: 01011001
+    mesh: {fileID: -2298255370342943198, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 155
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 156
+    stateCodeString: 00111001
+    mesh: {fileID: 2329043801315643738, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 157
+    stateCodeString: 10111001
+    mesh: {fileID: -6272518776398594371, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 158
+    stateCodeString: 01111001
+    mesh: {fileID: 7778103759495924311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 159
+    stateCodeString: 11111001
+    mesh: {fileID: -5518652005605173724, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 160
+    stateCodeString: 00000101
+    mesh: {fileID: -5496818553703928214, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 161
+    stateCodeString: 10000101
+    mesh: {fileID: -4054890549546195738, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 162
+    stateCodeString: 01000101
+    mesh: {fileID: -6597365693060370978, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 163
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - stateCode: 164
+    stateCodeString: 00100101
+    mesh: {fileID: -4054890549546195738, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 165
+    stateCodeString: 10100101
+    mesh: {fileID: 2552429305956064539, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 166
+    stateCodeString: 01100101
+    mesh: {fileID: -8933200006708400938, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 167
+    stateCodeString: 11100101
+    mesh: {fileID: -9079855389193814735, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 168
+    stateCodeString: 00010101
+    mesh: {fileID: -6597365693060370978, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 169
+    stateCodeString: 10010101
+    mesh: {fileID: -8933200006708400938, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 170
+    stateCodeString: 01010101
+    mesh: {fileID: 1529614466672346501, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 171
+    stateCodeString: 11010101
+    mesh: {fileID: 8186645624575777235, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 172
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 173
+    stateCodeString: 10110101
+    mesh: {fileID: -9079855389193814735, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 174
+    stateCodeString: 01110101
+    mesh: {fileID: 8186645624575777235, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 175
+    stateCodeString: 11110101
+    mesh: {fileID: -2948041348449068844, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 176
+    stateCodeString: 00001101
+    mesh: {fileID: -5587543822447280497, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 177
+    stateCodeString: 10001101
+    mesh: {fileID: 6613841328121922568, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 178
+    stateCodeString: 01001101
+    mesh: {fileID: -3353077781810829477, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 179
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - stateCode: 180
+    stateCodeString: 00101101
+    mesh: {fileID: -9106124462558791055, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 181
+    stateCodeString: 10101101
+    mesh: {fileID: 4289144570431121727, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 182
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - stateCode: 183
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - stateCode: 184
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - stateCode: 185
+    stateCodeString: 10011101
+    mesh: {fileID: -8506245608932427025, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 186
+    stateCodeString: 01011101
+    mesh: {fileID: -9156201046165195311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 187
+    stateCodeString: 11011101
+    mesh: {fileID: -8666248557287699311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 188
+    stateCodeString: 00111101
+    mesh: {fileID: -8537694162224511645, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 189
+    stateCodeString: 10111101
+    mesh: {fileID: -1989898380659856398, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 190
+    stateCodeString: 01111101
+    mesh: {fileID: 7242887069059940260, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 191
+    stateCodeString: 11111101
+    mesh: {fileID: 4086800171925434214, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 192
+    stateCodeString: 00000011
+    mesh: {fileID: 2838859743954639239, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 193
+    stateCodeString: 10000011
+    mesh: {fileID: -750784533608047474, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 194
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 195
+    stateCodeString: 11000011
+    mesh: {fileID: -5022634681706668862, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 196
+    stateCodeString: 00100011
+    mesh: {fileID: -8224317636774715836, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 197
+    stateCodeString: 10100011
+    mesh: {fileID: -2298255370342943198, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 198
+    stateCodeString: 01100011
+    mesh: {fileID: 2329043801315643738, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 199
+    stateCodeString: 11100011
+    mesh: {fileID: 7778103759495924311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 200
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 201
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 202
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 203
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 204
+    stateCodeString: 00110011
+    mesh: {fileID: 1739748751404590433, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 205
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 206
+    stateCodeString: 01110011
+    mesh: {fileID: -6272518776398594371, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 207
+    stateCodeString: 11110011
+    mesh: {fileID: -5518652005605173724, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 208
+    stateCodeString: 00001011
+    mesh: {fileID: -5587543822447280497, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 209
+    stateCodeString: 10001011
+    mesh: {fileID: -3353077781810829477, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 210
+    stateCodeString: 01001011
+    mesh: {fileID: -9106124462558791055, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 211
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 212
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 213
+    stateCodeString: 10101011
+    mesh: {fileID: -9156201046165195311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 214
+    stateCodeString: 01101011
+    mesh: {fileID: -8537694162224511645, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 215
+    stateCodeString: 11101011
+    mesh: {fileID: 7242887069059940260, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 216
+    stateCodeString: 00011011
+    mesh: {fileID: 6613841328121922568, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 217
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 218
+    stateCodeString: 01011011
+    mesh: {fileID: 4289144570431121727, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 219
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 220
+    stateCodeString: 00111011
+    mesh: {fileID: -8506245608932427025, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 221
+    stateCodeString: 10111011
+    mesh: {fileID: -8666248557287699311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 222
+    stateCodeString: 01111011
+    mesh: {fileID: -1989898380659856398, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 223
+    stateCodeString: 11111011
+    mesh: {fileID: 4086800171925434214, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 224
+    stateCodeString: 00000111
+    mesh: {fileID: -5587543822447280497, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 225
+    stateCodeString: 10000111
+    mesh: {fileID: -9106124462558791055, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 226
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 227
+    stateCodeString: 11000111
+    mesh: {fileID: -8537694162224511645, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 228
+    stateCodeString: 00100111
+    mesh: {fileID: 6613841328121922568, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 229
+    stateCodeString: 10100111
+    mesh: {fileID: 4289144570431121727, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 230
+    stateCodeString: 01100111
+    mesh: {fileID: -8506245608932427025, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 231
+    stateCodeString: 11100111
+    mesh: {fileID: -1989898380659856398, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 232
+    stateCodeString: 00010111
+    mesh: {fileID: -3353077781810829477, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 233
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 234
+    stateCodeString: 01010111
+    mesh: {fileID: -9156201046165195311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 235
+    stateCodeString: 11010111
+    mesh: {fileID: 7242887069059940260, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 236
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 237
+    stateCodeString: 
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 238
+    stateCodeString: 01110111
+    mesh: {fileID: -8666248557287699311, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 239
+    stateCodeString: 11110111
+    mesh: {fileID: 4086800171925434214, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 240
+    stateCodeString: 00001111
+    mesh: {fileID: 6829263949468404645, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 241
+    stateCodeString: 10001111
+    mesh: {fileID: -7904273787356389956, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 242
+    stateCodeString: 01001111
+    mesh: {fileID: -7904273787356389956, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 243
+    stateCodeString: 11001111
+    mesh: {fileID: 7494786333334029195, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 244
+    stateCodeString: 00101111
+    mesh: {fileID: -7904273787356389956, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 245
+    stateCodeString: 10101111
+    mesh: {fileID: -6969162859538102332, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 246
+    stateCodeString: 01101111
+    mesh: {fileID: 7494786333334029195, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 247
+    stateCodeString: 11101111
+    mesh: {fileID: -8176144856010062885, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  - stateCode: 248
+    stateCodeString: 00011111
+    mesh: {fileID: -7904273787356389956, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 249
+    stateCodeString: 10011111
+    mesh: {fileID: 7494786333334029195, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 250
+    stateCodeString: 01011111
+    mesh: {fileID: -6969162859538102332, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 251
+    stateCodeString: 11011111
+    mesh: {fileID: -8176144856010062885, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  - stateCode: 252
+    stateCodeString: 00111111
+    mesh: {fileID: 7494786333334029195, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 253
+    stateCodeString: 10111111
+    mesh: {fileID: -8176144856010062885, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - stateCode: 254
+    stateCodeString: 01111111
+    mesh: {fileID: -8176144856010062885, guid: 9a05aa6d0eb939b4890d29f5098f84cb, type: 3}
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  - stateCode: 255
+    stateCodeString: 11111111
+    mesh: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}

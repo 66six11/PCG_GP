@@ -248,6 +248,7 @@ namespace Job
             Mesh result = new Mesh();
 
             // 直接复制所有基础数据（避免深度序列化问题）
+            result.name = mesh.name;
             result.vertices = mesh.vertices;
             result.triangles = mesh.triangles;
             result.bounds = mesh.bounds;
@@ -282,10 +283,10 @@ namespace Job
                 height = height,
                 // 计算包围盒
 
-                minBounds = mesh.bounds.min,
-                maxBounds = mesh.bounds.max
+                minBounds = new Vector3(-0.5f, -0.5f, -0.5f),
+                maxBounds = new Vector3(0.5f, 0.5f, 0.5f)
             };
-          
+
             // 设置并执行Job
             var job = new MeshBilinearTransformJob
             {

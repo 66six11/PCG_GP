@@ -1,9 +1,28 @@
 using System;
+using System.Linq;
+using UnityEngine;
 
 namespace Utility
 {
     public static class ModelHelper
     {
+        public static byte GetMeshStateCode(Mesh mesh)
+        {
+            var meshName = mesh.name;
+            if (meshName.Length < 8)
+            {
+                Debug.LogError($"网格名称 '{meshName}' 长度不足8位");
+                throw new ArgumentException("网格名称长度不足8位,包含不了状态字符串");
+            }
+
+            // 提取状态字符串
+            var temp = meshName.Substring(meshName.Length - 8, 8);
+            
+            var result = ConvertStateStringToByte(temp);
+
+            return result;
+        }
+
         /// <summary>
         /// 将状态字符串转换为字节
         /// </summary>
@@ -98,36 +117,45 @@ namespace Utility
         /// <returns></returns>
         public static byte FlipZ(byte b)
         {
-             // 交换v1和v3
-             // 交换v2和v4
-             // 交换v5和v7
-             // 交换v6和v8
-             // 提取每一位的值
-             int bit0 = (b >> 0) & 1; // v1
-             int bit1 = (b >> 1) & 1; // v2
-             int bit2 = (b >> 2) & 1; // v3
-             int bit3 = (b >> 3) & 1; // v4
-             int bit4 = (b >> 4) & 1; // v5
-             int bit5 = (b >> 5) & 1; // v6
-             int bit6 = (b >> 6) & 1; // v7
-             int bit7 = (b >> 7) & 1; // v8
+            // 交换v1和v3
+            // 交换v2和v4
+            // 交换v5和v7
+            // 交换v6和v8
+            // 提取每一位的值
+            int bit0 = (b >> 0) & 1; // v1
+            int bit1 = (b >> 1) & 1; // v2
+            int bit2 = (b >> 2) & 1; // v3
+            int bit3 = (b >> 3) & 1; // v4
+            int bit4 = (b >> 4) & 1; // v5
+            int bit5 = (b >> 5) & 1; // v6
+            int bit6 = (b >> 6) & 1; // v7
+            int bit7 = (b >> 7) & 1; // v8
 
-             // 组合并返回结果
-             return (byte)(
-                 (bit2 << 0) | // v3 -> v1 位置
-                 (bit3 << 1) | // v4 -> v2 位置
-                 (bit0 << 2) | // v1 -> v3 位置
-                 (bit1 << 3) | // v2 -> v4 位置
-                 (bit6 << 4) | // v7 -> v5 位置
-                 (bit7 << 5) | // v8 -> v6 位置
-                 (bit4 << 6) | // v5 -> v7 位置
-                 (bit5 << 7)   // v6 -> v8 位置
-             );
+            // 组合并返回结果
+            return (byte)(
+                (bit2 << 0) | // v3 -> v1 位置
+                (bit3 << 1) | // v4 -> v2 位置
+                (bit0 << 2) | // v1 -> v3 位置
+                (bit1 << 3) | // v2 -> v4 位置
+                (bit6 << 4) | // v7 -> v5 位置
+                (bit7 << 5) | // v8 -> v6 位置
+                (bit4 << 6) | // v5 -> v7 位置
+                (bit5 << 7)   // v6 -> v8 位置
+            );
         }
 
         public static string Byte2String(byte b)
         {
             string result = Convert.ToString(b, 2).PadLeft(8, '0');
+            return result;
+        }
+
+        public static string Byte2State(byte b)
+        {
+            
+            string result = Convert.ToString(b, 2).PadLeft(8, '0');
+            //反向
+            result = new string(result.Reverse().ToArray());
             return result;
         }
     }

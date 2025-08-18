@@ -9,7 +9,6 @@ namespace MarchingCube
         public byte vertexStates;
         public MeshFilter meshFilter;
         public MeshRenderer meshRenderer;
-
         public Mesh mesh;
 
         // 初始化状态
