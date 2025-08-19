@@ -39,25 +39,15 @@ namespace HexagonalGrids.Test
         {
             if (modelLibrary == null) return;
             Debug.Log("获取状态" + ModelHelper.Byte2State(cell.GetCellByte()));
-            ModelInfo? model = modelLibrary.GetModel(cell.GetCellByte());
-            if (model == null)
-            {
-                Debug.Log("No model found for cell " + cell.GetCellByte());
-                return;
-            }
-
-            if (model.Value.mesh == null)
-            {
-                meshFilter.mesh = null;
-                return;
-            }
-
-            originalMesh = model.Value.mesh;
-            var rotation = model.Value.rotation;
-            finalMesh = originalMesh.TransformMesh(cell.localV1, cell.localV2, cell.localV3, cell.localV4, 1);
-            modelGo.transform.position = cell.Center;
-            modelGo.transform.rotation = cell.rotation * rotation;
-            meshFilter.mesh = finalMesh;
+            var model = new ModelBuilder()
+                        .SetLibrary(modelLibrary)
+                        .SetCell(cell)
+                        .SetMeshFilter(meshFilter);
+            
+            model.Build();
+            
+            
+            
         }
 
         [ContextMenu("Flip X Mesh")]
