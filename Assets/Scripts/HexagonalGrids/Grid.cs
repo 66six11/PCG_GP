@@ -60,7 +60,7 @@ namespace HexagonalGrids
             baseLayer = new GridLayer();
             Init();
         }
-
+        
 
         private void Init()
         {

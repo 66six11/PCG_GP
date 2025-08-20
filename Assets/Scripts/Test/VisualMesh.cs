@@ -39,15 +39,10 @@ namespace HexagonalGrids.Test
         {
             if (modelLibrary == null) return;
             Debug.Log("获取状态" + ModelHelper.Byte2State(cell.GetCellByte()));
-            var model = new ModelBuilder()
-                        .SetLibrary(modelLibrary)
-                        .SetCell(cell)
-                        .SetMeshFilter(meshFilter);
-            
+            var model = new ModelBuilder(modelLibrary, cell, meshFilter);
+                
+
             model.Build();
-            
-            
-            
         }
 
         [ContextMenu("Flip X Mesh")]
