@@ -12,10 +12,12 @@ namespace MarchingCube
     [CreateAssetMenu(fileName = "ModelLibrary", menuName = "MarchingCube/ModelLibrary")]
     public class ModelLibrary : ScriptableObject
     {
-        [SerializeField] public List<ModelInfo> originalMesh = new List<ModelInfo>();
-        [SerializeField] public List<ModelInfo> mesh = new List<ModelInfo>();
+        public List<ModelInfo> originalMesh = new List<ModelInfo>();
+        public List<ModelInfo> mesh = new List<ModelInfo>();
         public IReadOnlyList<ModelInfo> Meshes => mesh.AsReadOnly();
 
+        
+        
         public ModelInfo? GetModel(byte stateCode)
         {
             foreach (var model in Meshes)

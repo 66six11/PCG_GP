@@ -8,41 +8,34 @@ namespace MarchingCube
 {
     public class Model
     {
-        private ModelLibrary _modelLibrary;
-        private Cell _cell;
-        private Mesh _mesh;
+        //TODO: 材质未绑定
         private MeshFilter _meshFilter;
 
         public Model(ModelLibrary modelLibrary, Cell cell, MeshFilter meshFilter)
         {
-            _modelLibrary = modelLibrary;
-            _cell = cell;
+            Library = modelLibrary;
+            Cell = cell;
             _meshFilter = meshFilter;
         }
 
-        public ModelLibrary Library
+        public Model()
         {
-            get => _modelLibrary;
-            set => _modelLibrary = value;
         }
+        
+        public ModelLibrary Library { get; set; }
 
-        public Cell Cell
-        {
-            get => _cell;
-            set => _cell = value;
-        }
+        public Cell Cell { get; set; }
 
-        public Mesh Mesh
-        {
-            get => _mesh;
-            set => _mesh = value;
-        }
+        public Mesh Mesh { get; set; }
 
         public MeshFilter MeshFilter
         {
             get => _meshFilter;
             set => _meshFilter = value;
         }
+        public MeshRenderer MeshRenderer { get; set; }
+
+        public GameObject gameObject => _meshFilter.gameObject;
     }
 
     public class ModelBuilder
@@ -55,6 +48,16 @@ namespace MarchingCube
             _model = new Model(modelLibrary, cell, meshFilter);
         }
 
+        public ModelBuilder(Model model)
+        {
+            _model = model;
+        }
+
+        public ModelBuilder SetLibrary(ModelLibrary modelLibrary)
+        {
+            _model.Library = modelLibrary;
+            return this;
+        }
 
         public ModelBuilder SetCell(Cell cell)
         {
