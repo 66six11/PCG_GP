@@ -6,12 +6,12 @@ namespace SVO.Runtime.Visualization
     [RequireComponent(typeof(LineRenderer))]
     public class PathVisualizer : MonoBehaviour
     {
-        [Header("路径可视化")]
+        [Header("Path Visualization")]
         public Color pathColor = Color.green;
         public float pathWidth = 0.1f;
         public Material pathMaterial;
         
-        [Header("路径点可视化")]
+        [Header("Waypoint Visualization")]
         public bool showWaypoints = true;
         public GameObject waypointPrefab;
         public float waypointScale = 0.2f;
@@ -30,7 +30,7 @@ namespace SVO.Runtime.Visualization
         }
         
         /// <summary>
-        /// 为路径可视化设置线条渲染器
+        /// Setup the line renderer for path visualization
         /// </summary>
         private void SetupLineRenderer()
         {
@@ -46,7 +46,7 @@ namespace SVO.Runtime.Visualization
         }
         
         /// <summary>
-        /// 将路径显示为线条
+        /// Display a path as a line
         /// </summary>
         public void DisplayPath(List<Vector3> path)
         {
@@ -57,11 +57,11 @@ namespace SVO.Runtime.Visualization
                 
             currentPath = new List<Vector3>(path);
             
-            // 设置线条渲染器
+            // Setup line renderer
             lineRenderer.positionCount = path.Count;
             lineRenderer.SetPositions(path.ToArray());
             
-            // 如果启用，创建路径点对象
+            // Create waypoint objects if enabled
             if (showWaypoints)
             {
                 CreateWaypoints(path);
@@ -69,13 +69,13 @@ namespace SVO.Runtime.Visualization
         }
         
         /// <summary>
-        /// 沿路径创建路径点对象
+        /// Create waypoint objects along the path
         /// </summary>
         private void CreateWaypoints(List<Vector3> path)
         {
             if (waypointPrefab == null)
             {
-                // 如果未提供预制体，创建简单的球形路径点
+                // Create simple sphere waypoints if no prefab is provided
                 CreateSimpleWaypoints(path);
                 return;
             }
@@ -89,7 +89,7 @@ namespace SVO.Runtime.Visualization
         }
         
         /// <summary>
-        /// 创建简单的球形路径点
+        /// Create simple sphere waypoints
         /// </summary>
         private void CreateSimpleWaypoints(List<Vector3> path)
         {
@@ -100,17 +100,17 @@ namespace SVO.Runtime.Visualization
                 waypoint.transform.localScale = Vector3.one * waypointScale;
                 waypoint.transform.SetParent(transform);
                 
-                // 根据在路径中的位置设置颜色
+                // Set color based on position in path
                 Renderer renderer = waypoint.GetComponent<Renderer>();
                 if (renderer != null)
                 {
                     Material material = new Material(Shader.Find("Standard"));
                     if (i == 0)
-                        material.color = Color.green; // 起始点
+                        material.color = Color.green; // Start point
                     else if (i == path.Count - 1)
-                        material.color = Color.red; // 结束点
+                        material.color = Color.red; // End point
                     else
-                        material.color = pathColor; // 路径点
+                        material.color = pathColor; // Path points
                         
                     renderer.material = material;
                 }
@@ -120,17 +120,17 @@ namespace SVO.Runtime.Visualization
         }
         
         /// <summary>
-        /// 清除当前的路径可视化
+        /// Clear the current path visualization
         /// </summary>
         public void ClearPath()
         {
-            // 清除线条渲染器
+            // Clear line renderer
             if (lineRenderer != null)
             {
                 lineRenderer.positionCount = 0;
             }
             
-            // 销毁路径点对象
+            // Destroy waypoint objects
             foreach (GameObject waypoint in waypointObjects)
             {
                 if (waypoint != null)
@@ -143,7 +143,7 @@ namespace SVO.Runtime.Visualization
         }
         
         /// <summary>
-        /// 更新路径可视化设置
+        /// Update path visualization settings
         /// </summary>
         public void UpdateVisualization()
         {
@@ -155,7 +155,7 @@ namespace SVO.Runtime.Visualization
                 lineRenderer.material = pathMaterial;
             }
             
-            // 更新路径点可见性
+            // Update waypoint visibility
             foreach (GameObject waypoint in waypointObjects)
             {
                 if (waypoint != null)
@@ -167,7 +167,7 @@ namespace SVO.Runtime.Visualization
         }
         
         /// <summary>
-        /// 获取当前路径
+        /// Get the current path
         /// </summary>
         public List<Vector3> GetCurrentPath()
         {
@@ -175,7 +175,7 @@ namespace SVO.Runtime.Visualization
         }
         
         /// <summary>
-        /// 检查当前是否正在显示路径
+        /// Check if a path is currently being displayed
         /// </summary>
         public bool HasPath()
         {
