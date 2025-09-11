@@ -7,23 +7,24 @@ namespace SVO.Runtime.Demo
 {
     public class OctreePathfindingDemo : MonoBehaviour
     {
-        [Header("Demo Settings")]
+        [Header("演示设置")]
         public bool enableMouseInput = true;
         public LayerMask obstacleLayerMask = -1;
         public float obstacleDetectionRadius = 0.5f;
         
-        [Header("Pathfinding Settings")]
+        [Header("寻路设置")]
         public bool smoothPath = true;
         public bool showPathfindingDebug = false;
         
-        [Header("Visual Feedback")]
+        [Header("视觉反馈")]
         public GameObject startMarkerPrefab;
         public GameObject endMarkerPrefab;
         public GameObject obstacleMarkerPrefab;
         
-        [Header("References")]
+        [Header("引用")]
         public OctreeVisualizer octreeVisualizer;
         public PathVisualizer pathVisualizer;
+        public ObstacleManager obstacleManager;
         
         private Vector3? startPosition;
         private Vector3? endPosition;
@@ -34,10 +35,10 @@ namespace SVO.Runtime.Demo
         
         private enum InputMode
         {
-            SetStart,
-            SetEnd,
-            AddObstacle,
-            RemoveObstacle
+            SetStart,    // 设置起点
+            SetEnd,      // 设置终点
+            AddObstacle, // 添加障碍物
+            RemoveObstacle // 移除障碍物
         }
         private InputMode currentInputMode = InputMode.SetStart;
         
@@ -49,11 +50,13 @@ namespace SVO.Runtime.Demo
                 
             obstacleMarkers = new List<GameObject>();
             
-            // Initialize components if not assigned
+            // 初始化组件引用（如果未分配）
             if (octreeVisualizer == null)
                 octreeVisualizer = FindObjectOfType<OctreeVisualizer>();
             if (pathVisualizer == null)
                 pathVisualizer = FindObjectOfType<PathVisualizer>();
+            if (obstacleManager == null)
+                obstacleManager = FindObjectOfType<ObstacleManager>();
                 
             SetupInitialObstacles();
         }
@@ -69,7 +72,7 @@ namespace SVO.Runtime.Demo
         }
         
         /// <summary>
-        /// Handle mouse input for setting start/end points and obstacles
+        /// 处理设置起始/结束点和障碍物的鼠标输入
         /// </summary>
         private void HandleMouseInput()
         {
@@ -100,29 +103,29 @@ namespace SVO.Runtime.Demo
         }
         
         /// <summary>
-        /// Handle keyboard input for mode switching
+        /// 处理模式切换的键盘输入
         /// </summary>
         private void HandleKeyboardInput()
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 currentInputMode = InputMode.SetStart;
-                Debug.Log("Mode: Set Start Position");
+                Debug.Log("模式：设置起始位置");
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 currentInputMode = InputMode.SetEnd;
-                Debug.Log("Mode: Set End Position");
+                Debug.Log("模式：设置结束位置");
             }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 currentInputMode = InputMode.AddObstacle;
-                Debug.Log("Mode: Add Obstacle");
+                Debug.Log("模式：添加障碍物");
             }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 currentInputMode = InputMode.RemoveObstacle;
-                Debug.Log("Mode: Remove Obstacle");
+                Debug.Log("模式：移除障碍物");
             }
             else if (Input.GetKeyDown(KeyCode.Space))
             {
