@@ -142,7 +142,7 @@ namespace SVO.Runtime.Demo
         }
         
         /// <summary>
-        /// Get world position from mouse cursor
+        /// 从鼠标光标获取世界位置
         /// </summary>
         private Vector3? GetMouseWorldPosition()
         {
@@ -151,14 +151,14 @@ namespace SVO.Runtime.Demo
                 
             Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
             
-            // Raycast against a horizontal plane at y=0 or against existing geometry
+            // 对水平面（y=0）或现有几何体进行射线投射
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
                 return hit.point;
             }
             
-            // If no hit, project onto a plane at the octree center
+            // 如果没有命中，投射到八叉树中心的平面
             if (octreeVisualizer != null)
             {
                 Plane plane = new Plane(Vector3.up, octreeVisualizer.transform.position);
@@ -173,13 +173,13 @@ namespace SVO.Runtime.Demo
         }
         
         /// <summary>
-        /// Set the start position for pathfinding
+        /// 设置寻路的起始位置
         /// </summary>
         public void SetStartPosition(Vector3 position)
         {
             startPosition = position;
             
-            // Update start marker
+            // 更新起始标记
             if (startMarker != null)
                 DestroyImmediate(startMarker);
                 
@@ -192,17 +192,17 @@ namespace SVO.Runtime.Demo
                 startMarker = CreateSimpleMarker(position, Color.green);
             }
             
-            Debug.Log($"Start position set to: {position}");
+            Debug.Log($"起始位置设置为：{position}");
         }
         
         /// <summary>
-        /// Set the end position for pathfinding
+        /// 设置寻路的结束位置
         /// </summary>
         public void SetEndPosition(Vector3 position)
         {
             endPosition = position;
             
-            // Update end marker
+            // 更新结束标记
             if (endMarker != null)
                 DestroyImmediate(endMarker);
                 
@@ -215,18 +215,27 @@ namespace SVO.Runtime.Demo
                 endMarker = CreateSimpleMarker(position, Color.red);
             }
             
-            Debug.Log($"End position set to: {position}");
+            Debug.Log($"结束位置设置为：{position}");
         }
         
         /// <summary>
-        /// Add an obstacle at the specified position
+        /// 在指定位置添加障碍物
         /// </summary>
         public void AddObstacle(Vector3 position)
         {
-            if (octreeVisualizer != null)
+            bool success = false;
+            
+            // 优先使用障碍物管理器
+            if (obstacleManager != null)
+            {
+                success = obstacleManager.AddObstacle(position);
+            }
+            else if (octreeVisualizer != null)
             {
                 octreeVisualizer.SetNodeBlocked(position, true);
+                success = true;
                 
+                // 创建可视化标记
                 GameObject obstacleMarker;
                 if (obstacleMarkerPrefab != null)
                 {
@@ -238,20 +247,36 @@ namespace SVO.Runtime.Demo
                 }
                 
                 obstacleMarkers.Add(obstacleMarker);
-                Debug.Log($"Obstacle added at: {position}");
+            }
+            
+            if (success)
+            {
+                Debug.Log($"在位置 {position} 添加了障碍物");
+            }
+            else
+            {
+                Debug.LogWarning($"无法在位置 {position} 添加障碍物");
             }
         }
         
         /// <summary>
-        /// Remove obstacle at the specified position
+        /// 移除指定位置的障碍物
         /// </summary>
         public void RemoveObstacle(Vector3 position)
         {
-            if (octreeVisualizer != null)
+            bool success = false;
+            
+            // 优先使用障碍物管理器
+            if (obstacleManager != null)
+            {
+                success = obstacleManager.RemoveObstacle(position);
+            }
+            else if (octreeVisualizer != null)
             {
                 octreeVisualizer.SetNodeBlocked(position, false);
+                success = true;
                 
-                // Find and remove nearby obstacle marker
+                // 查找并移除附近的障碍物标记
                 for (int i = obstacleMarkers.Count - 1; i >= 0; i--)
                 {
                     if (obstacleMarkers[i] != null && 
@@ -262,52 +287,59 @@ namespace SVO.Runtime.Demo
                         break;
                     }
                 }
-                
-                Debug.Log($"Obstacle removed at: {position}");
+            }
+            
+            if (success)
+            {
+                Debug.Log($"从位置 {position} 移除了障碍物");
+            }
+            else
+            {
+                Debug.LogWarning($"无法从位置 {position} 移除障碍物");
             }
         }
         
         /// <summary>
-        /// Find and display the path between start and end positions
+        /// 查找并显示起始和结束位置之间的路径
         /// </summary>
         public void FindAndDisplayPath()
         {
             if (!startPosition.HasValue || !endPosition.HasValue)
             {
-                Debug.LogWarning("Start and end positions must be set before pathfinding");
+                Debug.LogWarning("必须先设置起始和结束位置才能进行寻路");
                 return;
             }
             
             if (octreeVisualizer == null || octreeVisualizer.GetOctree() == null)
             {
-                Debug.LogWarning("Octree visualizer not found or octree not initialized");
+                Debug.LogWarning("未找到八叉树可视化器或八叉树未初始化");
                 return;
             }
             
             Octree octree = octreeVisualizer.GetOctree();
             
-            // Find path
+            // 查找路径
             List<Vector3> path = OctreePathfinder.FindPath(octree, startPosition.Value, endPosition.Value);
             
             if (path.Count > 0)
             {
-                // Apply path smoothing if enabled
+                // 如果启用，应用路径平滑
                 if (smoothPath)
                 {
                     path = OctreePathfinder.SmoothPath(path, octree);
                 }
                 
-                // Display the path
+                // 显示路径
                 if (pathVisualizer != null)
                 {
                     pathVisualizer.DisplayPath(path);
                 }
                 
-                Debug.Log($"Path found with {path.Count} waypoints");
+                Debug.Log($"找到包含 {path.Count} 个路径点的路径");
             }
             else
             {
-                Debug.LogWarning("No path found between start and end positions");
+                Debug.LogWarning("在起始和结束位置之间未找到路径");
                 if (pathVisualizer != null)
                 {
                     pathVisualizer.ClearPath();
@@ -316,7 +348,7 @@ namespace SVO.Runtime.Demo
         }
         
         /// <summary>
-        /// Create a simple marker object
+        /// 创建简单的标记对象
         /// </summary>
         private GameObject CreateSimpleMarker(Vector3 position, Color color, PrimitiveType primitiveType = PrimitiveType.Sphere)
         {
@@ -336,16 +368,16 @@ namespace SVO.Runtime.Demo
         }
         
         /// <summary>
-        /// Setup initial obstacles for demonstration
+        /// 为演示设置初始障碍物
         /// </summary>
         private void SetupInitialObstacles()
         {
-            // Add some initial obstacles for demonstration
+            // 添加一些初始障碍物作为演示
             if (octreeVisualizer != null)
             {
                 Vector3 center = octreeVisualizer.transform.position;
                 
-                // Create a simple wall obstacle
+                // 创建简单的墙壁障碍物
                 for (int i = -2; i <= 2; i++)
                 {
                     AddObstacle(center + new Vector3(i * 2f, 0, 0));
@@ -354,7 +386,7 @@ namespace SVO.Runtime.Demo
         }
         
         /// <summary>
-        /// Clear all markers and paths
+        /// 清除所有标记和路径
         /// </summary>
         public void ClearAll()
         {
@@ -377,38 +409,53 @@ namespace SVO.Runtime.Demo
                 pathVisualizer.ClearPath();
                 
             currentInputMode = InputMode.SetStart;
-            Debug.Log("Demo cleared");
+            Debug.Log("演示已清除");
         }
         
         /// <summary>
-        /// Refresh the octree
+        /// 刷新八叉树
         /// </summary>
         public void RefreshOctree()
         {
             if (octreeVisualizer != null)
             {
                 octreeVisualizer.RefreshOctree();
-                Debug.Log("Octree refreshed");
+                Debug.Log("八叉树已刷新");
             }
         }
         
         void OnGUI()
         {
             GUILayout.BeginArea(new Rect(10, 10, 300, 200));
-            GUILayout.Label("Octree Pathfinding Demo", new GUIStyle() { fontSize = 16, fontStyle = FontStyle.Bold });
-            GUILayout.Label($"Current Mode: {currentInputMode}");
+            GUILayout.Label("八叉树寻路演示", new GUIStyle() { fontSize = 16, fontStyle = FontStyle.Bold });
+            GUILayout.Label($"当前模式：{GetModeDisplayName(currentInputMode)}");
             GUILayout.Space(10);
             
-            GUILayout.Label("Controls:");
-            GUILayout.Label("1 - Set Start Position");
-            GUILayout.Label("2 - Set End Position");
-            GUILayout.Label("3 - Add Obstacle");
-            GUILayout.Label("4 - Remove Obstacle");
-            GUILayout.Label("Space - Find Path");
-            GUILayout.Label("C - Clear All");
-            GUILayout.Label("R - Refresh Octree");
+            GUILayout.Label("控制:");
+            GUILayout.Label("1 - 设置起始位置");
+            GUILayout.Label("2 - 设置结束位置");
+            GUILayout.Label("3 - 添加障碍物");
+            GUILayout.Label("4 - 移除障碍物");
+            GUILayout.Label("空格 - 查找路径");
+            GUILayout.Label("C - 清除所有");
+            GUILayout.Label("R - 刷新八叉树");
             
             GUILayout.EndArea();
+        }
+        
+        /// <summary>
+        /// 获取模式的中文显示名称
+        /// </summary>
+        private string GetModeDisplayName(InputMode mode)
+        {
+            switch (mode)
+            {
+                case InputMode.SetStart: return "设置起始位置";
+                case InputMode.SetEnd: return "设置结束位置";
+                case InputMode.AddObstacle: return "添加障碍物";
+                case InputMode.RemoveObstacle: return "移除障碍物";
+                default: return mode.ToString();
+            }
         }
     }
 }
