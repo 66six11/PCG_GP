@@ -12,13 +12,13 @@ namespace SVO.Runtime.Core
         public bool isLeaf;
         public OctreeNodeFlags flags;
         
-        // 寻路数据
-        public float gCost; // 从起始节点的距离
-        public float hCost; // 到目标节点的距离  
-        public float fCost => gCost + hCost; // 总成本
-        public OctreeNode pathParent; // 路径中的父节点（不同于树的父节点）
+        // Pathfinding data
+        public float gCost; // Distance from start node
+        public float hCost; // Distance to target node  
+        public float fCost => gCost + hCost; // Total cost
+        public OctreeNode pathParent; // Parent in the path (different from tree parent)
         
-        // 寻路计算的节点中心
+        // Node center for pathfinding calculations
         public Vector3 Center => bounds.center;
         
         public OctreeNode(Bounds bounds, int depth, bool isLeaf)
@@ -27,16 +27,16 @@ namespace SVO.Runtime.Core
             this.depth = depth;
             this.isLeaf = isLeaf;
             this.children = new OctreeNode[8];
-            this.flags = OctreeNodeFlags.Walkable; // 默认为可行走
+            this.flags = OctreeNodeFlags.Walkable; // Default to walkable
             
-            // 初始化寻路数据
+            // Initialize pathfinding data
             this.gCost = float.MaxValue;
             this.hCost = 0f;
             this.pathParent = null;
         }
         
         /// <summary>
-        /// 为新的搜索重置寻路数据
+        /// Reset pathfinding data for a new search
         /// </summary>
         public void ResetPathfindingData()
         {
@@ -47,7 +47,7 @@ namespace SVO.Runtime.Core
         }
         
         /// <summary>
-        /// 检查此节点是否具有特定标志
+        /// Check if this node has specific flags
         /// </summary>
         public bool HasFlag(OctreeNodeFlags flag)
         {
@@ -55,7 +55,7 @@ namespace SVO.Runtime.Core
         }
         
         /// <summary>
-        /// 在此节点上设置特定标志
+        /// Set specific flags on this node
         /// </summary>
         public void SetFlag(OctreeNodeFlags flag, bool value)
         {
