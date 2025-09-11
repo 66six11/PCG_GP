@@ -6,7 +6,7 @@ namespace SVO.Runtime.Core
     public static class OctreePathfinder
     {
         /// <summary>
-        /// Find a path from start to end position using A* algorithm
+        /// 使用A*算法查找从起始位置到结束位置的路径
         /// </summary>
         public static List<Vector3> FindPath(Octree octree, Vector3 startPos, Vector3 endPos)
         {
@@ -15,13 +15,13 @@ namespace SVO.Runtime.Core
             
             if (startNode == null || endNode == null)
             {
-                Debug.LogWarning("Start or end position is outside octree bounds");
+                Debug.LogWarning("起始或结束位置在八叉树边界之外");
                 return new List<Vector3>();
             }
             
             if (startNode.HasFlag(OctreeNodeFlags.Blocked) || endNode.HasFlag(OctreeNodeFlags.Blocked))
             {
-                Debug.LogWarning("Start or end position is blocked");
+                Debug.LogWarning("起始或结束位置被阻塞");
                 return new List<Vector3>();
             }
             
@@ -29,17 +29,17 @@ namespace SVO.Runtime.Core
         }
         
         /// <summary>
-        /// A* pathfinding algorithm implementation
+        /// A*寻路算法实现
         /// </summary>
         private static List<Vector3> FindPathAStar(Octree octree, OctreeNode startNode, OctreeNode endNode)
         {
-            // Reset pathfinding data
+            // 重置寻路数据
             octree.ResetPathfindingData();
             
             List<OctreeNode> openSet = new List<OctreeNode>();
             HashSet<OctreeNode> closedSet = new HashSet<OctreeNode>();
             
-            // Initialize start node
+            // 初始化起始节点
             startNode.gCost = 0;
             startNode.hCost = CalculateHeuristic(startNode, endNode);
             startNode.SetFlag(OctreeNodeFlags.InOpenSet, true);
@@ -47,32 +47,32 @@ namespace SVO.Runtime.Core
             
             while (openSet.Count > 0)
             {
-                // Find node with lowest f-cost
+                // 查找f成本最低的节点
                 OctreeNode currentNode = GetLowestFCostNode(openSet);
                 
-                // Remove from open set and add to closed set
+                // 从开放集中移除并添加到关闭集
                 openSet.Remove(currentNode);
                 currentNode.SetFlag(OctreeNodeFlags.InOpenSet, false);
                 currentNode.SetFlag(OctreeNodeFlags.InClosedSet, true);
                 closedSet.Add(currentNode);
                 
-                // Check if we reached the target
+                // 检查是否到达目标
                 if (currentNode == endNode)
                 {
                     return ReconstructPath(startNode, endNode);
                 }
                 
-                // Check all neighbors
+                // 检查所有邻居
                 List<OctreeNode> neighbors = octree.GetNeighbors(currentNode);
                 foreach (OctreeNode neighbor in neighbors)
                 {
-                    // Skip if blocked or already in closed set
+                    // 如果被阻塞或已在关闭集中则跳过
                     if (neighbor.HasFlag(OctreeNodeFlags.Blocked) || closedSet.Contains(neighbor))
                         continue;
                     
                     float tentativeGCost = currentNode.gCost + CalculateDistance(currentNode, neighbor);
                     
-                    // If this path to neighbor is better than any previous one
+                    // 如果到邻居的这条路径比之前任何路径都好
                     if (tentativeGCost < neighbor.gCost)
                     {
                         neighbor.pathParent = currentNode;
@@ -88,13 +88,13 @@ namespace SVO.Runtime.Core
                 }
             }
             
-            // No path found
-            Debug.LogWarning("No path found between start and end positions");
+            // 未找到路径
+            Debug.LogWarning("在起始和结束位置之间未找到路径");
             return new List<Vector3>();
         }
         
         /// <summary>
-        /// Calculate heuristic distance (Manhattan distance for octree)
+        /// 计算启发式距离（八叉树的曼哈顿距离）
         /// </summary>
         private static float CalculateHeuristic(OctreeNode nodeA, OctreeNode nodeB)
         {
@@ -104,7 +104,7 @@ namespace SVO.Runtime.Core
         }
         
         /// <summary>
-        /// Calculate actual distance between two nodes
+        /// 计算两个节点之间的实际距离
         /// </summary>
         private static float CalculateDistance(OctreeNode nodeA, OctreeNode nodeB)
         {
@@ -112,7 +112,7 @@ namespace SVO.Runtime.Core
         }
         
         /// <summary>
-        /// Get the node with the lowest f-cost from the open set
+        /// 从开放集中获取f成本最低的节点
         /// </summary>
         private static OctreeNode GetLowestFCostNode(List<OctreeNode> openSet)
         {
@@ -129,7 +129,7 @@ namespace SVO.Runtime.Core
         }
         
         /// <summary>
-        /// Reconstruct the path from start to end
+        /// 重构从起始到结束的路径
         /// </summary>
         private static List<Vector3> ReconstructPath(OctreeNode startNode, OctreeNode endNode)
         {
@@ -148,7 +148,7 @@ namespace SVO.Runtime.Core
         }
         
         /// <summary>
-        /// Smooth the path by removing unnecessary waypoints
+        /// 通过移除不必要的路径点来平滑路径
         /// </summary>
         public static List<Vector3> SmoothPath(List<Vector3> path, Octree octree)
         {
@@ -163,7 +163,7 @@ namespace SVO.Runtime.Core
             {
                 int farthestIndex = currentIndex + 1;
                 
-                // Find the farthest point we can reach in a straight line
+                // 找到我们能直线到达的最远点
                 for (int i = currentIndex + 2; i < path.Count; i++)
                 {
                     if (HasClearPath(path[currentIndex], path[i], octree))
@@ -184,7 +184,7 @@ namespace SVO.Runtime.Core
         }
         
         /// <summary>
-        /// Check if there's a clear path between two points
+        /// 检查两点之间是否有畅通的路径
         /// </summary>
         private static bool HasClearPath(Vector3 start, Vector3 end, Octree octree)
         {

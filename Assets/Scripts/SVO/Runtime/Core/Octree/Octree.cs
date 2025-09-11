@@ -23,7 +23,7 @@ namespace SVO.Runtime.Core
         }
         
         /// <summary>
-        /// Build the octree structure
+        /// 构建八叉树结构
         /// </summary>
         private void BuildOctree()
         {
@@ -33,7 +33,7 @@ namespace SVO.Runtime.Core
         }
         
         /// <summary>
-        /// Recursively subdivide a node into 8 children
+        /// 递归地将节点细分为8个子节点
         /// </summary>
         private void SubdivideNode(OctreeNode node)
         {
@@ -46,7 +46,7 @@ namespace SVO.Runtime.Core
             Vector3 center = node.bounds.center;
             Vector3 size = node.bounds.size * 0.5f;
             
-            // Create 8 child nodes
+            // 创建8个子节点
             for (int i = 0; i < 8; i++)
             {
                 Vector3 childCenter = center + new Vector3(
@@ -67,7 +67,7 @@ namespace SVO.Runtime.Core
         }
         
         /// <summary>
-        /// Get the leaf node at a specific position
+        /// 获取指定位置的叶子节点
         /// </summary>
         public OctreeNode GetNodeAtPosition(Vector3 position)
         {
@@ -96,7 +96,7 @@ namespace SVO.Runtime.Core
         }
         
         /// <summary>
-        /// Get all leaf nodes for pathfinding
+        /// 获取所有用于寻路的叶子节点
         /// </summary>
         public List<OctreeNode> GetLeafNodes()
         {
@@ -123,7 +123,7 @@ namespace SVO.Runtime.Core
         }
         
         /// <summary>
-        /// Mark a node as blocked (obstacle)
+        /// 标记节点为阻塞状态（障碍物）
         /// </summary>
         public void SetNodeBlocked(Vector3 position, bool blocked = true)
         {
@@ -136,7 +136,7 @@ namespace SVO.Runtime.Core
         }
         
         /// <summary>
-        /// Reset all pathfinding data
+        /// 重置所有寻路数据
         /// </summary>
         public void ResetPathfindingData()
         {
@@ -147,7 +147,7 @@ namespace SVO.Runtime.Core
         }
         
         /// <summary>
-        /// Get neighboring leaf nodes for pathfinding
+        /// 获取用于寻路的相邻叶子节点
         /// </summary>
         public List<OctreeNode> GetNeighbors(OctreeNode node)
         {
@@ -155,7 +155,7 @@ namespace SVO.Runtime.Core
             Vector3 nodeCenter = node.Center;
             float nodeSize = node.bounds.size.x;
             
-            // Check 26 possible neighbor directions (3x3x3 - 1 for center)
+            // 检查26个可能的邻居方向（3x3x3 - 1个中心点）
             for (int x = -1; x <= 1; x++)
             {
                 for (int y = -1; y <= 1; y++)
