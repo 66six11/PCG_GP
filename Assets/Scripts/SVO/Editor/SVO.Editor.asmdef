@@ -1,0 +1,18 @@
+{
+    "name": "SVO.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e8632732f4dfb3e40b0153546119d848"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
