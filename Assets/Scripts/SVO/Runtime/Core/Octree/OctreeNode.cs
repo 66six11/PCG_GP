@@ -1,26 +1,23 @@
 using UnityEngine;
 
-namespace SVO.Runtime.Core
+namespace SVO.Runtime.Core.Octree
 {
     public class OctreeNode
     {
         public OctreeNode[] children;
+        public bool hasChildren;
 
         public int depth;
-
         public Bounds bounds;
 
-        public bool isLeaf;
-
+        public bool isLeaf => children.Length == 0 || children == null;
         public OctreeNodeFlags flags;
-        
-        public OctreeNode(Bounds bounds, int depth, bool isLeaf)
+
+        public OctreeNode(int depth, Bounds bounds, OctreeNodeFlags flags)
         {
-            this.bounds = bounds;
             this.depth = depth;
-            this.isLeaf = isLeaf;
-            this.children = new OctreeNode[8];
-            this.flags = new OctreeNodeFlags();
+            this.bounds = bounds;
+            this.flags = flags;
         }
     }
 }

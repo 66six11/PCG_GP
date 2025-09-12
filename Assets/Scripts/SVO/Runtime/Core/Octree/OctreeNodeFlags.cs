@@ -1,9 +1,11 @@
 using System;
 
-namespace SVO.Runtime.Core
+namespace SVO.Runtime.Core.Octree
 {
-    [Flags]
-    public enum OctreeNodeFlags : byte
+    public enum OctreeNodeFlags
     {
+        None = 0,
+        Blocked = 1,
+        Mixed = 2
     }
 }
