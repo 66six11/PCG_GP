@@ -4,7 +4,7 @@ namespace SVO.Runtime.Core.Octree
 {
     public enum OctreeNodeFlags
     {
-        None = 0,
+        Empty = 0,
         Blocked = 1,
         Mixed = 2
     }
