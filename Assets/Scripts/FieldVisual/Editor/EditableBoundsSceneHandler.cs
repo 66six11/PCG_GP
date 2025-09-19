@@ -1,6 +1,4 @@
 #if UNITY_EDITOR
-
-
 using System;
 using System.Reflection;
 using FieldVisual.Runtime.Attributes;
