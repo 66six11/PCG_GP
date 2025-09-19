@@ -687,6 +687,7 @@ GameObject:
   - component: {fileID: 1106996076}
   - component: {fileID: 1106996075}
   - component: {fileID: 1106996074}
+  - component: {fileID: 1106996077}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -768,6 +769,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1106996077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106996073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 1
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1 &1928264277
 GameObject:
   m_ObjectHideFlags: 0
@@ -794,7 +839,7 @@ Transform:
   m_GameObject: {fileID: 1928264277}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 41.8, y: 0, z: -70.2}
+  m_LocalPosition: {x: 8.11, y: -26.9, z: -57.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -813,8 +858,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   area:
-    m_Center: {x: 10.773753, y: 0, z: -15.274913}
-    m_Extent: {x: 21.910133, y: 7.285206, z: 40.69743}
+    m_Center: {x: 18.644321, y: -23.300297, z: -21.143705}
+    m_Extent: {x: 6.0073376, y: 4.763262, z: 5.596443}
+  area2:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 26.464367, y: 9.757603, z: 19.896109}
+  area3:
+    m_Center: {x: -3.154077, y: 2.686102, z: 23.676556}
+    m_Extent: {x: 3.2221584, y: 2.655655, z: 5.1974754}
+  bounds:
+  - m_Center: {x: 15.0810585, y: 0, z: -8.822307}
+    m_Extent: {x: 4.6, y: 3.7, z: 3.86}
+  - m_Center: {x: 19.843622, y: 0, z: -13.569095}
+    m_Extent: {x: 4.6, y: 3.7, z: 3.86}
+  - m_Center: {x: 32.560104, y: 0, z: -18.066906}
+    m_Extent: {x: 4.6, y: 3.7, z: 3.86}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

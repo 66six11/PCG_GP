@@ -1,9 +1,13 @@
 {
-    "name": "SVO.Runtime",
+    "name": "FieldVisual.Editor",
     "rootNamespace": "",
-    "references": ["GUID:c2660b8c5bd77504da21eb554dfe11ed"],
+    "references": [
+        "GUID:c2660b8c5bd77504da21eb554dfe11ed"
+    ],
     "includePlatforms": [],
-    "excludePlatforms": [],
+    "excludePlatforms": [
+        "Editor"
+    ],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],

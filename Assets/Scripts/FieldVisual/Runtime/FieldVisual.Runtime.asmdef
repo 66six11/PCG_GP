@@ -1,7 +1,7 @@
 {
-    "name": "SVO.Runtime",
+    "name": "FieldVisual.Runtime",
     "rootNamespace": "",
-    "references": ["GUID:c2660b8c5bd77504da21eb554dfe11ed"],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
