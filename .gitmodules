@@ -1,0 +1,3 @@
+[submodule "Assets/Scripts/SVOPathSearch"]
+	path = Assets/Scripts/SVOPathSearch
+	url = git@github.com:66six11/SVO-PathSearch.git
