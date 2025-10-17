@@ -52,6 +52,22 @@ MonoBehaviour:
   m_DepthTextureFormat: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 0
+--- !u!114 &5736352061160207065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5fe420fba34e2ab1c96dbfd8b98582, type: 3}
+  m_Name: Metaballs3DRaymarchFeature
+  m_EditorClassIdentifier: 
+  radius: 0.5
+  smoothFactor: 0.5
+  secondaryBall: {fileID: 0}
+  secondaryRadius: 0.3
 --- !u!114 &7833122117494664109
 MonoBehaviour:
   m_ObjectHideFlags: 0
