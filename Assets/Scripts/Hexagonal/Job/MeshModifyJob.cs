@@ -4,7 +4,7 @@ using Unity.Jobs;
 using UnityEngine;
 
 namespace Job
-{
+{ 
     public enum FlipAxis
     {
         X,
