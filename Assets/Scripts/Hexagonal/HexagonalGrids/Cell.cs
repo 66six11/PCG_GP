@@ -8,54 +8,51 @@ namespace HexagonalGrids
     public class Cell
     {
         //从上到下顺时针的八个个顶点
-        public Vertex V1;
-        public Vertex V2;
-        public Vertex V3;
-        public Vertex V4;
-        public Vertex V5;
-        public Vertex V6;
-        public Vertex V7;
-        public Vertex V8;
-        
-        public Vector3 localV1;
-        public Vector3 localV2;
-        public Vector3 localV3;
-        public Vector3 localV4;
-        public Vector3 localV5;
-        public Vector3 localV6;
-        public Vector3 localV7;
-        public Vector3 localV8;
+        public Vertex V1 => vertices[0];
+        public Vertex V2 => vertices[1];
+        public Vertex V3 => vertices[2];
+        public Vertex V4 => vertices[3];
+        public Vertex V5 => vertices[4];
+        public Vertex V6 => vertices[5];
+        public Vertex V7 => vertices[6];
+        public Vertex V8 => vertices[7];
+
+        public Vector3 localV1 => localVertices[0];
+        public Vector3 localV2 => localVertices[1];
+        public Vector3 localV3 => localVertices[2];
+        public Vector3 localV4 => localVertices[3];
+        public Vector3 localV5 => localVertices[4];
+        public Vector3 localV6 => localVertices[5];
+        public Vector3 localV7 => localVertices[6];
+        public Vector3 localV8 => localVertices[7];
 
         //8个顶点
-        public Vertex[] vertices;
+        public readonly Vertex[] vertices;
         //8个本地顶点
-        public Vector3[] localVertices;
+        public readonly Vector3[] localVertices = new Vector3[8];
 
-        
-        
+
         //12个边
-        public SubEdge E1;
-        public SubEdge E2;
-        public SubEdge E3;
-        public SubEdge E4;
-        public SubEdge E5;
-        public SubEdge E6;
-        public SubEdge E7;
-        public SubEdge E8;
-        public SubEdge E9;
-        public SubEdge E10;
-        public SubEdge E11;
-        public SubEdge E12;
+        public Edge E1 => this.edges[0];
+        public Edge E2 => this.edges[1];
+        public Edge E3 => this.edges[2];
+        public Edge E4 => this.edges[3];
+        public Edge E5 => this.edges[4];
+        public Edge E6 => this.edges[5];
+        public Edge E7 => this.edges[6];
+        public Edge E8 => this.edges[7];
+        public Edge E9 => this.edges[8];
+        public Edge E10 => this.edges[9];
+        public Edge E11 => this.edges[10];
+        public Edge E12 => this.edges[11];
 
-        public SubEdge[] edges;
-        
+        public readonly Edge[] edges;
+
         [System.NonSerialized]
-        public List<Cell> neighbours = new List<Cell>();
+        public readonly List<Cell> neighbours = new List<Cell>(FaceCount);
 
-
-        public SubQuad Q1;
-        public SubQuad Q2;
-
+        public Quad Q1 { get; }
+        public Quad Q2 { get; }
 
         //中心点
         public Vector3 Center;
@@ -65,44 +62,18 @@ namespace HexagonalGrids
         public Quaternion rotation;
         public Vector3 scale;
 
-        public Cell(SubQuad upQuad, SubQuad downQuad, List<SubEdge> edges)
+        public Cell(Quad upQuad, Quad downQuad, EdgeCollection edges)
         {
             Q1 = upQuad;
             Q2 = downQuad;
 
-            V1 = upQuad.a;
-            V2 = upQuad.b;
-            V3 = upQuad.c;
-            V4 = upQuad.d;
+            vertices = new[] { upQuad.a, upQuad.b, upQuad.c, upQuad.d,
+                downQuad.a, downQuad.b, downQuad.c, downQuad.d };
+            this.edges = new[] { upQuad.ab, upQuad.bc, upQuad.cd, upQuad.da,
+                downQuad.ab, downQuad.bc, downQuad.cd, downQuad.da,
+                edges.GetOrAdd(V1, V5), edges.GetOrAdd(V2, V6),
+                edges.GetOrAdd(V3, V7), edges.GetOrAdd(V4, V8) };
 
-            V5 = downQuad.a;
-            V6 = downQuad.b;
-            V7 = downQuad.c;
-            V8 = downQuad.d;
-
-
-            vertices = new Vertex[] { V1, V2, V3, V4, V5, V6, V7, V8 };
-
-            E1 = upQuad.edges[0];
-            E2 = upQuad.edges[1];
-            E3 = upQuad.edges[2];
-            E4 = upQuad.edges[3];
-
-            E5 = downQuad.edges[0];
-            E6 = downQuad.edges[1];
-            E7 = downQuad.edges[2];
-            E8 = downQuad.edges[3];
-
-            E9 = SubEdge.GenerateSubEdge(V1, V5, edges);
-            E10 = SubEdge.GenerateSubEdge(V2, V6, edges);
-            E11 = SubEdge.GenerateSubEdge(V3, V7, edges);
-            E12 = SubEdge.GenerateSubEdge(V4, V8, edges);
-
-            this.edges = new SubEdge[] { E1, E2, E3, E4, E5, E6, E7, E8, E9, E10, E11, E12 };
-
-
-            Center = (V1.position + V2.position + V3.position + V4.position + V5.position + V6.position + V7.position + V8.position) / 8;
-            
             BuildTransformMatrix();
         }
 
@@ -111,7 +82,7 @@ namespace HexagonalGrids
             return (vertex == V1 || vertex == V2 || vertex == V3 || vertex == V4 || vertex == V5 || vertex == V6 || vertex == V7 || vertex == V8);
         }
 
-        public bool Contains(SubEdge edge)
+        public bool Contains(Edge edge)
         {
             return (edge == E1 || edge == E2 || edge == E3 || edge == E4 || edge == E5 || edge == E6 || edge == E7 || edge == E8 || edge == E9 || edge == E10 || edge == E11 || edge == E12);
         }
@@ -135,6 +106,7 @@ namespace HexagonalGrids
 
         public void BuildTransformMatrix()
         {
+            Center = (Q1.center + Q2.center) * 0.5f;
             // 计算基向量
             // 前方向：前面四个点的中心减去整个Cell的中心
             Vector3 frontCenter = (V1.position + V2.position + V5.position + V6.position) / 4f;
@@ -164,9 +136,9 @@ namespace HexagonalGrids
 
             // 返回世界空间->局部空间的变换矩阵
             transformMatrix = matrix.inverse;
-            
+
             SplitTransformMatrix();
-            
+
             SetLocalVertices();
         }
 
@@ -177,17 +149,16 @@ namespace HexagonalGrids
              translation = transformMatrix.GetColumn(3);
 
             // 2. 提取缩放分量（计算各轴向量长度）
-            
+
             scale.x = transformMatrix.GetColumn(0).magnitude; // X轴缩放
             scale.y = transformMatrix.GetColumn(1).magnitude; // Y轴缩放
             scale.z = transformMatrix.GetColumn(2).magnitude; // Z轴缩放
-            
+
             // 将旋转矩阵转换为四元数
              rotation = transformMatrix.rotation;
              //这里是从世界坐标系到本地坐标系的变换，所以需要取它的反向
              rotation = Quaternion.Inverse(rotation);
 
-            
             // translation：位置偏移（Vector3）
             // rotation：旋转（Quaternion）
             // scale：缩放（Vector3）
@@ -195,15 +166,48 @@ namespace HexagonalGrids
 
         private void SetLocalVertices()
         {
-            localV1 = transformMatrix.MultiplyPoint3x4(V1.position);
-            localV2 = transformMatrix.MultiplyPoint3x4(V2.position);
-            localV3 = transformMatrix.MultiplyPoint3x4(V3.position);
-            localV4 = transformMatrix.MultiplyPoint3x4(V4.position);
-            localV5 = transformMatrix.MultiplyPoint3x4(V5.position);
-            localV6 = transformMatrix.MultiplyPoint3x4(V6.position);
-            localV7 = transformMatrix.MultiplyPoint3x4(V7.position);
-            localV8 = transformMatrix.MultiplyPoint3x4(V8.position);
-            localVertices = new Vector3[] { localV1, localV2, localV3, localV4, localV5, localV6, localV7, localV8 };
+            for (int i = 0; i < vertices.Length; i++)
+                localVertices[i] = transformMatrix.MultiplyPoint3x4(vertices[i].position);
         }
+
+        public const int FaceCount = 6;
+
+        public FaceKey GetFaceKey(int face)
+        {
+            switch (face)
+            {
+                case 0: return new FaceKey(V1, V2, V3, V4);
+                case 1: return new FaceKey(V5, V6, V7, V8);
+                case 2: return new FaceKey(V1, V2, V6, V5);
+                case 3: return new FaceKey(V2, V3, V7, V6);
+                case 4: return new FaceKey(V3, V4, V8, V7);
+                case 5: return new FaceKey(V4, V1, V5, V8);
+                default: throw new ArgumentOutOfRangeException(nameof(face));
+            }
+        }
+    }
+
+    /// <summary>Canonical four-vertex face identity; no temporary arrays or sets.</summary>
+    public readonly struct FaceKey : IEquatable<FaceKey>
+    {
+        private readonly int a, b, c, d;
+        public FaceKey(Vertex v1, Vertex v2, Vertex v3, Vertex v4)
+        {
+            int a = v1.id, b = v2.id, c = v3.id, d = v4.id;
+            SortPair(ref a, ref b);
+            SortPair(ref c, ref d);
+            SortPair(ref a, ref c);
+            SortPair(ref b, ref d);
+            SortPair(ref b, ref c);
+            this.a = a; this.b = b; this.c = c; this.d = d;
+        }
+        private static void SortPair(ref int a, ref int b)
+        {
+            if (a <= b) return;
+            int value = a; a = b; b = value;
+        }
+        public bool Equals(FaceKey other) => a == other.a && b == other.b && c == other.c && d == other.d;
+        public override bool Equals(object obj) => obj is FaceKey other && Equals(other);
+        public override int GetHashCode() => unchecked(((a * 397 ^ b) * 397 ^ c) * 397 ^ d);
     }
 }

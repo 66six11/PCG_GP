@@ -1,58 +1,36 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace HexagonalGrids
 {
-    public class Triangle
+    public sealed class Triangle
     {
-        public readonly HexVertex a, b, c;
-
-        public readonly HexVertex[] vertices;
-
-        public readonly CenterVertex center;
-
-        public readonly Edge ab, bc, ca;
-
+        public readonly Vertex[] vertices;
         public readonly Edge[] edges;
+        public readonly Vertex center;
+        public Vertex a => vertices[0];
+        public Vertex b => vertices[1];
+        public Vertex c => vertices[2];
+        public Edge ab => edges[0];
+        public Edge bc => edges[1];
+        public Edge ca => edges[2];
 
-        public Triangle(HexVertex a, HexVertex b, HexVertex c, List<Edge> edges, List<MidVertex> midVertices, List<CenterVertex> centerVertices)
+        public Triangle(Vertex a, Vertex b, Vertex c, EdgeCollection edges,
+            List<Vertex> midVertices, List<Vertex> centerVertices)
         {
-            this.a = a;
-            this.b = b;
-            this.c = c;
-            vertices = new HexVertex[] { a, b, c };
-            ab = Edge.GenerateEdge(a, b, edges, midVertices);
-            bc = Edge.GenerateEdge(b, c, edges, midVertices);
-            ca = Edge.GenerateEdge(c, a, edges, midVertices);
-            this.edges = new Edge[] { ab, bc, ca };
-
-            center = new CenterVertex((Vertex[])vertices);
+            vertices = new[] { a, b, c };
+            this.edges = new[] { Edge.GenerateEdge(a, b, edges, midVertices),
+                Edge.GenerateEdge(b, c, edges, midVertices), Edge.GenerateEdge(c, a, edges, midVertices) };
+            center = new Vertex((a.position + b.position + c.position) / 3f);
             centerVertices.Add(center);
         }
 
-
         public Edge GetSharedEdge(Triangle other)
         {
-            HashSet<Edge> intersection = new HashSet<Edge>(edges);
-            intersection.IntersectWith(other.edges);
-
-            return intersection.Count == 1 ? intersection.First() : null;
-        }
-
-
-        public List<Triangle> FindNeighborTriangles(List<Triangle> triangles)
-        {
-            List<Triangle> result = new List<Triangle>();
-            foreach (Triangle triangle in triangles)
-            {
-                if (GetSharedEdge(triangle) != null)
-                {
-                    result.Add(triangle);
-                }
-            }
-
-            return result;
+            if (ReferenceEquals(this, other)) return null;
+            foreach (var edge in edges)
+                foreach (var candidate in other.edges)
+                    if (ReferenceEquals(edge, candidate)) return edge;
+            return null;
         }
     }
 }

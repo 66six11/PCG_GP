@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0e6f95c0228b114e909bcc30a264720, type: 3}
+  m_Name: HandPlacedCluster
+  m_EditorClassIdentifier: HexagonalGrids::HexagonalGrids.Prototype.RockClusterTemplate
+  pieces:
+  - source: {fileID: 4300000, guid: 181119449de79c245a3aca5d3f9dc744, type: 2}
+    position: {x: -0.15595898, y: 0.024655031, z: -0.27029374}
+    size: {x: 0.37769952, y: 2.0601795, z: 0.34336323}
+    rotation: {x: -0.07918858, y: -0.98489255, z: 0.0810262, w: 0.1309609}
+  - source: {fileID: 4300000, guid: 1e5a62f0974d195428a33929546e13a7, type: 2}
+    position: {x: 0.1563062, y: 0.630691, z: -0.3321577}
+    size: {x: 0.4807085, y: 1.716816, z: 0.27469054}
+    rotation: {x: 0.010804679, y: -0.9879931, z: 0.081676506, w: 0.1306979}
+  - source: {fileID: 4300000, guid: bda0bc1f0de632e4d89e89e606f08c90, type: 2}
+    position: {x: 0.1948626, y: -0.47064653, z: -0.099847145}
+    size: {x: 0.85840803, y: 1.3734529, z: 0.6523901}
+    rotation: {x: 0.011360937, y: -0.9876365, z: 0.085881464, w: 0.13065073}
+  - source: {fileID: 4300000, guid: 99d60051824c39843bf07e003eef7614, type: 2}
+    position: {x: -0.24088432, y: -0.96594787, z: -0.17630576}
+    size: {x: 0.8240717, y: 0.9957533, z: 0.68672645}
+    rotation: {x: -0.04616729, y: -0.99028784, z: 0.0061072977, w: 0.13100147}
+  - source: {fileID: 4300000, guid: e99b1ca7a29e1b0478c72aaef8faec01, type: 2}
+    position: {x: 0.04654253, y: -1.0165939, z: 0.19119242}
+    size: {x: 1.2017713, y: 0.42920402, z: 0.7725672}
+    rotation: {x: -0.012612406, y: -0.9867682, z: -0.09534178, w: 0.13053586}
+  capturedHeight: 3.4948416

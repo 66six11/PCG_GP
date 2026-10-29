@@ -1,0 +1,1000 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!43 &-4330615551508222437
+Mesh:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: pcg_a0b162aef7588b98c438df345fd96cef
+  serializedVersion: 12
+  m_SubMeshes:
+  - serializedVersion: 2
+    firstByte: 0
+    indexCount: 6
+    topology: 0
+    baseVertex: 0
+    firstVertex: 0
+    vertexCount: 4
+    localAABB:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0.5, y: 0.5, z: 0}
+  - serializedVersion: 2
+    firstByte: 12
+    indexCount: 6
+    topology: 0
+    baseVertex: 0
+    firstVertex: 4
+    vertexCount: 4
+    localAABB:
+      m_Center: {x: 0, y: 0, z: -0.014}
+      m_Extent: {x: 0.15, y: 0.175, z: 0}
+  - serializedVersion: 2
+    firstByte: 24
+    indexCount: 30
+    topology: 0
+    baseVertex: 0
+    firstVertex: 8
+    vertexCount: 16
+    localAABB:
+      m_Center: {x: 0, y: 0, z: -0.0255}
+      m_Extent: {x: 0.15, y: 0.175, z: 0.0005000001}
+  m_Shapes:
+    vertices: []
+    shapes: []
+    channels: []
+    fullWeights: []
+  m_BindPose: []
+  m_BoneNameHashes: 
+  m_RootBoneNameHash: 0
+  m_BonesAABB: []
+  m_VariableBoneCountWeights:
+    m_Data: 
+  m_MeshCompression: 0
+  m_IsReadable: 1
+  m_KeepVertices: 1
+  m_KeepIndices: 1
+  m_IndexFormat: 0
+  m_IndexBuffer: 000001000200000002000300040005000600040006000700080009000a0008000b0009000c000d0009000c0009000e000f000b0010000f00100011000f0012000e000f0013001200140015001600140016001700
+  m_VertexData:
+    serializedVersion: 3
+    m_VertexCount: 24
+    m_Channels:
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 12
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 24
+      format: 0
+      dimension: 4
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    m_DataSize: 960
+    _typelessdata: 000000bf000000bf000000000000000000000000000080bf0000803f0000000000000000000080bf000000bf0000003f000000000000000000000000000080bf0000803f0000000000000000000080bf0000003f0000003f000000000000000000000000000080bf0000803f0000000000000000000080bf0000003f000000bf000000000000000000000000000080bf0000803f0000000000000000000080bf9a9919be333333be426065bc0000000000000000000080bf0000803f0000000000000000000080bf9a9919be3333333e426065bc0000000000000000000080bf0000803f0000000000000000000080bf9a99193e3333333e426065bc0000000000000000000080bf0000803f0000000000000000000080bf9a99193e333333be426065bc0000000000000000000080bf0000803f0000000000000000000080bf9a9919be9999193ecdccccbc0000000000000000000080bf0000803f0000000000000000000080bf9a99193e3333333ecdccccbc0000000000000000000080bf0000803f0000000000000000000080bf9a99193e9999193ecdccccbc0000000000000000000080bf0000803f0000000000000000000080bf9a9919be3333333ecdccccbc0000000000000000000080bf0000803f0000000000000000000080bf0000003e333333becdccccbc0000000000000000000080bf0000803f0000000000000000000080bf0000003e3333333ecdccccbc0000000000000000000080bf0000803f0000000000000000000080bf9a99193e333333becdccccbc0000000000000000000080bf0000803f0000000000000000000080bf9a9919be333333becdccccbc0000000000000000000080bf0000803f0000000000000000000080bf000000be3333333ecdccccbc0000000000000000000080bf0000803f0000000000000000000080bf000000be333333becdccccbc0000000000000000000080bf0000803f0000000000000000000080bf9a99193e999919becdccccbc0000000000000000000080bf0000803f0000000000000000000080bf9a9919be999919becdccccbc0000000000000000000080bf0000803f0000000000000000000080bfcdcc4cbc333333bef4fdd4bc0000000000000000000080bf0000803f0000000000000000000080bfcdcc4cbc3333333ef4fdd4bc0000000000000000000080bf0000803f0000000000000000000080bfcdcc4c3c3333333ef4fdd4bc0000000000000000000080bf0000803f0000000000000000000080bfcdcc4c3c333333bef4fdd4bc0000000000000000000080bf0000803f0000000000000000000080bf
+  m_CompressedMesh:
+    m_Vertices:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UV:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Normals:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Tangents:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Weights:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_NormalSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_TangentSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_FloatColors:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_BoneIndices:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Triangles:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UVInfo: 0
+  m_LocalAABB:
+    m_Center: {x: 0, y: 0, z: -0.013}
+    m_Extent: {x: 0.5, y: 0.5, z: 0.013}
+  m_MeshUsageFlags: 0
+  m_CookingOptions: 30
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
+  'm_MeshMetrics[0]': 1
+  'm_MeshMetrics[1]': 1
+  m_MeshOptimizationFlags: -1
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
+--- !u!43 &-3967710934191962699
+Mesh:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: pcg_6c9189a05b14c14b2aff47e0da503ddf
+  serializedVersion: 12
+  m_SubMeshes:
+  - serializedVersion: 2
+    firstByte: 0
+    indexCount: 6
+    topology: 0
+    baseVertex: 0
+    firstVertex: 0
+    vertexCount: 4
+    localAABB:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0.5, y: 0.5, z: 0}
+  m_Shapes:
+    vertices: []
+    shapes: []
+    channels: []
+    fullWeights: []
+  m_BindPose: []
+  m_BoneNameHashes: 
+  m_RootBoneNameHash: 0
+  m_BonesAABB: []
+  m_VariableBoneCountWeights:
+    m_Data: 
+  m_MeshCompression: 0
+  m_IsReadable: 1
+  m_KeepVertices: 1
+  m_KeepIndices: 1
+  m_IndexFormat: 0
+  m_IndexBuffer: 000001000200000002000300
+  m_VertexData:
+    serializedVersion: 3
+    m_VertexCount: 4
+    m_Channels:
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 12
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 24
+      format: 0
+      dimension: 4
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    m_DataSize: 160
+    _typelessdata: 000000bf000000bf000000000000000000000000000080bf0000803f0000000000000000000080bf000000bf0000003f000000000000000000000000000080bf0000803f0000000000000000000080bf0000003f0000003f000000000000000000000000000080bf0000803f0000000000000000000080bf0000003f000000bf000000000000000000000000000080bf0000803f0000000000000000000080bf
+  m_CompressedMesh:
+    m_Vertices:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UV:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Normals:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Tangents:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Weights:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_NormalSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_TangentSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_FloatColors:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_BoneIndices:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Triangles:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UVInfo: 0
+  m_LocalAABB:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0.5, y: 0.5, z: 0}
+  m_MeshUsageFlags: 0
+  m_CookingOptions: 30
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
+  'm_MeshMetrics[0]': 1
+  'm_MeshMetrics[1]': 1
+  m_MeshOptimizationFlags: -1
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c440748868094de0b98c34c0669c03ab, type: 3}
+  m_Name: BuildingKit.tileset
+  m_EditorClassIdentifier: HexagonalGrids::HexagonalGrids.Prototype.BuildingTileset
+  schemaVersion: 1
+  tilesetId: building.demo.v1
+  sourceJson: Assets/Art/Buildings/AuthoringDemo/BuildingKit.tileset.json
+  sourceHash: 5596fb5f405341fe42570991224632db
+  variants:
+  - id: demo-wall-plain:r0
+    sourceId: demo-wall-plain
+    logicalId: 
+    model:
+      stateCode: 51
+      stateCodeString: 11001100
+      mesh: {fileID: -3967710934191962699}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      mirrorX: 0
+    weight: 0.125
+    neighbors:
+      up:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      down:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      front:
+      - id: $solid
+        weight: 1
+      right:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      back:
+      - id: $empty
+        weight: 1
+      left:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+  - id: demo-wall-plain:r0:mx
+    sourceId: demo-wall-plain
+    logicalId: 
+    model:
+      stateCode: 51
+      stateCodeString: 11001100
+      mesh: {fileID: -3967710934191962699}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      mirrorX: 1
+    weight: 0.125
+    neighbors:
+      up:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      down:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      front:
+      - id: $solid
+        weight: 1
+      right:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      back:
+      - id: $empty
+        weight: 1
+      left:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+  - id: demo-wall-plain:r180
+    sourceId: demo-wall-plain
+    logicalId: 
+    model:
+      stateCode: 204
+      stateCodeString: 00110011
+      mesh: {fileID: -3967710934191962699}
+      rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+      mirrorX: 0
+    weight: 0.125
+    neighbors:
+      up:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      down:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      front:
+      - id: $empty
+        weight: 1
+      right:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      back:
+      - id: $solid
+        weight: 1
+      left:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+  - id: demo-wall-plain:r180:mx
+    sourceId: demo-wall-plain
+    logicalId: 
+    model:
+      stateCode: 204
+      stateCodeString: 00110011
+      mesh: {fileID: -3967710934191962699}
+      rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+      mirrorX: 1
+    weight: 0.125
+    neighbors:
+      up:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      down:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      front:
+      - id: $empty
+        weight: 1
+      right:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      back:
+      - id: $solid
+        weight: 1
+      left:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+  - id: demo-wall-plain:r270
+    sourceId: demo-wall-plain
+    logicalId: 
+    model:
+      stateCode: 153
+      stateCodeString: 10011001
+      mesh: {fileID: -3967710934191962699}
+      rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+      mirrorX: 0
+    weight: 0.125
+    neighbors:
+      up:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      down:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      front:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      right:
+      - id: $empty
+        weight: 1
+      back:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      left:
+      - id: $solid
+        weight: 1
+  - id: demo-wall-plain:r270:mx
+    sourceId: demo-wall-plain
+    logicalId: 
+    model:
+      stateCode: 153
+      stateCodeString: 10011001
+      mesh: {fileID: -3967710934191962699}
+      rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+      mirrorX: 1
+    weight: 0.125
+    neighbors:
+      up:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      down:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      front:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      right:
+      - id: $empty
+        weight: 1
+      back:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      left:
+      - id: $solid
+        weight: 1
+  - id: demo-wall-plain:r90
+    sourceId: demo-wall-plain
+    logicalId: 
+    model:
+      stateCode: 102
+      stateCodeString: 01100110
+      mesh: {fileID: -3967710934191962699}
+      rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+      mirrorX: 0
+    weight: 0.125
+    neighbors:
+      up:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      down:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      front:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      right:
+      - id: $solid
+        weight: 1
+      back:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      left:
+      - id: $empty
+        weight: 1
+  - id: demo-wall-plain:r90:mx
+    sourceId: demo-wall-plain
+    logicalId: 
+    model:
+      stateCode: 102
+      stateCodeString: 01100110
+      mesh: {fileID: -3967710934191962699}
+      rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+      mirrorX: 1
+    weight: 0.125
+    neighbors:
+      up:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      down:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      front:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      right:
+      - id: $solid
+        weight: 1
+      back:
+      - id: demo-wall-plain
+        weight: 3
+      - id: demo-wall-window
+        weight: 1
+      left:
+      - id: $empty
+        weight: 1
+  - id: demo-wall-window:r0
+    sourceId: demo-wall-window
+    logicalId: 
+    model:
+      stateCode: 51
+      stateCodeString: 11001100
+      mesh: {fileID: -4330615551508222437}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      mirrorX: 0
+    weight: 0.125
+    neighbors:
+      up:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      down:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      front:
+      - id: $solid
+        weight: 1
+      right:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      back:
+      - id: $empty
+        weight: 1
+      left:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+  - id: demo-wall-window:r0:mx
+    sourceId: demo-wall-window
+    logicalId: 
+    model:
+      stateCode: 51
+      stateCodeString: 11001100
+      mesh: {fileID: -4330615551508222437}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      mirrorX: 1
+    weight: 0.125
+    neighbors:
+      up:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      down:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      front:
+      - id: $solid
+        weight: 1
+      right:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      back:
+      - id: $empty
+        weight: 1
+      left:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+  - id: demo-wall-window:r180
+    sourceId: demo-wall-window
+    logicalId: 
+    model:
+      stateCode: 204
+      stateCodeString: 00110011
+      mesh: {fileID: -4330615551508222437}
+      rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+      mirrorX: 0
+    weight: 0.125
+    neighbors:
+      up:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      down:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      front:
+      - id: $empty
+        weight: 1
+      right:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      back:
+      - id: $solid
+        weight: 1
+      left:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+  - id: demo-wall-window:r180:mx
+    sourceId: demo-wall-window
+    logicalId: 
+    model:
+      stateCode: 204
+      stateCodeString: 00110011
+      mesh: {fileID: -4330615551508222437}
+      rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+      mirrorX: 1
+    weight: 0.125
+    neighbors:
+      up:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      down:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      front:
+      - id: $empty
+        weight: 1
+      right:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      back:
+      - id: $solid
+        weight: 1
+      left:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+  - id: demo-wall-window:r270
+    sourceId: demo-wall-window
+    logicalId: 
+    model:
+      stateCode: 153
+      stateCodeString: 10011001
+      mesh: {fileID: -4330615551508222437}
+      rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+      mirrorX: 0
+    weight: 0.125
+    neighbors:
+      up:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      down:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      front:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      right:
+      - id: $empty
+        weight: 1
+      back:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      left:
+      - id: $solid
+        weight: 1
+  - id: demo-wall-window:r270:mx
+    sourceId: demo-wall-window
+    logicalId: 
+    model:
+      stateCode: 153
+      stateCodeString: 10011001
+      mesh: {fileID: -4330615551508222437}
+      rotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+      mirrorX: 1
+    weight: 0.125
+    neighbors:
+      up:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      down:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      front:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      right:
+      - id: $empty
+        weight: 1
+      back:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      left:
+      - id: $solid
+        weight: 1
+  - id: demo-wall-window:r90
+    sourceId: demo-wall-window
+    logicalId: 
+    model:
+      stateCode: 102
+      stateCodeString: 01100110
+      mesh: {fileID: -4330615551508222437}
+      rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+      mirrorX: 0
+    weight: 0.125
+    neighbors:
+      up:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      down:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      front:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      right:
+      - id: $solid
+        weight: 1
+      back:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      left:
+      - id: $empty
+        weight: 1
+  - id: demo-wall-window:r90:mx
+    sourceId: demo-wall-window
+    logicalId: 
+    model:
+      stateCode: 102
+      stateCodeString: 01100110
+      mesh: {fileID: -4330615551508222437}
+      rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+      mirrorX: 1
+    weight: 0.125
+    neighbors:
+      up:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      down:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      front:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      right:
+      - id: $solid
+        weight: 1
+      back:
+      - id: demo-wall-plain
+        weight: 1
+      - id: demo-wall-window
+        weight: 3
+      left:
+      - id: $empty
+        weight: 1
+  diagnostics:
+  - Missing 250 surface states. Unsupported states use the baseline library; connect
+    them explicitly with $baseline or the component falls back.

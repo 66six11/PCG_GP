@@ -1,70 +1,26 @@
 using System;
-using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
-using Utility;
-using Utility.RefCopy;
-
 
 namespace HexagonalGrids
 {
+    /// <summary>A shared topology vertex, regardless of the generation stage.</summary>
     [Serializable]
-    public class Vertex : ICopyable<Vertex>
+    public sealed class Vertex
     {
-        public int id { get; set; } = RefIDGenerator.ID;
-        public Vector3 position;
-        public float x => this.position.x;
-        public float y => this.position.y;
-        public float z => this.position.z;
-
-        public Vertex Copy()
-        {
-            return new Vertex() { position = this.position };
-        }
-
-        public Vertex()
-        {
-        }
-
-        public Vertex(Vector3 position)
-        {
-            this.position = position;
-        }
-
-        public bool IsEnabled = false;
-    }
-
-    public class HexVertex : Vertex
-    {
+        private static int nextId;
+        public int id { get; } = Interlocked.Increment(ref nextId);
         public readonly Coord coord;
+        public Vector3 position;
+        public bool IsEnabled;
+        public float x => position.x;
+        public float y => position.y;
+        public float z => position.z;
 
-
-        public HexVertex(Coord coord, Vector3 position)
-        {
-            this.coord = coord;
-            this.position = position;
-        }
-    }
-
-    public class MidVertex : Vertex
-    {
-        public MidVertex(Vertex a, Vertex b)
-        {
-            Vector3 midPos = (a.position + b.position) / 2;
-            this.position = midPos;
-        }
-    }
-
-    public class CenterVertex : Vertex
-    {
-        public CenterVertex(Vertex[] vertices)
-        {
-            Vector3 centerPos = Vector3.zero;
-            foreach (var v in vertices)
-            {
-                centerPos += v.position;
-            }
-
-            this.position = centerPos / vertices.Length;
-        }
+        public Vertex() { }
+        public Vertex(Vector3 position) => this.position = position;
+        public Vertex(Coord coord, Vector3 position) : this(position) => this.coord = coord;
+        public Vertex(Vertex a, Vertex b) : this((a.position + b.position) * 0.5f) { }
+        public Vertex Copy() => new Vertex(coord, position) { IsEnabled = IsEnabled };
     }
 }

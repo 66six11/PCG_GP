@@ -1,57 +1,55 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace HexagonalGrids
 {
-    public class Quad
+    /// <summary>One ordered face type for source and subdivided topology.</summary>
+    public sealed class Quad
     {
-        public readonly HexVertex a, b, c, d;
-
-        public readonly HexVertex[] vertices;
-
-        public readonly CenterVertex centerVertex;
-
-        public readonly Edge ab, bc, cd, da;
-
+        public readonly Vertex[] vertices;
         public readonly Edge[] edges;
+        public Vertex a => vertices[0];
+        public Vertex b => vertices[1];
+        public Vertex c => vertices[2];
+        public Vertex d => vertices[3];
+        public Edge ab => edges[0];
+        public Edge bc => edges[1];
+        public Edge cd => edges[2];
+        public Edge da => edges[3];
+        public Vector3 center => (a.position + b.position + c.position + d.position) * 0.25f;
+        private Vertex cachedCenter;
+        public Vertex centerVertex => cachedCenter ?? (cachedCenter = new Vertex(center));
 
-        public Quad(HexVertex a, HexVertex b, HexVertex c, HexVertex d, List<Edge> edges, List<MidVertex> midVertices, List<CenterVertex> centerVertices)
+        public Quad(Vertex a, Vertex b, Vertex c, Vertex d, EdgeCollection edgeCollection)
         {
-            this.a = a;
-            this.b = b;
-            this.c = c;
-            this.d = d;
-            ab = Edge.GenerateEdge(a, b, edges, midVertices);
-            bc = Edge.GenerateEdge(b, c, edges, midVertices);
-            cd = Edge.GenerateEdge(c, d, edges, midVertices);
-            da = Edge.GenerateEdge(d, a, edges, midVertices);
-            this.edges = new[] { ab, bc, cd, da };
-            vertices = new HexVertex[] { a, b, c, d };
+            vertices = new[] { a, b, c, d };
+            edges = new[] { edgeCollection.GetOrAdd(a, b), edgeCollection.GetOrAdd(b, c),
+                edgeCollection.GetOrAdd(c, d), edgeCollection.GetOrAdd(d, a) };
+        }
 
-            centerVertex = new CenterVertex(vertices);
+        public Quad(Vertex a, Vertex b, Vertex c, Vertex d, EdgeCollection edges,
+            List<Vertex> midVertices, List<Vertex> centerVertices)
+        {
+            vertices = new[] { a, b, c, d };
+            this.edges = new[] { Edge.GenerateEdge(a, b, edges, midVertices),
+                Edge.GenerateEdge(b, c, edges, midVertices), Edge.GenerateEdge(c, d, edges, midVertices),
+                Edge.GenerateEdge(d, a, edges, midVertices) };
             centerVertices.Add(centerVertex);
         }
 
-        public static Quad MergeTriangles(Triangle triangle1, Triangle triangle2, List<Edge> edges, List<MidVertex> midVertices, List<CenterVertex> centerVertices)
+        public static Quad MergeTriangles(Triangle first, Triangle second, EdgeCollection edges,
+            List<Vertex> midVertices, List<Vertex> centerVertices)
         {
-            Edge sharedEdge = triangle1.GetSharedEdge(triangle2);
-
-
-            int t1EdgeIndex = Array.IndexOf(triangle1.edges, sharedEdge);
-            int t2EdgeIndex = Array.IndexOf(triangle2.edges, sharedEdge);
-
-
-            int t1OtherIndexIndex = (t1EdgeIndex + 2) % 3;
-            int t2OtherIndexIndex = (t2EdgeIndex + 2) % 3;
-            HexVertex a = triangle1.vertices[t1OtherIndexIndex];
-            HexVertex b = triangle2.vertices[(t2OtherIndexIndex + 2) % 3];
-            HexVertex c = triangle2.vertices[(t2OtherIndexIndex + 3) % 3];
-            HexVertex d = triangle2.vertices[(t2OtherIndexIndex + 4) % 3];
-
-            edges.Remove(sharedEdge);
-            midVertices.Remove(sharedEdge.midVertex);
-
-            return new Quad(a, b, c, d, edges, midVertices, centerVertices);
+            var shared = first.GetSharedEdge(second);
+            if (shared == null) throw new ArgumentException("Triangles must share an edge.");
+            int i = Array.IndexOf(first.edges, shared);
+            Vertex opposite = null;
+            foreach (var vertex in second.vertices)
+                if (vertex != shared.a && vertex != shared.b) opposite = vertex;
+            // Preserve the first triangle's winding around the merged perimeter.
+            return new Quad(first.vertices[(i + 2) % 3], first.vertices[i], opposite,
+                first.vertices[(i + 1) % 3], edges, midVertices, centerVertices);
         }
     }
 }

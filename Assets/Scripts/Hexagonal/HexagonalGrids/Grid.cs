@@ -1,73 +1,97 @@
+using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using UnityEngine;
-using Utility.RefCopy;
 
 namespace HexagonalGrids
 {
     public class GridLayer
     {
-        public List<SubQuad> subQuads = new List<SubQuad>();
-        public List<SubEdge> subEdges = new List<SubEdge>();
-        public List<Vertex> subVertices = new List<Vertex>();
-        public List<SubEdge> boundaryEdges = new List<SubEdge>();
-        public List<Vertex> boundaryVertices = new List<Vertex>();
+        public readonly List<Quad> subQuads = new List<Quad>();
+        public readonly EdgeCollection subEdges = new EdgeCollection();
+        public readonly List<Vertex> subVertices = new List<Vertex>();
+        public readonly List<Edge> boundaryEdges = new List<Edge>();
+        public readonly List<Vertex> boundaryVertices = new List<Vertex>();
         public VertexKdTree vertexKDTree;
     }
 
     public class HexGrid
     {
-        public int radius;
-        public Vector3 origin;
-        public float cellSize;
-        public float cellHeight;
-        public int layerCount;
+        public readonly int radius;
+        public readonly Vector3 origin;
+        public readonly float cellSize;
+        public readonly float cellHeight;
+        public readonly int layerCount;
+        private readonly IReadOnlyList<Coord> hexCoordinates;
+        public IReadOnlyList<Coord> HexCoordinates => hexCoordinates;
+        public bool IsCoordinateLayout => hexCoordinates != null;
 
-        public readonly List<HexVertex> vertices = new List<HexVertex>();
-        public List<MidVertex> midVertices = new List<MidVertex>();
-        public List<CenterVertex> centerVertices = new List<CenterVertex>();
+        public readonly List<Vertex> vertices = new List<Vertex>();
+        public readonly List<Vertex> midVertices = new List<Vertex>();
+        public readonly List<Vertex> centerVertices = new List<Vertex>();
 
 
         public readonly List<Triangle> triangles = new List<Triangle>();
         public readonly List<Quad> quads = new List<Quad>();
-        public readonly List<Edge> edges = new List<Edge>();
+        public readonly EdgeCollection edges = new EdgeCollection();
 
 
         // 网格层
-        public List<SubQuad> allSubQuads = new List<SubQuad>();
-        public List<SubEdge> allSubEdges = new List<SubEdge>();
-        public List<Vertex> allSubVertices = new List<Vertex>();
+        public readonly List<Quad> allSubQuads = new List<Quad>();
+        public readonly EdgeCollection allSubEdges = new EdgeCollection();
+        public readonly List<Vertex> allSubVertices = new List<Vertex>();
 
-        public GridLayer baseLayer;
-        public List<GridLayer> layers = new List<GridLayer>(); // <--- 多层网格 --->
+        public GridLayer baseLayer { get; private set; }
+        public readonly List<GridLayer> layers = new List<GridLayer>(); // <--- 多层网格 --->
 
 
-        public List<Cell> cells = new List<Cell>(); // <--- 网格单元 --->
+        public readonly List<Cell> cells = new List<Cell>(); // <--- 网格单元 --->
 
         public VertexKdTree vertexKDTree;
 
 
-        public Dictionary<Vertex, List<Cell>> vextex2cellsMap = new Dictionary<Vertex, List<Cell>>(); //点到网格单元的映射
+        private readonly Dictionary<Vertex, List<Cell>> vertex2cellsMap = new Dictionary<Vertex, List<Cell>>(); //点到网格单元的映射
 
 
         public HexGrid(int radius, float cellSize, Vector3 origin, float cellHeight, int layerCount)
         {
+            if (radius < 0) throw new ArgumentOutOfRangeException(nameof(radius));
+            if (!(cellSize > 0) || float.IsInfinity(cellSize)) throw new ArgumentOutOfRangeException(nameof(cellSize));
+            if (!(cellHeight > 0) || float.IsInfinity(cellHeight)) throw new ArgumentOutOfRangeException(nameof(cellHeight));
+            if (layerCount < 0) throw new ArgumentOutOfRangeException(nameof(layerCount));
             this.radius = radius;
             this.cellSize = cellSize;
             this.origin = origin;
             this.cellHeight = cellHeight;
             this.layerCount = layerCount;
-            baseLayer = new GridLayer();
             Init();
         }
-        
+
+        /// <summary>Build actual hexagonal tiles from axial center coordinates, independent of rings or radius.</summary>
+        public HexGrid(IEnumerable<Coord> coordinates, float cellSize, Vector3 origin, float cellHeight, int layerCount)
+        {
+            if (coordinates == null) throw new ArgumentNullException(nameof(coordinates));
+            if (!(cellSize > 0) || float.IsInfinity(cellSize)) throw new ArgumentOutOfRangeException(nameof(cellSize));
+            if (!(cellHeight > 0) || float.IsInfinity(cellHeight)) throw new ArgumentOutOfRangeException(nameof(cellHeight));
+            if (layerCount < 0) throw new ArgumentOutOfRangeException(nameof(layerCount));
+            radius = -1; this.cellSize = cellSize; this.origin = origin; this.cellHeight = cellHeight; this.layerCount = layerCount;
+            var unique = new HashSet<(int q, int r)>(); var sorted = new List<Coord>();
+            foreach (var coord in coordinates)
+            {
+                if (ReferenceEquals(coord, null)) throw new ArgumentException("A hex coordinate cannot be null.", nameof(coordinates));
+                if (unique.Add((coord.q, coord.r))) sorted.Add(new Coord(coord.q, coord.r));
+            }
+            // Input enumeration order must not change seeded matching, topology indices, or saved-map identity.
+            sorted.Sort((a, b) => a.q != b.q ? a.q.CompareTo(b.q) : a.r.CompareTo(b.r));
+            hexCoordinates = sorted.AsReadOnly(); GenerateHexTriangles();
+        }
+
 
         private void Init()
         {
             foreach (var coord in Coord.HexCoord(radius))
             {
                 // 通过网格配置计算世界坐标
-                vertices.Add(new HexVertex(coord, coord.ToWorldPosition(cellSize, origin)));
+                vertices.Add(new Vertex(coord, coord.ToWorldPosition(cellSize, origin)));
             }
 
             GenerateHexTriangles();
@@ -78,23 +102,13 @@ namespace HexagonalGrids
             baseLayer.vertexKDTree = new VertexKdTree(baseLayer.subVertices);
         }
 
-        public List<HexVertex> RingVertices(int radius)
+        public List<Vertex> RingVertices(int radius)
         {
-            List<HexVertex> result = new List<HexVertex>();
+            if (IsCoordinateLayout) throw new InvalidOperationException("Coordinate maps do not have radius rings.");
+            if (radius < 0 || radius > this.radius) throw new ArgumentOutOfRangeException(nameof(radius));
+            List<Vertex> result = new List<Vertex>();
             var count = radius > 0 ? 6 * radius : 1;
-            var index = 0;
-            for (int i = 0; i <= radius - 1; i++)
-            {
-                if (i <= 0)
-                {
-                    index += 1;
-                }
-                else
-                {
-                    index += 6 * i;
-                }
-            }
-
+            var index = radius == 0 ? 0 : 1 + 3 * radius * (radius - 1);
             for (int i = 0; i < count; i++)
             {
                 result.Add(vertices[index + i]);
@@ -106,10 +120,17 @@ namespace HexagonalGrids
 
         public void GenerateHexTriangles()
         {
+            InvalidateSubdivision();
+            triangles.Clear();
+            quads.Clear();
+            edges.Clear();
+            midVertices.Clear();
+            centerVertices.Clear();
+            if (IsCoordinateLayout) { GenerateCoordinateTriangles(); return; }
             // 六边形网格的三角形生成算法
 
-            List<HexVertex> inRingVertices = new List<HexVertex>();
-            List<HexVertex> outRingVertices = new List<HexVertex>();
+            List<Vertex> inRingVertices;
+            List<Vertex> outRingVertices;
 
             for (int i = 0; i < radius; i++)
             {
@@ -121,43 +142,78 @@ namespace HexagonalGrids
             }
         }
 
-        //随机合并两个相邻的三角形
-        public void RandomMergeTriangles()
+        private void GenerateCoordinateTriangles()
         {
-            while (triangles.Count > 0)
+            vertices.Clear();
+            // Integer corner keys weld adjacent tiles exactly, including negative coordinates.
+            // World X = key.x * size / sqrt(3), world Z = key.z * size.
+            var corners = new Dictionary<(long x, long z), Vertex>();
+            int[] dx = { 2, 1, -1, -2, -1, 1 }, dz = { 0, -1, -1, 0, 1, 1 };
+            foreach (var coord in hexCoordinates)
             {
-                bool hasNeighbor = false;
-
-                foreach (var t in triangles)
+                var center = new Vertex(coord, coord.ToWorldPosition(cellSize, origin)); vertices.Add(center);
+                var ring = new Vertex[6];
+                for (int i = 0; i < 6; i++)
                 {
-                    if (t.FindNeighborTriangles(triangles).Count > 0)
+                    var key = (x: 3L * coord.q + dx[i], z: -2L * coord.r - coord.q + dz[i]);
+                    if (!corners.TryGetValue(key, out var corner))
                     {
-                        hasNeighbor = true;
-                        break;
+                        corner = new Vertex(new Vector3((float)(key.x * (double)cellSize / Math.Sqrt(3)), 0, (float)(key.z * (double)cellSize)) + origin);
+                        corners.Add(key, corner); vertices.Add(corner);
                     }
+                    ring[i] = corner;
                 }
-
-                if (!hasNeighbor) return;
-
-                Triangle t1 = triangles[Random.Range(0, triangles.Count)];
-
-                List<Triangle> t2 = t1.FindNeighborTriangles(triangles);
-                if (t2.Count == 0) continue;
-                Triangle t3 = t2[Random.Range(0, t2.Count)];
-
-                var quad = Quad.MergeTriangles(t1, t3, edges, midVertices, centerVertices);
-
-                triangles.Remove(t1);
-                triangles.Remove(t3);
-
-                centerVertices.Remove(t1.center);
-                centerVertices.Remove(t3.center);
-
-                quads.Add(quad);
+                for (int i = 0; i < 6; i++)
+                    triangles.Add(new Triangle(center, ring[i], ring[(i + 1) % 6], edges, midVertices, centerVertices));
             }
         }
 
-        public static List<Triangle> RingTriangles(int inRadius, List<HexVertex> inRingVertices, List<HexVertex> outRingVertices, List<Edge> outEdges, List<MidVertex> midVertices, List<CenterVertex> centerVertices)
+        //随机合并两个相邻的三角形
+        public void RandomMergeTriangles()
+        {
+            if (triangles.Count == 0) return;
+            InvalidateSubdivision();
+            var owners = new Dictionary<Edge, Triangle>();
+            var candidates = new List<(Edge edge, Triangle first, Triangle second)>();
+            foreach (var triangle in triangles)
+            {
+                foreach (var edge in triangle.edges)
+                {
+                    if (owners.TryGetValue(edge, out var first))
+                        candidates.Add((edge, first, triangle));
+                    else owners.Add(edge, triangle);
+                }
+            }
+
+            // Randomized greedy matching: each shared edge is considered exactly once.
+            for (int i = candidates.Count - 1; i > 0; i--)
+            {
+                int j = UnityEngine.Random.Range(0, i + 1);
+                var candidate = candidates[i];
+                candidates[i] = candidates[j];
+                candidates[j] = candidate;
+            }
+            var consumed = new HashSet<Triangle>();
+            var removedEdges = new HashSet<Edge>();
+            var removedVertices = new HashSet<Vertex>();
+            foreach (var pair in candidates)
+            {
+                if (consumed.Contains(pair.first) || consumed.Contains(pair.second)) continue;
+                quads.Add(Quad.MergeTriangles(pair.first, pair.second, edges, midVertices, centerVertices));
+                consumed.Add(pair.first);
+                consumed.Add(pair.second);
+                removedEdges.Add(pair.edge);
+                removedVertices.Add(pair.edge.midVertex);
+                removedVertices.Add(pair.first.center);
+                removedVertices.Add(pair.second.center);
+            }
+            triangles.RemoveAll(consumed.Contains);
+            edges.RemoveWhere(removedEdges);
+            midVertices.RemoveAll(removedVertices.Contains);
+            centerVertices.RemoveAll(removedVertices.Contains);
+        }
+
+        public static List<Triangle> RingTriangles(int inRadius, List<Vertex> inRingVertices, List<Vertex> outRingVertices, EdgeCollection outEdges, List<Vertex> midVertices, List<Vertex> centerVertices)
         {
             List<Triangle> result = new List<Triangle>();
 
@@ -217,9 +273,9 @@ namespace HexagonalGrids
             Vertex triangleCenter = triangle.center;
 
 
-            baseLayer.subQuads.Add(new SubQuad(caMid, a, abMid, triangleCenter, baseLayer.subEdges));
-            baseLayer.subQuads.Add(new SubQuad(abMid, b, bcMid, triangleCenter, baseLayer.subEdges));
-            baseLayer.subQuads.Add(new SubQuad(bcMid, c, caMid, triangleCenter, baseLayer.subEdges));
+            baseLayer.subQuads.Add(new Quad(caMid, a, abMid, triangleCenter, baseLayer.subEdges));
+            baseLayer.subQuads.Add(new Quad(abMid, b, bcMid, triangleCenter, baseLayer.subEdges));
+            baseLayer.subQuads.Add(new Quad(bcMid, c, caMid, triangleCenter, baseLayer.subEdges));
         }
 
         //细分四边形
@@ -237,230 +293,162 @@ namespace HexagonalGrids
 
             Vertex center = quad.centerVertex;
 
-            baseLayer.subQuads.Add(new SubQuad(daMid, a, abMid, center, baseLayer.subEdges));
-            baseLayer.subQuads.Add(new SubQuad(abMid, b, bcMid, center, baseLayer.subEdges));
-            baseLayer.subQuads.Add(new SubQuad(bcMid, c, cdMid, center, baseLayer.subEdges));
-            baseLayer.subQuads.Add(new SubQuad(cdMid, d, daMid, center, baseLayer.subEdges));
+            baseLayer.subQuads.Add(new Quad(daMid, a, abMid, center, baseLayer.subEdges));
+            baseLayer.subQuads.Add(new Quad(abMid, b, bcMid, center, baseLayer.subEdges));
+            baseLayer.subQuads.Add(new Quad(bcMid, c, cdMid, center, baseLayer.subEdges));
+            baseLayer.subQuads.Add(new Quad(cdMid, d, daMid, center, baseLayer.subEdges));
         }
 
         //细分网格
         public void SubdivideGrid()
         {
-            foreach (var triangle in triangles)
-            {
-                SubdivideTriangle(triangle);
-            }
+            InvalidateSubdivision();
+            foreach (var triangle in triangles) SubdivideTriangle(triangle);
+            foreach (var quad in quads) SubdivideQuad(quad);
 
-            foreach (var quad in quads)
+            var seenVertices = new HashSet<Vertex>();
+            var edgeUseCounts = new Dictionary<Edge, int>();
+            foreach (var quad in baseLayer.subQuads)
             {
-                SubdivideQuad(quad);
-            }
-
-            foreach (var subQuad in baseLayer.subQuads)
-            {
-                foreach (var subVertex in subQuad.vertices)
+                foreach (var vertex in quad.vertices)
+                    if (seenVertices.Add(vertex)) baseLayer.subVertices.Add(vertex);
+                foreach (var edge in quad.edges)
                 {
-                    if (!baseLayer.subVertices.Contains(subVertex))
-                    {
-                        baseLayer.subVertices.Add(subVertex);
-                    }
+                    edgeUseCounts.TryGetValue(edge, out int count);
+                    edgeUseCounts[edge] = count + 1;
                 }
             }
-
-            foreach (var subEdge in baseLayer.subEdges)
+            var boundaryVertices = new HashSet<Vertex>();
+            foreach (var edge in baseLayer.subEdges)
             {
-                int count = 0;
-                foreach (var subQuad in baseLayer.subQuads)
-                {
-                    foreach (var edge in subQuad.edges)
-                    {
-                        if (edge == subEdge)
-                        {
-                            count++;
-                        }
-                    }
-                }
-
-                if (count == 1)
-                {
-                    List<Vertex> vertices = new List<Vertex>(subEdge.endpoints);
-                    baseLayer.boundaryVertices.AddRange(vertices);
-                    baseLayer.boundaryEdges.Add(subEdge);
-                }
+                if (edgeUseCounts[edge] != 1) continue;
+                baseLayer.boundaryEdges.Add(edge);
+                if (boundaryVertices.Add(edge.a)) baseLayer.boundaryVertices.Add(edge.a);
+                if (boundaryVertices.Add(edge.b)) baseLayer.boundaryVertices.Add(edge.b);
             }
+            ResetToBaseLayer();
+        }
 
+        private void InvalidateSubdivision()
+        {
+            baseLayer = new GridLayer();
+            ResetToBaseLayer();
+        }
+
+        private void ResetToBaseLayer()
+        {
+            layers.Clear();
             layers.Add(baseLayer);
-            allSubEdges.AddRange(baseLayer.subEdges);
-            allSubVertices.AddRange(baseLayer.subVertices);
-            allSubQuads.AddRange(baseLayer.subQuads);
+            allSubEdges.Clear();
+            allSubVertices.Clear();
+            allSubQuads.Clear();
+            AddLayerData(baseLayer);
+            cells.Clear();
+            vertex2cellsMap.Clear();
+            vertexKDTree = null;
         }
 
-        public void RelaxGrid(int times)
+        private void AddLayerData(GridLayer layer)
         {
-            for (int i = 0; i < times; i++)
-            {
-                foreach (var subQuad in baseLayer.subQuads)
-                {
-                    RelaxSubQuad(subQuad);
-                }
-            }
+            allSubEdges.AddRange(layer.subEdges);
+            allSubVertices.AddRange(layer.subVertices);
+            allSubQuads.AddRange(layer.subQuads);
         }
 
-        //优化网格
-        private void RelaxSubQuad(SubQuad subQuad)
+        /// <summary>Production relaxation uses the balanced size/shape optimizer.</summary>
+        public void RelaxGrid(int times, bool? preserveBoundary = null)
+            => RelaxBalanced(times, preserveBoundary ?? IsCoordinateLayout);
+
+        internal void InvalidateDerivedGeometry()
+        { ResetToBaseLayer(); baseLayer.vertexKDTree = null; }
+
+        public QuadMeshOptimizer.Result RelaxBalanced(int times, bool preserveBoundary = false, QuadMeshOptimizer.Settings settings = null)
         {
-            Vector3 center2a = subQuad.a.position - subQuad.center;
-            Vector3 center2b = subQuad.b.position - subQuad.center;
-            Vector3 center2c = subQuad.c.position - subQuad.center;
-            Vector3 center2d = subQuad.d.position - subQuad.center;
-
-            Vector3 aDesired = DesiredPosition(center2a, center2b, center2c, center2d);
-            Vector3 bDesired = DesiredPosition(center2b, center2c, center2d, center2a);
-            Vector3 cDesired = DesiredPosition(center2c, center2d, center2a, center2b);
-            Vector3 dDesired = DesiredPosition(center2d, center2a, center2b, center2c);
-
-            subQuad.a.position += (aDesired - subQuad.a.position) * 0.1f;
-            subQuad.b.position += (bDesired - subQuad.b.position) * 0.1f;
-            subQuad.c.position += (cDesired - subQuad.c.position) * 0.1f;
-            subQuad.d.position += (dDesired - subQuad.d.position) * 0.1f;
-
-            //计算a的期望位置
-            Vector3 DesiredPosition(Vector3 v1, Vector3 v2, Vector3 v3, Vector3 v4)
-            {
-                Vector3 sum = Vector3.zero;
-                //v2旋转270度
-                Vector3 v2_ = YRotationVector(v2, 270);
-                //v3旋转180度
-                Vector3 v3_ = YRotationVector(v3, 180);
-                //v4旋转90度
-                Vector3 v4_ = YRotationVector(v4, 90);
-                //计算四个顶点的加权平均值
-                sum += v1;
-                sum += v2_;
-                sum += v3_;
-                sum += v4_;
-                sum /= 4;
-                //向量长度设置为根号2/2的cellSize
-                sum.Normalize();
-
-                sum *= cellSize * 0.707f;
-
-
-                return subQuad.center + sum;
-            }
-
-            //旋转向量
-            Vector3 YRotationVector(Vector3 v, float angle)
-            {
-                //绕Y轴旋转
-                Quaternion q = Quaternion.AngleAxis(angle, Vector3.up);
-                return q * v;
-            }
+            // Validate and optimize before discarding any existing layer/cell data.
+            var result = new QuadMeshOptimizer().Optimize(baseLayer, times, preserveBoundary, settings);
+            if (result.AcceptedSteps > 0)
+                InvalidateDerivedGeometry();
+            return result;
         }
 
         //复制出其他层的网格
-        private GridLayer CopySubGrid(GridLayer gridLayer)
+        private GridLayer CopySubGrid(int layerIndex)
         {
-            GridLayer result = new GridLayer();
-            RefCopyHelper<Vertex> copyHelper = new RefCopyHelper<Vertex>(gridLayer.subVertices, out var copyList);
-            result.subVertices = copyList;
-            result.subQuads = copyHelper.ListCopy(gridLayer.subQuads);
-            result.subEdges = copyHelper.ListCopy<SubEdge>(gridLayer.subEdges);
-            result.boundaryVertices = copyHelper.ListCopy(gridLayer.boundaryVertices);
-            result.boundaryEdges = copyHelper.ListCopy<SubEdge>(gridLayer.boundaryEdges);
-
-            foreach (var subQuad in result.subQuads)
+            var result = new GridLayer();
+            var vertexMap = new Dictionary<Vertex, Vertex>(baseLayer.subVertices.Count);
+            foreach (var source in baseLayer.subVertices)
             {
-                subQuad.SetEdges(result.subEdges);
+                var copy = source.Copy();
+                copy.position += Vector3.up * (cellHeight * layerIndex);
+                vertexMap.Add(source, copy);
+                result.subVertices.Add(copy);
             }
-
-            //调整顶点位置
-            foreach (var vertex in result.subVertices)
-            {
-                vertex.position += Vector3.up * cellHeight;
-            }
-
-            //复制kd树
+            foreach (var quad in baseLayer.subQuads)
+                result.subQuads.Add(new Quad(vertexMap[quad.a], vertexMap[quad.b],
+                    vertexMap[quad.c], vertexMap[quad.d], result.subEdges));
+            foreach (var vertex in baseLayer.boundaryVertices)
+                result.boundaryVertices.Add(vertexMap[vertex]);
+            foreach (var edge in baseLayer.boundaryEdges)
+                result.boundaryEdges.Add(result.subEdges.GetOrAdd(vertexMap[edge.a], vertexMap[edge.b]));
             result.vertexKDTree = new VertexKdTree(result.subVertices);
             return result;
         }
 
         public void BuildLayers()
         {
-            for (int i = 0; i < layerCount; i++)
+            ResetToBaseLayer();
+            // layerCount is the number of cell layers; there are layerCount + 1 vertex planes.
+            for (int i = 1; i <= layerCount; i++)
             {
-                GridLayer layer = CopySubGrid(layers[i]);
-                allSubEdges.AddRange(layer.subEdges);
-                allSubVertices.AddRange(layer.subVertices);
-                allSubQuads.AddRange(layer.subQuads);
+                var layer = CopySubGrid(i);
                 layers.Add(layer);
+                AddLayerData(layer);
             }
-
             vertexKDTree = new VertexKdTree(allSubVertices);
         }
 
         public void BuildCells()
         {
-            if (layers.Count <= 1) return;
+            cells.Clear();
+            vertex2cellsMap.Clear();
+            // Drop previous vertical edges while retaining the canonical edges of every plane.
+            allSubEdges.Clear();
+            foreach (var layer in layers) allSubEdges.AddRange(layer.subEdges);
             for (int i = 1; i < layers.Count; i++)
-            {
                 for (int j = 0; j < baseLayer.subQuads.Count; j++)
-                {
-                    SubQuad upQuad = layers[i].subQuads[j];
-                    SubQuad downQuad = layers[i - 1].subQuads[j];
-
-                    Cell cell = new Cell(upQuad, downQuad, allSubEdges);
-                    cells.Add(cell);
-                }
-            }
-
-            //构建点到cell的映射
+                    cells.Add(new Cell(layers[i].subQuads[j], layers[i - 1].subQuads[j], allSubEdges));
             BuildVertex2CellsMap();
-            //构建cell的邻居映射
             BuildCellNeighborsMap();
         }
 
         private void BuildVertex2CellsMap()
         {
-            foreach (var vertex in allSubVertices)
-            {
-                vextex2cellsMap.Add(vertex, new List<Cell>());
-                foreach (var cell in cells)
-                {
-                    if (cell.Contains(vertex))
-                    {
-                        vextex2cellsMap[vertex].Add(cell);
-                    }
-                }
-            }
+            foreach (var vertex in allSubVertices) vertex2cellsMap.Add(vertex, new List<Cell>(8));
+            foreach (var cell in cells)
+                foreach (var vertex in cell.vertices) vertex2cellsMap[vertex].Add(cell);
         }
 
-        public List<Cell> Vertex2Cells(Vertex vertex)
-        {
-            return vextex2cellsMap[vertex];
-        }
+        public List<Cell> Vertex2Cells(Vertex vertex) => vertex2cellsMap[vertex];
 
         public void BuildCellNeighborsMap()
         {
+            foreach (var cell in cells) cell.neighbours.Clear();
+            var owners = new Dictionary<FaceKey, Cell>();
+            var matched = new HashSet<FaceKey>();
             foreach (var cell in cells)
             {
-                var cellVertices = new HashSet<Vertex>(cell.vertices);
-                foreach (var neighbor in cells)
+                for (int face = 0; face < Cell.FaceCount; face++)
                 {
-                    if (neighbor == cell)
-                    {
-                        continue;
-                    }
-
-                    var intersection = new HashSet<Vertex>(cellVertices);
-                    intersection.IntersectWith(neighbor.vertices);
-                    if (intersection.Count == 4)
+                    var key = cell.GetFaceKey(face);
+                    if (matched.Contains(key)) throw new InvalidOperationException("Non-manifold face shared by more than two cells.");
+                    if (owners.TryGetValue(key, out var neighbor))
                     {
                         cell.neighbours.Add(neighbor);
-                        
+                        neighbor.neighbours.Add(cell);
+                        matched.Add(key);
                     }
+                    else owners.Add(key, cell);
                 }
-                Debug.Log(cell.neighbours.Count);
             }
         }
     }

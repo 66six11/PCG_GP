@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using HexagonalGrids.Render;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering.VirtualTexturing;
 
 namespace HexagonalGrids
 {
     public class GirdGenerator : MonoBehaviour
     {
         [SerializeField] private int radius;
+        [SerializeField] private bool useCoordinateLayout;
+        [SerializeField] private HexGridLayout mapLayout = new HexGridLayout();
         [SerializeField] private float cellSize;
         [SerializeField] private float cellHeight;
         [SerializeField] [Min(1)] private int layerCount;
@@ -33,14 +33,15 @@ namespace HexagonalGrids
             BuildKdTree();
             GenerateMultiLayerGrid();
             BuildCell();
-            
+
             // gridRender.Init();
         }
 
         [ContextMenu("生成六边形网格")]
         public void GenerateHexGrid()
         {
-            _hexGrid = new HexGrid(radius, cellSize, this.transform.position, cellHeight, layerCount);
+            _hexGrid = useCoordinateLayout ? mapLayout.CreateGrid(cellSize, transform.position, cellHeight, layerCount)
+                : new HexGrid(radius, cellSize, transform.position, cellHeight, layerCount);
         }
 
         [ContextMenu("随机合并三角")]
@@ -109,7 +110,7 @@ namespace HexagonalGrids
             string s = "";
             foreach (var vertex in _hexGrid.vertices)
             {
-                s += vertex.coord.ToString() + " " + vertex.position.ToString() + "\n";
+                s += (vertex.coord?.ToString() ?? "shared corner") + " " + vertex.position.ToString() + "\n";
             }
 
             UnityEngine.Debug.Log(s);
@@ -117,8 +118,8 @@ namespace HexagonalGrids
             //打印细分后的数据
             UnityEngine.Debug.Log($"细分后\n" +
                                   $"层数: {_hexGrid.layers.Count}" +
-                                  $"顶点数:  {_hexGrid.allSubEdges.Count}" +
-                                  $" 边数: {_hexGrid.allSubQuads.Count}" +
+                                  $"顶点数:  {_hexGrid.allSubVertices.Count}" +
+                                  $" 边数: {_hexGrid.allSubEdges.Count}" +
                                   $" 四边形数: {_hexGrid.allSubQuads.Count}"
             );
         }
@@ -142,9 +143,8 @@ namespace HexagonalGrids
                 {
                     Gizmos.color = Color.yellow;
                     var edge = _hexGrid.edges[i];
-                    var endpointsAsList = new List<HexVertex>(edge.endpoints);
 
-                    Gizmos.DrawLine(endpointsAsList[0].position, endpointsAsList[1].position);
+                    Gizmos.DrawLine(edge.a.position, edge.b.position);
                 }
             }
 
@@ -172,8 +172,7 @@ namespace HexagonalGrids
                 foreach (var subQuad in _hexGrid.allSubEdges)
                 {
                     Gizmos.color = new Color(Color.chocolate.r, Color.chocolate.g, Color.chocolate.b, Color.chocolate.a * 0.2f);
-                    var endpointsAsList = new List<Vertex>(subQuad.endpoints);
-                    Gizmos.DrawLine(endpointsAsList[0].position, endpointsAsList[1].position);
+                    Gizmos.DrawLine(subQuad.a.position, subQuad.b.position);
                 }
             }
 
@@ -182,8 +181,7 @@ namespace HexagonalGrids
                 Gizmos.color = Color.red;
                 foreach (var edge in _hexGrid.baseLayer.boundaryEdges)
                 {
-                    var endpointsAsList = new List<Vertex>(edge.endpoints);
-                    Gizmos.DrawLine(endpointsAsList[0].position, endpointsAsList[1].position);
+                    Gizmos.DrawLine(edge.a.position, edge.b.position);
                 }
             }
 

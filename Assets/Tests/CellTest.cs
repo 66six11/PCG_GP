@@ -11,7 +11,7 @@ namespace Tests
     public class CellTransformMatrixTests
     {
         // 共享边集合
-        List<SubEdge> sharedEdges = new List<SubEdge>();
+        readonly EdgeCollection sharedEdges = new EdgeCollection();
 
         // 测试用例1: 规则立方体顶点
         private static Vector3[] cubeVertices = new Vector3[]
@@ -298,8 +298,8 @@ namespace Tests
             }
 
             // 创建上下两个四边形
-            var upQuad = new SubQuad(vertices[0], vertices[1], vertices[2], vertices[3], sharedEdges);
-            var downQuad = new SubQuad(vertices[4], vertices[5], vertices[6], vertices[7], sharedEdges);
+            var upQuad = new Quad(vertices[0], vertices[1], vertices[2], vertices[3], sharedEdges);
+            var downQuad = new Quad(vertices[4], vertices[5], vertices[6], vertices[7], sharedEdges);
 
             return new Cell(upQuad, downQuad, sharedEdges);
         }

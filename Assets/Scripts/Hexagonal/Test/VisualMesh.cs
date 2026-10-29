@@ -21,16 +21,26 @@ namespace HexagonalGrids.Test
 
         public bool[] IsEnbaled = new bool[8] { false, false, false, false, false, false, false, false };
 
-        private List<SubEdge> subEdges = new List<SubEdge>();
+        private readonly EdgeCollection subEdges = new EdgeCollection();
 
         private Cell cell;
+        private Mesh flippedPreview;
+
+        private void DestroyPreview()
+        {
+            if (Application.isPlaying) Destroy(flippedPreview);
+            else DestroyImmediate(flippedPreview);
+            flippedPreview = null;
+        }
+
+        private void OnDestroy() => DestroyPreview();
 
 
         public void Start()
         {
             meshFilter = modelGo.GetComponent<MeshFilter>();
             meshRenderer = modelGo.GetComponent<MeshRenderer>();
-            meshFilter.mesh = originalMesh;
+            meshFilter.sharedMesh = originalMesh;
             FlipXMesh();
         }
 
@@ -40,7 +50,7 @@ namespace HexagonalGrids.Test
             if (modelLibrary == null) return;
             Debug.Log("获取状态" + ModelHelper.Byte2State(cell.GetCellByte()));
             var model = new ModelBuilder(modelLibrary, cell, meshFilter);
-                
+
 
             model.Build();
         }
@@ -48,17 +58,24 @@ namespace HexagonalGrids.Test
         [ContextMenu("Flip X Mesh")]
         public void FlipXMesh()
         {
-            finalMesh = MeshHelper.FlipXMesh(originalMesh);
-            meshFilter.mesh = finalMesh;
+            var deformation = meshFilter.GetComponent<MeshDeformation>();
+            if (deformation == null) deformation = meshFilter.gameObject.AddComponent<MeshDeformation>();
+            deformation.ReleaseResources();
+            if (flippedPreview != null) DestroyPreview();
+            flippedPreview = MeshHelper.FlipXMesh(originalMesh);
+            finalMesh = flippedPreview;
+            meshFilter.sharedMesh = finalMesh;
         }
 
         [ContextMenu("变换网格")]
         public void TransformMesh()
         {
-            finalMesh = originalMesh.TransformMesh(cell.localV5, cell.localV6, cell.localV7, cell.localV8, 1);
+            var deformation = meshFilter.GetComponent<MeshDeformation>();
+            if (deformation == null) deformation = meshFilter.gameObject.AddComponent<MeshDeformation>();
+            finalMesh = deformation.Apply(originalMesh, Quaternion.identity, cell.localV5, cell.localV6, cell.localV7, cell.localV8, 1);
             modelGo.transform.position = cell.Center;
             modelGo.transform.rotation = cell.rotation;
-            meshFilter.mesh = finalMesh;
+            meshFilter.sharedMesh = finalMesh;
         }
 
         private void OnValidate()
@@ -70,14 +87,14 @@ namespace HexagonalGrids.Test
             Vertex v3 = new Vertex(vertices[2] + transform.position) { IsEnabled = IsEnbaled[6] };
             Vertex v4 = new Vertex(vertices[3] + transform.position) { IsEnabled = IsEnbaled[7] };
 
-            var quadDown = new SubQuad(v1, v2, v3, v4, subEdges);
+            var quadDown = new Quad(v1, v2, v3, v4, subEdges);
 
             var vertex1 = new Vertex(new Vector3(v1.position.x, v1.position.y + 1, v1.position.z)) { IsEnabled = IsEnbaled[0] };
             var vertex2 = new Vertex(new Vector3(v2.position.x, v2.position.y + 1, v2.position.z)) { IsEnabled = IsEnbaled[1] };
             var vertex3 = new Vertex(new Vector3(v3.position.x, v3.position.y + 1, v3.position.z)) { IsEnabled = IsEnbaled[2] };
             var vertex4 = new Vertex(new Vector3(v4.position.x, v4.position.y + 1, v4.position.z)) { IsEnabled = IsEnbaled[3] };
 
-            var quadUp = new SubQuad(vertex1, vertex2, vertex3, vertex4, subEdges);
+            var quadUp = new Quad(vertex1, vertex2, vertex3, vertex4, subEdges);
             cell = new Cell(quadUp, quadDown, subEdges);
         }
 
@@ -87,8 +104,7 @@ namespace HexagonalGrids.Test
             if (cell == null) return;
             foreach (var subEdge in subEdges)
             {
-                var endpoints = new List<Vertex>(subEdge.endpoints);
-                Gizmos.DrawLine(endpoints[0].position, endpoints[1].position);
+                Gizmos.DrawLine(subEdge.a.position, subEdge.b.position);
             }
 
             foreach (var vertex in cell.vertices)

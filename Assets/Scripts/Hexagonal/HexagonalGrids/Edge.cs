@@ -1,71 +1,87 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Utility.RefCopy;
 
 namespace HexagonalGrids
 {
-    public class Edge
+    /// <summary>Undirected identity, independent of endpoint order and positions.</summary>
+    public readonly struct EdgeKey : IEquatable<EdgeKey>
     {
-        public readonly HashSet<HexVertex> endpoints;
-        public MidVertex midVertex;
-
-        Edge(HexVertex a, HexVertex b)
+        private readonly int a, b;
+        public EdgeKey(Vertex a, Vertex b)
         {
-            endpoints = new HashSet<HexVertex>() { a, b };
-            midVertex = new MidVertex(a, b);
+            this.a = Math.Min(a.id, b.id);
+            this.b = Math.Max(a.id, b.id);
         }
+        public bool Equals(EdgeKey other) => a == other.a && b == other.b;
+        public override bool Equals(object obj) => obj is EdgeKey other && Equals(other);
+        public override int GetHashCode() => unchecked(a * 397 ^ b);
+    }
 
-        public static Edge GenerateEdge(HexVertex a, HexVertex b, List<Edge> edges, List<MidVertex> midVertices)
+    public sealed class Edge
+    {
+        public Vertex a { get; }
+        public Vertex b { get; }
+        private Vertex midpoint;
+        public Vertex midVertex => midpoint ?? (midpoint = new Vertex(a, b));
+        internal Edge(Vertex a, Vertex b) { this.a = a; this.b = b; }
+
+        public static Edge GenerateEdge(Vertex a, Vertex b, EdgeCollection edges, List<Vertex> midVertices)
         {
-            foreach (var edge in edges)
-            {
-                if (edge.endpoints.Contains(a) && edge.endpoints.Contains(b))
-                {
-                    return edge;
-                }
-            }
-
-            var newEdge = new Edge(a, b);
-            edges.Add(newEdge);
-            midVertices.Add(newEdge.midVertex);
-            return newEdge;
+            var edge = edges.GetOrAdd(a, b, out bool added);
+            if (added) midVertices.Add(edge.midVertex);
+            return edge;
         }
     }
 
-    public class SubEdge : IRefCopy<Vertex, SubEdge>
+    /// <summary>Owns edge identity and insertion order; both indexes stay synchronized.</summary>
+    public sealed class EdgeCollection : IReadOnlyList<Edge>
     {
-        public readonly HashSet<Vertex> endpoints;
-       
-        SubEdge(Vertex a, Vertex b)
+        private readonly List<Edge> items = new List<Edge>();
+        private readonly Dictionary<EdgeKey, Edge> lookup = new Dictionary<EdgeKey, Edge>();
+        public int Count => items.Count;
+        public Edge this[int index] => items[index];
+        public Edge GetOrAdd(Vertex a, Vertex b) => GetOrAdd(a, b, out _);
+
+        public Edge GetOrAdd(Vertex a, Vertex b, out bool added)
         {
-            endpoints = new HashSet<Vertex>() { a, b };
-            
+            if (a == null || b == null) throw new ArgumentNullException(a == null ? nameof(a) : nameof(b));
+            if (ReferenceEquals(a, b)) throw new ArgumentException("An edge needs two distinct vertices.");
+            var key = new EdgeKey(a, b);
+            added = !lookup.TryGetValue(key, out var edge);
+            if (added)
+            {
+                edge = new Edge(a, b);
+                lookup.Add(key, edge);
+                items.Add(edge);
+            }
+            return edge;
         }
 
-        public static SubEdge GenerateSubEdge(Vertex a, Vertex b, List<SubEdge> subEdges)
+        public void AddRange(IEnumerable<Edge> edges)
         {
-            if (subEdges.Count == 0)
+            foreach (var edge in edges)
             {
-                var oneSubEdge = new SubEdge(a, b);
-                subEdges.Add(oneSubEdge);
-                return oneSubEdge;
-            }
-            foreach (var subEdge in subEdges)
-            {
-                if (subEdge.endpoints.Contains(a) && subEdge.endpoints.Contains(b))
+                var key = new EdgeKey(edge.a, edge.b);
+                if (lookup.TryGetValue(key, out var existing))
                 {
-                    return subEdge;
+                    if (!ReferenceEquals(existing, edge))
+                        throw new InvalidOperationException("Duplicate edge objects for the same endpoints.");
+                    continue;
                 }
+                lookup.Add(key, edge);
+                items.Add(edge);
             }
-
-            var newSubEdge = new SubEdge(a, b);
-            subEdges.Add(newSubEdge);
-            return newSubEdge;
         }
 
-        public SubEdge Copy(Dictionary<int, Vertex> dict)
+        public void RemoveWhere(HashSet<Edge> removed)
         {
-            return new SubEdge(dict[endpoints.ToArray()[0].id], dict[endpoints.ToArray()[1].id]);
+            foreach (var edge in removed) lookup.Remove(new EdgeKey(edge.a, edge.b));
+            items.RemoveAll(removed.Contains);
         }
+        public void Clear() { lookup.Clear(); items.Clear(); }
+        public List<Edge>.Enumerator GetEnumerator() => items.GetEnumerator();
+        IEnumerator<Edge> IEnumerable<Edge>.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

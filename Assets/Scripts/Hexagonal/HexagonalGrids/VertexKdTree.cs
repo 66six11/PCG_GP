@@ -1,6 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace HexagonalGrids
@@ -23,8 +22,8 @@ namespace HexagonalGrids
         // public Node(Vertex vertex, Axis splitAxis)
         // {
         //     this.vertex = vertex;
-        //     this.splitAxis = splitAxis; 
-        // }   
+        //     this.splitAxis = splitAxis;
+        // }
     }
 
     public class VertexKdTree
@@ -36,40 +35,49 @@ namespace HexagonalGrids
 
         public VertexKdTree(List<Vertex> vertices)
         {
-            root = BuildTree(vertices, 0);
+            if (vertices == null) throw new ArgumentNullException(nameof(vertices));
             totalNodes = vertices.Count;
-            maxDepth = 0;
+            // Partition a private array: building a spatial index must not reorder topology data.
+            root = BuildTree(vertices.ToArray(), 0, vertices.Count, 0);
         }
 
-        private Node BuildTree(List<Vertex> vertices, int depth, Node parent = null)
+        private Node BuildTree(Vertex[] vertices, int start, int count, int depth, Node parent = null)
         {
-            if (vertices == null || vertices.Count == 0)
-            {
-                return null;
-            }
-
-            maxDepth = depth;
-            Axis axis = ChooseBestSplitAxis(vertices, depth);
-
-            Sort(vertices, axis);
-
-            int medianIndex = vertices.Count / 2;
-            Vertex median = vertices[medianIndex];
-
-            Node node = new Node
-            {
-                vertex = median,
-                splitAxis = axis,
-                parent = parent
-            };
-
-            // 递归构建子树（跳过中位数）
-            var leftVertices = vertices.GetRange(0, medianIndex);
-            var rightVertices = vertices.GetRange(medianIndex + 1, vertices.Count - medianIndex - 1);
-            node.leftChild = BuildTree(leftVertices, depth + 1, node);
-            node.rightChild = BuildTree(rightVertices, depth + 1, node);
-
+            if (count == 0) return null;
+            maxDepth = Math.Max(maxDepth, depth);
+            Axis axis = ChooseBestSplitAxis(vertices, start, count);
+            int median = start + count / 2;
+            SelectMedian(vertices, start, start + count - 1, median, axis);
+            var node = new Node { vertex = vertices[median], splitAxis = axis, parent = parent };
+            node.leftChild = BuildTree(vertices, start, median - start, depth + 1, node);
+            node.rightChild = BuildTree(vertices, median + 1, start + count - median - 1, depth + 1, node);
             return node;
+        }
+
+        private void SelectMedian(Vertex[] vertices, int left, int right, int median, Axis axis)
+        {
+            while (left < right)
+            {
+                var pivot = vertices[left + (right - left) / 2];
+                int i = left, j = right;
+                while (i <= j)
+                {
+                    while (Compare(vertices[i], pivot, axis) < 0) i++;
+                    while (Compare(vertices[j], pivot, axis) > 0) j--;
+                    if (i > j) break;
+                    var value = vertices[i]; vertices[i] = vertices[j]; vertices[j] = value;
+                    i++; j--;
+                }
+                if (median <= j) right = j;
+                else if (median >= i) left = i;
+                else return;
+            }
+        }
+
+        private int Compare(Vertex a, Vertex b, Axis axis)
+        {
+            int result = GetAxisValue(a.position, axis).CompareTo(GetAxisValue(b.position, axis));
+            return result != 0 ? result : a.id.CompareTo(b.id);
         }
 
         private float GetAxisValue(Vector3 position, Axis axis1)
@@ -82,67 +90,18 @@ namespace HexagonalGrids
             }
         }
 
-        // 智能选择最佳分割轴
-        private Axis ChooseBestSplitAxis(List<Vertex> vertices, int depth)
+        private Axis ChooseBestSplitAxis(Vertex[] vertices, int start, int count)
         {
-            // 对于小数据集或浅层节点，使用轮换策略
-            // if (vertices.Count < 10 || depth < 3)
-            // {
-            //     return (Axis)(depth % 3);
-            // }
-
-            // 计算各轴方差
-            double varX = CalculateVariance(vertices, Axis.X);
-            double varY = CalculateVariance(vertices, Axis.Y);
-            double varZ = CalculateVariance(vertices, Axis.Z);
-
-            // 选择方差最大的轴
-            if (varX >= varY && varX >= varZ)
+            var min = vertices[start].position;
+            var max = min;
+            for (int i = start + 1; i < start + count; i++)
             {
-                return Axis.X;
+                min = Vector3.Min(min, vertices[i].position);
+                max = Vector3.Max(max, vertices[i].position);
             }
-
-            if (varY >= varX && varY >= varZ)
-            {
-                return Axis.Y;
-            }
-
-            return Axis.Z;
-        }
-
-        // 计算指定轴的方差
-        private double CalculateVariance(List<Vertex> vertices, Axis axis)
-        {
-            if (vertices.Count < 2) return 0;
-
-            double sum = 0;
-            double sumSq = 0;
-
-            foreach (Vertex v in vertices)
-            {
-                double value = GetAxisValue(v.position, axis);
-                sum += value;
-                sumSq += value * value;
-            }
-
-            double mean = sum / vertices.Count;
-            return (sumSq / vertices.Count) - (mean * mean);
-        }
-
-        private void Sort(List<Vertex> vertices, Axis axis)
-        {
-            switch (axis)
-            {
-                case Axis.X:
-                    vertices.Sort((v1, v2) => v1.position.x.CompareTo(v2.position.x));
-                    break;
-                case Axis.Y:
-                    vertices.Sort((v1, v2) => v1.position.y.CompareTo(v2.position.y));
-                    break;
-                case Axis.Z:
-                    vertices.Sort((v1, v2) => v1.position.z.CompareTo(v2.position.z));
-                    break;
-            }
+            var size = max - min;
+            if (size.x >= size.y && size.x >= size.z) return Axis.X;
+            return size.y >= size.z ? Axis.Y : Axis.Z;
         }
 
         public void Insert(Vertex vertex)
@@ -244,33 +203,33 @@ namespace HexagonalGrids
         private void RadiusSearch(Node node, Vector3 queryPoint, float sqrRadius,  List<Vertex> results)
         {
             if (node == null) return;
-    
+
             // 1. 计算当前点到查询点的平方距离
             Vector3 diff = node.vertex.position - queryPoint;
             float sqrDist = diff.sqrMagnitude;
-    
+
             // 2. 如果点在半径范围内，添加到结果
             if (sqrDist <= sqrRadius)
             {
                 results.Add(node.vertex);
             }
-    
+
             // 3. 获取当前节点的分割轴
             Axis axis = node.splitAxis;
-    
+
             // 4. 计算查询点到当前节点分割平面的距离
             float axisDist = GetAxisDistance(queryPoint, node.vertex.position, axis);
-    
+
             // 5. 确定近子树和远子树
             Node nearChild = axisDist <= 0 ? node.leftChild : node.rightChild;
             Node farChild = axisDist <= 0 ? node.rightChild : node.leftChild;
-    
+
             // 6. 优先搜索近子树
             if (nearChild != null)
             {
                 RadiusSearch(nearChild, queryPoint, sqrRadius, results);
             }
-    
+
             // 7. 检查是否需要搜索远子树
             if (farChild != null)
             {

@@ -41,8 +41,8 @@ namespace Tests
             byte expected = 0b01100110;
             byte actual = ModelHelper.FlipX(test);
             Assert.AreEqual(expected, actual, $"目标翻转X轴后的值与预期不符,预期值：{ModelHelper.Byte2String(expected)} 实际值：{ModelHelper.Byte2String(actual)}");
-            //测试Y轴翻转
-            expected = 0b01100110;
+            // Z 镜像保持这组前后对称的启用点不变。
+            expected = 0b10011001;
             actual = ModelHelper.FlipZ(test);
             Assert.AreEqual(expected, actual, $"目标翻转Z轴后的值与预期不符,预期值：{ModelHelper.Byte2String(expected)} 实际值：{ModelHelper.Byte2String(actual)}");
         }

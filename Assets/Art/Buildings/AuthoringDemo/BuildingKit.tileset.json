@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "tilesetId": "building.demo.v1",
+  "coordinateSystem": "Unity_Y_Up",
+  "cornerOrder": "V1_V2_V3_V4_V5_V6_V7_V8",
+  "modelFile": "BuildingKit.fbx",
+  "modules": [
+    {
+      "id": "demo-wall-plain",
+      "displayName": "WALL_11001100",
+      "meshName": "pcg_6c9189a05b14c14b2aff47e0da503ddf",
+      "corners": [
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0
+      ],
+      "weight": 1.0,
+      "yawDegrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "allowMirrorX": true,
+      "neighbors": {
+        "up": [
+          {
+            "id": "demo-wall-plain",
+            "weight": 3.0
+          },
+          {
+            "id": "demo-wall-window",
+            "weight": 1.0
+          }
+        ],
+        "down": [
+          {
+            "id": "demo-wall-plain",
+            "weight": 3.0
+          },
+          {
+            "id": "demo-wall-window",
+            "weight": 1.0
+          }
+        ],
+        "front": [
+          {
+            "id": "$solid",
+            "weight": 1.0
+          }
+        ],
+        "right": [
+          {
+            "id": "demo-wall-plain",
+            "weight": 3.0
+          },
+          {
+            "id": "demo-wall-window",
+            "weight": 1.0
+          }
+        ],
+        "back": [
+          {
+            "id": "$empty",
+            "weight": 1.0
+          }
+        ],
+        "left": [
+          {
+            "id": "demo-wall-plain",
+            "weight": 3.0
+          },
+          {
+            "id": "demo-wall-window",
+            "weight": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "demo-wall-window",
+      "displayName": "Window module without binary suffix",
+      "meshName": "pcg_a0b162aef7588b98c438df345fd96cef",
+      "corners": [
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0
+      ],
+      "weight": 1.0,
+      "yawDegrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "allowMirrorX": true,
+      "neighbors": {
+        "up": [
+          {
+            "id": "demo-wall-plain",
+            "weight": 1.0
+          },
+          {
+            "id": "demo-wall-window",
+            "weight": 3.0
+          }
+        ],
+        "down": [
+          {
+            "id": "demo-wall-plain",
+            "weight": 1.0
+          },
+          {
+            "id": "demo-wall-window",
+            "weight": 3.0
+          }
+        ],
+        "front": [
+          {
+            "id": "$solid",
+            "weight": 1.0
+          }
+        ],
+        "right": [
+          {
+            "id": "demo-wall-plain",
+            "weight": 1.0
+          },
+          {
+            "id": "demo-wall-window",
+            "weight": 3.0
+          }
+        ],
+        "back": [
+          {
+            "id": "$empty",
+            "weight": 1.0
+          }
+        ],
+        "left": [
+          {
+            "id": "demo-wall-plain",
+            "weight": 1.0
+          },
+          {
+            "id": "demo-wall-window",
+            "weight": 3.0
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using HexagonalGrids;
 using UnityEngine;
-using Utility;
 
 namespace MarchingCube
 {
@@ -26,7 +24,20 @@ namespace MarchingCube
 
         public Cell Cell { get; set; }
 
-        public Mesh Mesh { get; set; }
+        private MeshDeformation deformation;
+        public MeshDeformation Deformation
+        {
+            get
+            {
+                if (deformation == null || deformation.gameObject != _meshFilter.gameObject)
+                {
+                    deformation = _meshFilter.GetComponent<MeshDeformation>();
+                    if (deformation == null) deformation = _meshFilter.gameObject.AddComponent<MeshDeformation>();
+                }
+                return deformation;
+            }
+        }
+        public Mesh Mesh => deformation == null ? null : deformation.Mesh;
 
         public MeshFilter MeshFilter
         {
@@ -35,7 +46,7 @@ namespace MarchingCube
         }
         public MeshRenderer MeshRenderer { get; set; }
 
-        public GameObject gameObject => _meshFilter.gameObject;
+        public GameObject gameObject => _meshFilter == null ? null : _meshFilter.gameObject;
     }
 
     public class ModelBuilder
@@ -79,36 +90,57 @@ namespace MarchingCube
 
         public void Build()
         {
-            if (_model.Cell == null || _model.MeshFilter == null)
+            if (_model.Cell == null || _model.MeshFilter == null || _model.Library == null)
             {
-                Debug.LogError("Cell or MeshFilter is null");
+                Debug.LogError("Cell, MeshFilter or ModelLibrary is null");
                 return;
             }
 
-            var model = _model.Library.GetModel(_model.Cell.GetCellByte());
+            byte state = _model.Cell.GetCellByte();
+            if (state == 0 || state == 255)
+            {
+                _model.Deformation.Hide();
+                return;
+            }
+            var model = _model.Library.GetModel(state);
             if (model == null)
             {
-                Debug.LogError("Model not found in library");
+                _model.Deformation.Hide();
+                Debug.LogError($"Model state {state} not found in library");
                 return;
             }
 
             var mesh = model.Value.mesh;
             if (mesh == null)
             {
-                Debug.LogError("Mesh not found in model");
+                _model.Deformation.Hide();
+                Debug.LogError($"Mesh not found for model state {state}");
                 return;
             }
 
-            TransformMesh(model.Value, _model.Cell, _model.MeshFilter);
+            Build(model.Value);
+        }
+
+        /// <summary>Build a WFC-selected source variant without changing the Cell's occupancy.</summary>
+        public void Build(ModelInfo selected)
+        {
+            if (_model.Cell == null || _model.MeshFilter == null || _model.Library == null)
+                throw new System.InvalidOperationException("Cell, MeshFilter and ModelLibrary are required.");
+            byte state = _model.Cell.GetCellByte();
+            if (state == 0 || state == 255) { _model.Deformation.Hide(); return; }
+            if (selected.stateCode != state || selected.mesh == null)
+                throw new System.ArgumentException("The selected module must match the occupied Cell state.");
+            TransformMesh(selected, _model.Cell, _model.MeshFilter);
         }
 
         private void TransformMesh(ModelInfo model, Cell cell, MeshFilter meshFilter)
         {
-            var rotation = model.rotation;
-            _model.Mesh = model.mesh.TransformMesh(cell.localV1, cell.localV2, cell.localV3, cell.localV4, cell.V1.y - cell.V5.y);
+            cell.BuildTransformMatrix();
+            _model.Deformation.Apply(_model.Library.GetTemplate(model), cell.localV1, cell.localV2,
+                cell.localV3, cell.localV4, cell.V1.y - cell.V5.y);
             meshFilter.transform.position = cell.Center;
-            meshFilter.transform.rotation = cell.rotation * rotation;
-            meshFilter.mesh = _model.Mesh;
+            // Template orientation is applied before deformation, in the template's sample cache.
+            meshFilter.transform.rotation = cell.rotation;
         }
     }
 }

@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using Job;
+using Utility;
+#if UNITY_EDITOR
 using Editor;
 using UnityEditor;
+#endif
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Serialization;
-using Utility;
 
 namespace MarchingCube
 {
@@ -14,181 +15,83 @@ namespace MarchingCube
     {
         public List<ModelInfo> originalMesh = new List<ModelInfo>();
         public List<ModelInfo> mesh = new List<ModelInfo>();
-        public IReadOnlyList<ModelInfo> Meshes => mesh.AsReadOnly();
+        public IReadOnlyList<ModelInfo> Meshes => mesh;
+        private ModelInfo?[] stateLookup;
+        private List<ModelInfo> indexedModels;
+        private int indexedCount = -1;
+        private object sourceRevision = new object();
+        private readonly Dictionary<(Mesh mesh, Quaternion rotation, bool mirrorX), MeshDeformationTemplate> templates
+            = new Dictionary<(Mesh, Quaternion, bool), MeshDeformationTemplate>();
 
-        
-        
         public ModelInfo? GetModel(byte stateCode)
         {
-            foreach (var model in Meshes)
+            if (stateLookup == null || !ReferenceEquals(indexedModels, mesh) || indexedCount != mesh.Count)
             {
-                if (model.stateCode == stateCode)
-                {
-                    return model;
-                }
+                InvalidateRuntimeCache();
+                stateLookup = new ModelInfo?[256];
+                foreach (var model in mesh)
+                    if (!stateLookup[model.stateCode].HasValue) stateLookup[model.stateCode] = model;
+                indexedModels = mesh;
+                indexedCount = mesh.Count;
             }
-
-            return null;
+            return stateLookup[stateCode];
         }
 
-        [ContextMenu("更新状态代码")]
-        public void UpdateStateCode()
+        internal MeshDeformationTemplate GetTemplate(ModelInfo model)
         {
-            bool changed = false;
-
-            for (int i = 0; i < originalMesh.Count; i++)
+            var key = (model.mesh, model.rotation, model.mirrorX);
+            if (!templates.TryGetValue(key, out var template))
             {
-                var model = originalMesh[i];
-                var stateCode = ModelHelper.GetMeshStateCode(model.mesh);
-
-                if (model.stateCode != stateCode)
-                {
-                    model.SetStateCode(stateCode);
-                    originalMesh[i] = model; // 更新列表中的值
-                    changed = true;
-
-                    Debug.Log(model.mesh.name + "状态代码：" + ModelHelper.Byte2String(stateCode));
-                }
+                template = new MeshDeformationTemplate(model.mesh, model.rotation, sourceRevision, model.mirrorX);
+                templates.Add(key, template);
             }
-
-            if (changed)
-            {
-                Debug.Log("更新状态代码完成");
-                EditorUtility.SetDirty(this);
-                AssetDatabase.SaveAssets();
-            }
-            else
-            {
-                Debug.Log("没有需要更新的状态代码");
-            }
-            originalMesh.Sort((a, b) => a.stateCode.CompareTo(b.stateCode));
+            return template;
         }
+
+        /// <summary>Call after editing a source mesh or replacing entries in the public authoring lists.</summary>
+        public void InvalidateRuntimeCache()
+        {
+            foreach (var template in templates.Values) template.Dispose();
+            templates.Clear();
+            sourceRevision = new object();
+            stateLookup = null;
+            indexedModels = null;
+            indexedCount = -1;
+        }
+
+        private void OnValidate() => InvalidateRuntimeCache();
+        private void OnDisable() => InvalidateRuntimeCache();
+
+#if UNITY_EDITOR
+        [ContextMenu("更新状态代码")]
+        public void UpdateStateCode() => DeriveAllStates();
 
         [MenuItem("Tools/Marching Cube/Open Importer")]
-        public static void OpenImporter()
-        {
-            MeshImporterWindow.ShowWindow();
-        }
+        public static void OpenImporter() => MeshImporterWindow.ShowWindow();
+#endif
 
         [ContextMenu("Derive All States")]
-        public void DeriveAllStates()
+        public void DeriveAllStates() => ReplaceSourceModels(originalMesh);
+
+        public void ReplaceSourceModels(IReadOnlyList<ModelInfo> sources)
         {
-            var dict = new Dictionary<byte, ModelInfo>();
-
-            // 遍历所有模型，计算状态代码
-            foreach (var model in originalMesh)
-            {
-                var stateCode = ModelHelper.GetMeshStateCode(model.mesh);
-                dict[stateCode] = model;
-            }
-
-
-            //先旋转90度
-            for (int i = 0; i < originalMesh.Count; i++)
-            {
-                var model = originalMesh[i];
-                // 计算对称的状态代码
-                var stateCode = ModelHelper.Rotate90(model.stateCode);
-                // 如果状态代码存在，则跳过
-                if (dict.ContainsKey(stateCode))
-                {
-                    continue;
-                }
-
-                // 否则，创建新的模型，并设置状态代码
-                var newModel = new ModelInfo(stateCode, model.mesh);
-                newModel.SetRotation(Quaternion.Euler(0, 90, 0));
-                dict[stateCode] = newModel;
-            }
-
-            //再旋转180度
-            for (int i = 0; i < originalMesh.Count; i++)
-            {
-                var model = originalMesh[i];
-                // 计算对称的状态代码
-                var stateCode = ModelHelper.Rotate180(model.stateCode);
-                // 如果状态代码存在，则跳过
-                if (dict.ContainsKey(stateCode))
-                {
-                    continue;
-                }
-
-                // 否则，创建新的模型，并设置状态代码
-                var newModel = new ModelInfo(stateCode, model.mesh);
-                newModel.SetRotation(Quaternion.Euler(0, 180, 0));
-                dict[stateCode] = newModel;
-            }
-
-            //再旋转270度
-            for (int i = 0; i < originalMesh.Count; i++)
-            {
-                var model = originalMesh[i];
-                // 计算对称的状态代码
-                var stateCode = ModelHelper.Rotate270(model.stateCode);
-                // 如果状态代码存在，则跳过
-                if (dict.ContainsKey(stateCode))
-                {
-                    continue;
-                }
-
-                // 否则，创建新的模型，并设置状态代码
-                var newModel = new ModelInfo(stateCode, model.mesh);
-                newModel.SetRotation(Quaternion.Euler(0, 270, 0));
-                dict[stateCode] = newModel;
-            }
-
-            for (int i = 0; i < 256; i++)
-            {
-                var modelState = (byte)i;
-                
-                if (modelState is 0 or 255)
-                {
-                    dict[modelState] = new ModelInfo(modelState, null);
-                }
-                
-                if (dict.ContainsKey(modelState))
-                {
-                    continue;
-                }
-
-
-                //翻转x轴
-                var flipXCode = ModelHelper.FlipX(modelState);
-                if (dict.TryGetValue(flipXCode, out var valueX))
-                {
-                    var newModel = new ModelInfo()
-                    {
-                        stateCode = modelState,
-                        mesh = MeshHelper.FlipXMesh(valueX.mesh),
-                        rotation = Quaternion.Inverse(valueX.rotation)
-                    };
-                    dict[modelState] = newModel;
-                }
-
-                var flipZCode = ModelHelper.FlipZ(modelState);
-                if (dict.TryGetValue(flipZCode, out var valueZ))
-                {
-                    var newModel = new ModelInfo()
-                    {
-                        stateCode = modelState,
-                        mesh = MeshHelper.FlipZMesh(valueZ.mesh),
-                        rotation = Quaternion.Inverse(valueZ.rotation)
-                    };
-                    dict[modelState] = newModel;
-                }
-                else if (!dict.ContainsKey(flipXCode))
-                {
-                    Debug.LogError(modelState + "没有对应的翻转模型");
-                }
-            }
-
-            mesh = new List<ModelInfo>(dict.Values);
-            mesh.Sort((a, b) => a.stateCode.CompareTo(b.stateCode));
+            var result = ModelStateTable.Build(sources);
+#if UNITY_EDITOR
+            Undo.RecordObject(this, "Rebuild marching cube states");
+#endif
+            InvalidateRuntimeCache();
+            originalMesh = result.Originals;
+            mesh = result.States;
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+            if (AssetDatabase.Contains(this)) AssetDatabase.SaveAssets();
+#endif
         }
 
         [ContextMenu("Clear")]
         public void Clear()
         {
+            InvalidateRuntimeCache();
             originalMesh.Clear();
             mesh.Clear();
         }
@@ -202,12 +105,14 @@ namespace MarchingCube
         public Mesh mesh;
 
         public Quaternion rotation;
+        public bool mirrorX;
 
         public ModelInfo(Mesh mesh)
         {
             this.stateCode = 0;
             this.mesh = mesh;
             this.rotation = Quaternion.identity;
+            this.mirrorX = false;
             this.stateCodeString = ModelHelper.Byte2State(stateCode);
         }
 
@@ -216,14 +121,16 @@ namespace MarchingCube
             this.stateCode = stateCode;
             this.mesh = mesh;
             this.rotation = Quaternion.identity;
+            this.mirrorX = false;
             this.stateCodeString = ModelHelper.Byte2State(stateCode);
         }
 
-        public ModelInfo(byte stateCode, Mesh mesh, Quaternion rotation)
+        public ModelInfo(byte stateCode, Mesh mesh, Quaternion rotation, bool mirrorX = false)
         {
             this.stateCode = stateCode;
             this.mesh = mesh;
             this.rotation = rotation;
+            this.mirrorX = mirrorX;
             this.stateCodeString = ModelHelper.Byte2State(stateCode);
         }
 

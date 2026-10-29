@@ -39,7 +39,7 @@ namespace HexagonalGrids.Test
             queryVertices.Clear();
             queryCells.Clear();
             queryVertices.Add(kdTree.QueryNearest(queryGameObject.transform.position));
-            queryCells = grid._hexGrid.Vertex2Cells(queryVertices[0]);
+            queryCells.AddRange(grid._hexGrid.Vertex2Cells(queryVertices[0]));
         }
 
         [ContextMenu("球范围查询")]
@@ -108,26 +108,25 @@ namespace HexagonalGrids.Test
 
             if (queryCells.Count > 0)
             {
-                var edges = new List<SubEdge>();
-                var neighbours = new List<SubEdge>();
+                var edges = new List<Edge>();
+                var neighbours = new List<Edge>();
                 foreach (var cell in queryCells)
                 {
-                    
-                   
+
+
                     edges.AddRange( cell.edges);
 
                     foreach (var neighbour in cell.neighbours)
                     {
-                      
-                          neighbours.AddRange(neighbour.edges);  
+
+                          neighbours.AddRange(neighbour.edges);
                     }
                 }
-                
+
                 Gizmos.color = Color.blueViolet;
                 foreach (var edge in edges)
                 {
-                    List<Vertex> vertices = new List<Vertex>(edge.endpoints);
-                    Gizmos.DrawLine(vertices[0].position, vertices[1].position);
+                    Gizmos.DrawLine(edge.a.position, edge.b.position);
                 }
                 Gizmos.color = Color.chartreuse;
                 foreach (var edge in neighbours)
@@ -136,8 +135,7 @@ namespace HexagonalGrids.Test
                     {
                         continue;
                     }
-                    List<Vertex> vertices = new List<Vertex>(edge.endpoints);
-                    Gizmos.DrawLine(vertices[0].position, vertices[1].position);
+                    Gizmos.DrawLine(edge.a.position, edge.b.position);
                 }
             }
         }

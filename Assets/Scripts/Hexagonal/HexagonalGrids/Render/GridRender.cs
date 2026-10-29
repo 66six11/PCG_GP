@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
 using UnityEngine;
 
 namespace HexagonalGrids.Render
@@ -14,7 +11,7 @@ namespace HexagonalGrids.Render
         [SerializeField] private Material material;
         private HexGrid hexGrid;
         private GridLayer baseLayer;
-        
+
         private List<GameObject> lineRenderers = new List<GameObject>();
 
         private void Start()
@@ -33,9 +30,9 @@ namespace HexagonalGrids.Render
         [ContextMenu("Render")]
         public void Render()
         {
-            foreach (SubEdge subEdge in baseLayer.subEdges)
+            foreach (Edge subEdge in baseLayer.subEdges)
             {
-                CreateLineRenderer(subEdge);    
+                CreateLineRenderer(subEdge);
             }
         }
         [ContextMenu("Clear")]
@@ -54,7 +51,7 @@ namespace HexagonalGrids.Render
             }
             lineRenderers.Clear();
         }
-        private void CreateLineRenderer(SubEdge subEdge)
+        private void CreateLineRenderer(Edge subEdge)
         {
             GameObject lineRenderer = new GameObject("LineRenderer");
             lineRenderer.transform.parent = transform;
@@ -64,13 +61,12 @@ namespace HexagonalGrids.Render
             lineRendererComponent.endWidth = girdWidth;
             lineRendererComponent.startColor = girdColor;
             lineRendererComponent.endColor = girdColor;
-            lineRendererComponent.positionCount = subEdge.endpoints.Count;
+            lineRendererComponent.positionCount = 2;
             lineRendererComponent.useWorldSpace = true;
-            List<Vertex> vertices = new List<Vertex>(subEdge.endpoints);
-            lineRendererComponent.SetPosition(0, vertices[0].position);
-            lineRendererComponent.SetPosition(1, vertices[1].position);
+            lineRendererComponent.SetPosition(0, subEdge.a.position);
+            lineRendererComponent.SetPosition(1, subEdge.b.position);
             lineRenderers.Add(lineRenderer);
-            
+
         }
     }
 }
